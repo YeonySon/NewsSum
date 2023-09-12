@@ -22,8 +22,7 @@
 1. feature 브랜치
 - 기능에 따라 브랜치명을 작성한다
 - ex) feature/fe-login
-
-            feature/be-login
+- ex) feature/be-login
 
 - 브랜치 생성
     
