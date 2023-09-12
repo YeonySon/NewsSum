@@ -113,4 +113,4 @@
 
 예를들어 D-3은 3일 이내에 코드 리뷰가 확인되어야 하는 의미
 
-![Untitled](Git%2082e7568e97a84343994ff6c18abdca09/Untitled.png)
+![D-n](/D-n.png)
