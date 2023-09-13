@@ -66,7 +66,7 @@ agent any
                 sh 'echo "Remove Docker"'
 
                 //정지된 도커 컨테이너 찾아서 컨테이너 ID로 삭제함
-								#ttp로 시작하는건 다 삭제함.
+								
                 sh '''
                     result=$( docker container ls -a --filter "name=ttp*" -q )
                     if [ -n "$result" ]
