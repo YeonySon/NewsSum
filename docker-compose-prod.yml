@@ -1,0 +1,63 @@
+version: "3" #Compose 파일의 버전
+services: # 서비스 정의를 시작합니다. 각 서비스는 별도의 컨테이너로 실행
+  server:
+    image: newsum-back:latest # 이미지 이름
+    container_name: newsum_back # 컨테이너 이름
+    build:
+      context: ./BE/NewSum/newsum # 컨테이너와 호스트 간의 포트 매핑을 설정합니다. 
+																				# 컨테이너 내부의 포트를 호스트의 포트와 연결하여 외부에서 접근할 수 있게 함
+      args:
+        SERVER_MODE: prod 
+    ports:
+        - 10001:8000  #외부 Port : 내부 Port
+    environment: #environment:: 컨테이너 내부의 환경 변수를 설정합니다.
+        - TZ=Asia/Seoul 
+    networks:
+      - newsum_network
+#   server2:
+#     image: newsum-back-chat:latest
+#     container_name: ttp_back_chat
+#     build:
+#       context: ./BE/Talktopia/talktopia_chat
+#       args:
+#         SERVER_MODE: prod
+#     ports:
+#         - 15000:7500
+#     environment:
+#         - TZ=Asia/Seoul
+#     networks:
+#       - talktopia_network
+  client:
+    image: newsum-front:latest
+    container_name: newsum_front
+    build:
+      context: ./FE/newsum
+      dockerfile: Dockerfile #굳이안써도됨
+    ports:
+      - 3000:3000
+    depends_on: # depends_on: 이 옵션은 서비스 간의 실행 순서와 의존성을 설정하는 데 사용, depends_on은 단순히 서비스의 실행 순서를 조정하고, 서비스가 실제로 준비되었는지를 보장하지는 않음
+      - server
+    networks: 
+      - newsum_network #networks: 이 옵션은 서비스가 어떤 네트워크에 속하는지 정의하는 데 사용됩니다. 여러 서비스 간의 통신을 위해 사용되는 네트워크를 설정함
+  nginx:
+    image: newsum-nginx:latest 
+    container_name: newsum_nginx
+    build: ./.nginx 
+#    depends_on:
+#      - server
+    ports:
+      - 80:80 # HTTP 
+      - 443:443 # HTTPS
+    networks:
+      - newsum_network
+#  redis:
+#    image: redis
+#    container_name: redis
+#    hostname: talktopia.site
+#    ports:
+#      - 6379:6379
+#    networks:
+#      - talktopia_network
+networks:
+  newsum_network:
+    driver: bridge
