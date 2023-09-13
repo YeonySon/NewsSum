@@ -7,8 +7,8 @@ agent any
             steps {
                 sh 'echo "Clonning Repository"'
                 git branch: 'master',
-                    url: 'https://gitlab주소/프로젝트명/프로젝트파일.git',
-                    credentialsId: 'Jenkins내에있는 credentialsId'
+                    url: 'https://lab.ssafy.com/s09-bigdata-recom-sub2/S09P22B202.git',
+                    credentialsId: 'f473f437-e90b-498e-a2fd-c6ccbf464b3a'
             }
             post {
                 success {
@@ -46,7 +46,7 @@ agent any
                     // sh 'chmod +x /usr/local/bin/docker-compose'
     //              기존 백그라운드에 돌아가던 컨테이너 중지
 										
-                    sh 'docker-compose -f /var/jenkins_home/workspace/test3/docker-compose-prod.yml down'
+                    sh 'docker-compose -f /var/jenkinsDir/workspace/pipeline/docker-compose-prod.yml down'
                     //sh 'docker-compose -f docker-compose-prod.yml down'
 
                 }
@@ -127,13 +127,13 @@ agent any
         stage('Set Permissions') {
                     steps {
                         // 스크립트 파일에 실행 권한 추가
-                        sh 'chmod +x /var/jenkins_home/workspace/test3/start-prod.sh'
+                        sh 'chmod +x /var/jenkinsDir/workspace/pipeline/start-prod.sh'
                     }
                 }
         stage('Execute start-prod.sh Script') {
             steps {
                 // start-prod.sh 스크립트 실행
-                sh '/var/jenkins_home/workspace/test3/start-prod.sh'
+                sh '//var/jenkinsDir/workspace/pipeline/start-prod.sh'
             }
         }
 
