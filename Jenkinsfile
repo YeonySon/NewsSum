@@ -2,7 +2,7 @@ pipeline {
     
 agent any
     stages {
-				# 준비단계 -> Merge가 된 git 파일을 webHook에서 감지하여 갖고온다.
+				
         stage('Prepare') {
             steps {
                 sh 'echo "Clonning Repository"'
@@ -34,7 +34,7 @@ agent any
         //         }
         //     }
         // }
-				#기존에있는 Docker 컨테이너들을 내려야함.
+				
         stage('Docker stop'){
             steps {
                 dir('BE'){
@@ -59,7 +59,7 @@ agent any
                 }
             }
         }
-				#정지된 도커 컨테이너를 삭제함
+				
         stage('RM Docker'){
             steps {
 
@@ -123,7 +123,7 @@ agent any
                 }
             }
         }
-				# 프로젝트 내에 있는 start-prod.sh 실행
+				
         stage('Set Permissions') {
                     steps {
                         // 스크립트 파일에 실행 권한 추가
