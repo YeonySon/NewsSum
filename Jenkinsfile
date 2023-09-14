@@ -33,23 +33,17 @@ agent any
         //              sh 'echo "Bulid Gradle Fail"'
         //         }
         //     }
-        // }
-	    stage('Install Docker Compose') {
-            steps {
-                    sh 'curl -L https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose'
-                    sh 'chmod +x /usr/local/bin/docker-compose'
-            }
-        }	
+        // }	
         stage('Docker stop'){
             steps {
                 dir('BE'){
                     sh 'echo "Docker Container Stop"'
                     //pwd
     //              도커 컴포즈 다운
-                    // sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m -o /usr/local/bin/docker-compose'
+                     sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m -o /usr/local/bin/docker-compose'
     //              해당 도커 컴포즈 다운한 경로로 권한 설정
-                    // sh 'chmod -R 777 /usr/local/bin'
-                    // sh 'chmod +x /usr/local/bin/docker-compose'
+                     //sh 'chmod -R 777 /usr/local/bin'
+                     sh 'chmod +x /usr/local/bin/docker-compose'
     //              기존 백그라운드에 돌아가던 컨테이너 중지
 										//기존 백그라운드에 돌아가던 컨테이너들을 DooD 방식으로 다운시킴.
                     sh 'docker-compose -f /var/jenkins_home/workspace/pipeline/docker-compose-prod.yml down'
