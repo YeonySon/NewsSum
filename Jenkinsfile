@@ -39,6 +39,7 @@ agent any
             steps {
                 dir('BE'){
                     sh 'echo "Docker Container Stop"'
+                    pwd
     //              도커 컴포즈 다운
                     // sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m -o /usr/local/bin/docker-compose'
     //              해당 도커 컴포즈 다운한 경로로 권한 설정
