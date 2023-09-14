@@ -6,7 +6,7 @@ agent any
         stage('Prepare') {
             steps {
                 sh 'echo "Clonning Repository"'
-                git branch: 'master',
+                git branch: 'develop',
                     url: 'https://lab.ssafy.com/s09-bigdata-recom-sub2/S09P22B202.git',
                     credentialsId: 'f473f437-e90b-498e-a2fd-c6ccbf464b3a'
             }
