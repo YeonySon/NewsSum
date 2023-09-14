@@ -37,7 +37,7 @@ agent any
 				
         stage('Docker stop'){
             steps {
-                dir('BE'){
+                //dir('BE'){
                     sh 'echo "Docker Container Stop"'
                     //pwd
     //              도커 컴포즈 다운
@@ -49,7 +49,7 @@ agent any
 										//기존 백그라운드에 돌아가던 컨테이너들을 DooD 방식으로 다운시킴.
                     sh 'docker-compose -f /var/jenkins_home/workspace/pipeline/docker-compose-prod.yml down'
                     //sh 'docker-compose -f docker-compose-prod.yml down'
-                }
+                //}
 
 
             }
