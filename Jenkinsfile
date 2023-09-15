@@ -36,7 +36,7 @@
             // }	
             stage('Docker stop'){
                 steps {
-                    dir('/BE'){
+                    dir('BE'){
                         sh 'echo "Docker Container Stop"'
                         //pwd
         //              도커 컴포즈 다운
