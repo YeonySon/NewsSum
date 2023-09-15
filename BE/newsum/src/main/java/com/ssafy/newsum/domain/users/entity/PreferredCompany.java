@@ -1,4 +1,4 @@
-package com.ssafy.newsum.users.entity;
+package com.ssafy.newsum.domain.users.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.ssafy.newsum.company.entity.Company;
+import com.ssafy.newsum.domain.company.entity.Company;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

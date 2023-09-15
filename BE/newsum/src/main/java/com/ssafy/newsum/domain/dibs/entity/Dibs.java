@@ -1,6 +1,5 @@
-package com.ssafy.newsum.readlist.entity;
+package com.ssafy.newsum.domain.dibs.entity;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -12,9 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.apache.ibatis.annotations.Many;
-
-import com.ssafy.newsum.users.entity.User;
+import com.ssafy.newsum.domain.users.entity.User;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -24,23 +21,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="read_list")
+@Table(name="like")
 @Getter
-
-public class ReadList {
+public class Dibs {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private Integer rlId;
+	private Integer dibsId;
 	private Character type;
-
 	@Column(name="content_id")
-	private int contentId;
-
-	@Column(name="read_dt")
-	private LocalDateTime readDt;
-
+	private Integer contentId;
 	@ManyToOne
 	@JoinColumn(name="usr_id")
 	private User user;
+	@Column(name="created_at")
+	private LocalDateTime createdAt;
 }

@@ -1,40 +1,33 @@
-package com.ssafy.newsum.scrap.entity;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+package com.ssafy.newsum.domain.users.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.ssafy.newsum.users.entity.User;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="scrap")
+@Table(name = "menu")
 @Getter
-public class Scrap {
+public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private Integer sId;
-	private Character type;
-	private Integer content_id;
-	@ManyToOne
-	@JoinColumn(name="usr_id")
-	private User user;
-	@Column(name = "created_at")
-	private LocalDateTime createdAt;
-
+	private Integer userId;
+	private String email;
+	private String password;
+	@Column(name="birth_date")
+	private String birthDate;
 }

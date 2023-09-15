@@ -1,11 +1,15 @@
-package com.ssafy.newsum.techstack.entity;
+package com.ssafy.newsum.domain.users.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.ssafy.newsum.domain.techstack.entity.TechStack;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,13 +19,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="stack")
+@Table(name = "preferred_stack")
 @Getter
-public class TechStack {
+public class PreferredTechStack {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private Integer tsId;
-	@Column(name="name")
-	private String tsName;
+	private Integer prefTsId;
+
+	@ManyToOne
+	@JoinColumn(name = "usr_id")
+	private User user;
+
+	@ManyToOne
+	@JoinColumn(name="stack_id")
+	private TechStack techStack;
+
 }

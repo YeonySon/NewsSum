@@ -1,11 +1,17 @@
-package com.ssafy.newsum.headline.entity;
+package com.ssafy.newsum.domain.readlist.entity;
+
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.ssafy.newsum.domain.users.entity.User;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -15,14 +21,23 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="headline")
+@Table(name="read_list")
 @Getter
-public class Headline {
+
+public class ReadList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id")
-	private Integer hlId;
+	private Integer rlId;
+	private Character type;
 
-	@Column(name="name")
-	private String hlName;
+	@Column(name="content_id")
+	private int contentId;
+
+	@Column(name="read_dt")
+	private LocalDateTime readDt;
+
+	@ManyToOne
+	@JoinColumn(name="usr_id")
+	private User user;
 }
