@@ -36,13 +36,13 @@ agent any
         // }	
         stage('Docker stop'){
             steps {
-                dir('BE'){
+                dir('./BE'){
                     sh 'echo "Docker Container Stop"'
                     //pwd
     //              도커 컴포즈 다운
-                     sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose'
+                     //sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose'
     //              해당 도커 컴포즈 다운한 경로로 권한 설정
-                     sh 'sudo chmod -R 777 /usr/local/bin'
+                     //sh 'sudo chmod -R 777 /usr/local/bin'
                      //sh 'chmod +x /usr/local/bin/docker-compose'
                      //sh 'sudo mv /usr/local/bin/docker-compose /usr/local/bin/ 
     //              기존 백그라운드에 돌아가던 컨테이너 중지
