@@ -47,7 +47,7 @@
                         //sh 'sudo mv /usr/local/bin/docker-compose /usr/local/bin/ 
         //              기존 백그라운드에 돌아가던 컨테이너 중지
                                             //기존 백그라운드에 돌아가던 컨테이너들을 DooD 방식으로 다운시킴.
-                        sh '/usr/bin/docker-compose -f /var/jenkins_home/workspace/pipeline/docker-compose-prod.yml down'
+                        sh 'docker-compose -f /var/jenkins_home/workspace/pipeline/docker-compose-prod.yml down'
                         //sh 'docker-compose -f docker-compose-prod.yml down'
                     }
 
