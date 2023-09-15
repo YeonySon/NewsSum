@@ -127,6 +127,7 @@ for category in categorys:
                 strSoup = str(soup);
                 
                 title = soup.select_one('h2#title_area')
+                time = soup.select_one('span._ARTICLE_DATE_TIME')
                 media = soup.select_one('a.media_end_head_top_logo > img')
                 media_name = media['title']
                 media_img = media['src']
@@ -142,6 +143,7 @@ for category in categorys:
                     img_src = None
 
                 category[2][i].append(title.get_text())
+                category[2][i].append(time.get_text())
                 category[2][i].append(media_id)
                 category[2][i].append(media_name)
                 category[2][i].append(media_img)
