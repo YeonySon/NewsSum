@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
  
 const Item = styled.div`
@@ -32,21 +33,37 @@ const Hr = styled.hr`
 `;
 
 function HeaderModal() {
+  const [user, setUser] =  useState(true)
+
 
   //로그인 되었는지 확인
-  const login = true
+
+  function myPage()  {
+    alert('마이페이지로 이동');
+  }
+
+  function logout()  {
+    alert('로그아웃');
+    setUser(false)
+  }
+
+  function login()  {
+    alert('로그인');
+    setUser(true)
+  }
+
 
   return (
     <div className="headerModal">
-      {login ? 
+      {user ? 
       <Items>
-        <Item><a>마이페이지</a></Item>
+        <Item onClick={myPage}><a>마이페이지</a></Item>
         <Hr/>
         {/* 나중에 onclick으로 로그아웃 구현 */}
-        <Item>로그아웃</Item> 
+        <Item onClick={logout}>로그아웃</Item> 
       </Items>:
       <Items>
-        <Item><a>로그인</a></Item>
+        <Item onClick={login}><a>로그인</a></Item>
       </Items>    
     }
 
