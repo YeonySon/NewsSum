@@ -4,7 +4,7 @@ services: # 서비스 정의를 시작합니다. 각 서비스는 별도의 컨�
     image: newsum-back:latest # 이미지 이름
     container_name: newsum_back # 컨테이너 이름
     build:
-      context: ./BE/NewSum/newsum # 컨테이너와 호스트 간의 포트 매핑을 설정합니다. 
+      context: ./BE/newsum # 컨테이너와 호스트 간의 포트 매핑을 설정합니다. 
 
       args:
         SERVER_MODE: prod 
