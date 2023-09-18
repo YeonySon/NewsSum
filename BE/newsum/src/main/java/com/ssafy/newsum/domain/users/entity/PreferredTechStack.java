@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 public class PreferredTechStack {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private Integer prefTsId;
 
 	@ManyToOne
@@ -32,7 +32,7 @@ public class PreferredTechStack {
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name="stack_id")
+	@JoinColumn(name = "stack_id")
 	private TechStack techStack;
 
 }
