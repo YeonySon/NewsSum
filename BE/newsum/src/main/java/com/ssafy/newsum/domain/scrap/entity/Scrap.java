@@ -21,17 +21,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="scrap")
+@Table(name = "scrap")
 @Getter
 public class Scrap {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private Integer sId;
 	private Character type;
 	private Integer content_id;
 	@ManyToOne
-	@JoinColumn(name="usr_id")
+	@JoinColumn(name = "usr_id")
 	private User user;
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;

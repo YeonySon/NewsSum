@@ -19,19 +19,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="preferred_headline")
+@Table(name = "preferred_headline")
 @Getter
 public class PreferredHeadline {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private Integer prefHlId;
 
 	@ManyToOne
-	@JoinColumn(name="usr_id")
+	@JoinColumn(name = "usr_id")
 	private User user;
 
 	@ManyToOne
-	@JoinColumn(name="hl_id")
+	@JoinColumn(name = "hl_id")
 	private Headline headline;
 }

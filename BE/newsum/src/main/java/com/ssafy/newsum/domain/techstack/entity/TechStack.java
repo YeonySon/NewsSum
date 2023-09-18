@@ -15,13 +15,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="stack")
+@Table(name = "stack")
 @Getter
 public class TechStack {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private Integer tsId;
-	@Column(name="name")
+	@Column(name = "name")
 	private String tsName;
 }

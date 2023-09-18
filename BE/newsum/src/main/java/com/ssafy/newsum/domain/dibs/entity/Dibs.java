@@ -21,19 +21,19 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="like")
+@Table(name = "like")
 @Getter
 public class Dibs {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="id")
+	@Column(name = "id")
 	private Integer dibsId;
 	private Character type;
-	@Column(name="content_id")
+	@Column(name = "content_id")
 	private Integer contentId;
 	@ManyToOne
-	@JoinColumn(name="usr_id")
+	@JoinColumn(name = "usr_id")
 	private User user;
-	@Column(name="created_at")
+	@Column(name = "created_at")
 	private LocalDateTime createdAt;
 }
