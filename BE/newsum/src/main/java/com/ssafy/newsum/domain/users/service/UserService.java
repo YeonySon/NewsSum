@@ -24,7 +24,7 @@ public class UserService {
 	private final TechStackRepository techStackRepository;
 
 	//기술스택 리스트 출력
-	public List<TechStack> getAllTechStackList() {
+	public List<TechStack> getAllTechStack() {
 		return techStackRepository.findAll();
 	}
 
@@ -38,14 +38,24 @@ public class UserService {
 	//회원 탈퇴(계정 삭제)
 	@Transactional
 	public boolean withdrawal(String userEmail) {
-		Optional userObject = userRepository.findByEmail(userEmail);
+		Optional<User> userObject = userRepository.findByEmail(userEmail);
 		//user 계정 유무 확인
 		if (userObject.isEmpty()) {
 			return false;
 		}
 
-		User user = (User)userObject.get();
+		User user = userObject.get();
 		userRepository.deleteById(user.getUserId());
 		return true;
+	}
+
+	//회원 조회
+	public User getUserByEmail(String userEmail) {
+		return userRepository.findByEmail(userEmail).get();
+	}
+
+	//이름으로 회원 조회
+	public User getUserByName(String name) {
+		return userRepository.findByName(name).get();
 	}
 }

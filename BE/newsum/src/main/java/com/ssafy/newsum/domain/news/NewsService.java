@@ -1,4 +1,4 @@
-package com.ssafy.newsum.domain.recommendnews;
+package com.ssafy.newsum.domain.news;
 
 import java.util.Optional;
 
@@ -14,19 +14,19 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class RecommendNewsService {
-	private final RecommendNewsRepository recommendNewsRepository;
+public class NewsService {
+	private final NewsRepository recommendNewsRepository;
 	private final ReadNewsRepository readListRepository;
 
 	//숏츠 : 뉴스 조회수 증가 + 읽은 목록 추가
 	@Transactional
 	public void updateShortsNews(News news, User user) {
 		recommendNewsRepository.updateViewCnt(news.getId());
-		Optional readNewsObject = readListRepository.findByUserId(news.getId(), user.getUserId());
+		Optional<ReadNews> readNewsObject = readListRepository.findByUserId(news.getId(), user.getUserId());
 
 		//이미 읽은 기사라면 날짜 갱신
 		if (readNewsObject.isPresent()) {
-			readListRepository.save((ReadNews)readNewsObject.get());
+			readListRepository.save(readNewsObject.get());
 			return;
 		}
 

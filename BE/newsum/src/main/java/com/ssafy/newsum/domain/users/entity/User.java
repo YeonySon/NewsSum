@@ -23,6 +23,7 @@ public class User {
 	@Column(name = "id")
 	private Integer userId;
 	private String email;
+	private String name;
 	private String password;
 	@Column(name = "birth_date")
 	private String birthDate;
