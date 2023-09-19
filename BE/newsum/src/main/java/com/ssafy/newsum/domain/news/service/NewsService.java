@@ -28,6 +28,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class NewsService {
 
+
     private final NewsRepository newsRepository;
     private final ReadNewsRepository readListRepository;
     private final DibsRepository dibsRepository;

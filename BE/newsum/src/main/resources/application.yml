@@ -25,6 +25,6 @@ logging:
               BasicBinder: TRACE
 
 server:
-  port: 8080
+  port: 8811
   max-http-header-size: 2MB
 

@@ -45,4 +45,5 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
             "order by (n.viewCnt + n.totalLike + n.totalScrap) desc, n.postedDate desc")
     List<News> selectPopularByCategory(@Param("categoryId") Integer categoryId);
 
+
 }
