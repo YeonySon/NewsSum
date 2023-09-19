@@ -80,7 +80,7 @@
                                         result=$( docker container ls -a --filter "name=newsum*" -q )
                                         if [ -n "$result" ]
                                         then
-                                            docker rm $(docker container ls -a --filter "name=ttp*" -q)
+                                            docker rm $(docker container ls -a --filter "name=newsum*" -q)
                                         else
                                             echo "No such containers"
                                         fi
