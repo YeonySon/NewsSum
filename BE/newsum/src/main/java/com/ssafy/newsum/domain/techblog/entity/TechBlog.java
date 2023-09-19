@@ -1,34 +1,42 @@
 package com.ssafy.newsum.domain.techblog.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
-import lombok.Data;
+import com.ssafy.newsum.domain.company.entity.Company;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+
+
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Data
 @Table(name = "tech_blog")
+@Getter
 public class TechBlog {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
 
-	@Column
-	private String head;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer blogId;
 
-	@Column(name = "posted_date")
-	private String postedDate;
 
-	@Column
-	private String url;
+    @Column
+    private String head;
 
-	//    @ManyToOne(fetch = FetchType.LAZY)
-	//    @JoinColumn(name = "cp_id", referencedColumnName = "id")
-	//    private Company cpId;
+    @Column(name = "posted_date")
+    private String postedDate;
+
+    @Column
+    private String url;
+
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cp_id", referencedColumnName = "id")
+    private Company cpId;
+
 
 }
