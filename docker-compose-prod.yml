@@ -40,17 +40,17 @@ services: # 서비스 정의를 시작합니다. 각 서비스는 별도의 컨�
       - server
     networks: 
       - newsum_network #networks: 이 옵션은 서비스가 어떤 네트워크에 속하는지 정의하는 데 사용됩니다. 여러 서비스 간의 통신을 위해 사용되는 네트워크를 설정함
-  nginx:
-    image: newsum-nginx:latest 
-    container_name: newsum_nginx
-    build: ./.nginx 
-#    depends_on:
-#      - server
-    ports:
-      - 80:80 # HTTP 
-      - 443:443 # HTTPS
-    networks:
-      - newsum_network
+#   nginx:
+#     image: newsum-nginx:latest 
+#     container_name: newsum_nginx
+#     build: ./.nginx 
+# #    depends_on:
+# #      - server
+#     ports:
+#       - 80:80 # HTTP 
+#       - 443:443 # HTTPS
+#     networks:
+#       - newsum_network
 #  redis:
 #    image: redis
 #    container_name: redis
