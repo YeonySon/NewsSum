@@ -68,16 +68,16 @@
                     //정지된 도커 컨테이너 찾아서 컨테이너 ID로 삭제함
                                     
                     sh '''
-                        result=$( docker container ls -a --filter "name=ttp*" -q )
+                        result=$( docker container ls -a --filter "name=newsum*" -q )
                         if [ -n "$result" ]
                         then
-                            docker rm $(docker container ls -a --filter "name=ttp*" -q)
+                            docker rm $(docker container ls -a --filter "name=newsum*" -q)
                         else
                             echo "No such containers"
                         fi
                     '''
                     sh '''
-                                        result=$( docker container ls -a --filter "name=ttp*" -q )
+                                        result=$( docker container ls -a --filter "name=newsum*" -q )
                                         if [ -n "$result" ]
                                         then
                                             docker rm $(docker container ls -a --filter "name=ttp*" -q)
@@ -88,19 +88,19 @@
 
                     // homesketcher로 시작하는 이미지 찾아서 삭제함
                     sh '''
-                        result=$( docker images -f "reference=ttp*" -q )
+                        result=$( docker images -f "reference=newsum*" -q )
                         if [ -n "$result" ]
                         then
-                            docker rmi -f $(docker images -f "reference=ttp*" -q)
+                            docker rmi -f $(docker images -f "reference=newsum*" -q)
                         else
                             echo "No such container images"
                         fi
                     '''
                     sh '''
-                                        result=$( docker images -f "reference=ttp*" -q )
+                                        result=$( docker images -f "reference=newsum*" -q )
                                         if [ -n "$result" ]
                                         then
-                                            docker rmi -f $(docker images -f "reference=ttp*" -q)
+                                            docker rmi -f $(docker images -f "reference=newsum*" -q)
                                         else
                                             echo "No such container images"
                                         fi
