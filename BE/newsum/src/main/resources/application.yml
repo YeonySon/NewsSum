@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test3?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
-    username: root
+    url: jdbc:mysql://j9b202.p.ssafy.io:3350/newsum?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: ssafyb202
     password: ssafy
   jpa:
     show-sql: true
