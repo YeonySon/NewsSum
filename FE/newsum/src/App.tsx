@@ -4,7 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 //import pages
-
+import HeaderModal from './components/util/HeaderModal'
+import Header from './components/util/Header'
 
 function App() {
 
@@ -12,10 +13,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          {/* <Route path='/test' element={<Test />}/> */}
+          <Route path='/header' element={<Header />}/>
+          <Route path='/headermodal' element={<HeaderModal />}/>
         </Routes>
       </BrowserRouter>
-      <header className="App-header">
+      {/* <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.js</code> and save to reload.
@@ -28,7 +30,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header> */}
 
     </div>
   );

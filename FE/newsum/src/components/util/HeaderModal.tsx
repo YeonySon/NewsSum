@@ -4,11 +4,12 @@ import styled from 'styled-components';
 const Item = styled.div`
   color: #353845;
   text-align: center;
-  font-size: 23px;
-  font-weight: bold;
-  height: 50px;
+  font-size: 1.2rem;
+  line-height: 2rem;
+  font-weight: 400;
+  height: 40px;
   margin: 0;
-  padding: 12px 0 0 0;
+  padding: 10px 0 0 0;
 
   a:hover{
     color:darkblue;
@@ -16,11 +17,14 @@ const Item = styled.div`
 `;
  
 const Items = styled.div`
-  border : 2px solid #9AA3AA;
-  border-radius: 20px;
+  border : 1px solid #9AA3AA;
+  background-color : #ffffff;
+  border-radius: 8px;
   width : 300px;
   margin: 0;
   padding: 0;
+
+  box-shadow: 2px 2px 5px 5px #f8f8f8
 
 `;
 
@@ -28,7 +32,7 @@ const Hr = styled.hr`
   color: gray;
 
   margin: 0;
-  padding: 0;
+  padding: 0 , 10px;
 
 `;
 
