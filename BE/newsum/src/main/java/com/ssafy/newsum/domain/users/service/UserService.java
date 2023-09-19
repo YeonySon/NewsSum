@@ -1,61 +1,58 @@
 package com.ssafy.newsum.domain.users.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import javax.transaction.Transactional;
-
-import org.springframework.stereotype.Service;
-
-import com.ssafy.newsum.domain.headline.HeadlineRepository;
 import com.ssafy.newsum.domain.headline.entity.Headline;
-import com.ssafy.newsum.domain.techstack.TechStackRepository;
+import com.ssafy.newsum.domain.headline.repository.HeadlineRepository;
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
+import com.ssafy.newsum.domain.techstack.repository.TechStackRepository;
 import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.repository.UserRepository;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
-	private final UserRepository userRepository;
-	private final HeadlineRepository headlineRepository;
-	private final TechStackRepository techStackRepository;
+    private final UserRepository userRepository;
+    private final HeadlineRepository headlineRepository;
+    private final TechStackRepository techStackRepository;
 
-	//기술스택 리스트 출력
-	public List<TechStack> getAllTechStack() {
-		return techStackRepository.findAll();
-	}
+    //기술스택 리스트 출력
+    public List<TechStack> getAllTechStack() {
+        return techStackRepository.findAll();
+    }
 
-	//헤드라인 리스트 출력
-	public List<Headline> getAllHeadline() {
-		return headlineRepository.findAll();
-	}
+    //헤드라인 리스트 출력
+    public List<Headline> getAllHeadline() {
+        return headlineRepository.findAll();
+    }
 
-	//회원 가입
+    //회원 가입
 
-	//회원 탈퇴(계정 삭제)
-	@Transactional
-	public boolean withdrawal(String userEmail) {
-		Optional<User> userObject = userRepository.findByEmail(userEmail);
-		//user 계정 유무 확인
-		if (userObject.isEmpty()) {
-			return false;
-		}
+    //회원 탈퇴(계정 삭제)
+    @Transactional
+    public boolean withdrawal(String userEmail) {
+        Optional<User> userObject = userRepository.findByEmail(userEmail);
+        //user 계정 유무 확인
+        if (userObject.isEmpty()) {
+            return false;
+        }
 
-		User user = userObject.get();
-		userRepository.deleteById(user.getUserId());
-		return true;
-	}
+        User user = userObject.get();
+        userRepository.deleteById(user.getUserId());
+        return true;
+    }
 
-	//회원 조회
-	public User getUserByEmail(String userEmail) {
-		return userRepository.findByEmail(userEmail).get();
-	}
+    //회원 조회
+    public User getUserByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail).get();
+    }
 
-	//이름으로 회원 조회
-	public User getUserByName(String name) {
-		return userRepository.findByName(name).get();
-	}
+    //이름으로 회원 조회
+    public User getUserByName(String name) {
+        return userRepository.findByName(name).get();
+    }
 }

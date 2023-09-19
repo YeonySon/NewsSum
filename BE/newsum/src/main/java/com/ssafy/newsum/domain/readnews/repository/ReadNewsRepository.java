@@ -1,4 +1,4 @@
-package com.ssafy.newsum.domain.readnews;
+package com.ssafy.newsum.domain.readnews.repository;
 
 
 import com.ssafy.newsum.domain.readnews.entity.ReadNews;
