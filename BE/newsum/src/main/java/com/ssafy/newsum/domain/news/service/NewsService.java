@@ -38,6 +38,28 @@ public class NewsService {
     private final UsersRepository usersRepository;
     private final RecommendnewsRepository recommendnewsRepository;
 
+    //숏츠 : 뉴스 조회수 증가 + 읽은 목록 추가
+    @Transactional
+    public void updateShortsNews(News news, User user) {
+        newsRepository.updateViewCnt(news.getNewsId());
+        Optional<ReadNews> readNewsObject = readListRepository.findByUserId(news.getNewsId(), user.getUserId());
+
+        //이미 읽은 기사라면 날짜 갱신
+        if (readNewsObject.isPresent()) {
+            readListRepository.save(readNewsObject.get());
+            return;
+        }
+
+        //읽지 않은 기사 저장
+        ReadNews readNews = ReadNews.builder()
+                .type('n')
+                .contentId(news.getNewsId())
+                .user(user)
+                .build();
+        readListRepository.save(readNews);
+    }
+
+
     // 추천 뉴스 리스트 조회
     @Transactional
     public List<NewsResponseDto> selectRecommend(Integer userId) {
