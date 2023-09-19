@@ -9,7 +9,7 @@ services: # 서비스 정의를 시작합니다. 각 서비스는 별도의 컨�
       args:
         SERVER_MODE: prod 
     ports:
-        - 8811:8011  #외부 Port : 내부 Port
+        - 8811:8811  #외부 Port : 내부 Port
     environment: #environment:: 컨테이너 내부의 환경 변수를 설정합니다.
         - TZ=Asia/Seoul 
     networks:
