@@ -1,17 +1,23 @@
 package com.ssafy.newsum.domain.news.entity;
 
-import lombok.Data;
-import org.springframework.context.annotation.EnableMBeanExport;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "news")
-@Data
+@Getter
 public class News {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer newsId;
 
     @Column
     private String head;
@@ -47,7 +53,6 @@ public class News {
 
     @Column
     private Integer viewCnt;
-
 
 
 }

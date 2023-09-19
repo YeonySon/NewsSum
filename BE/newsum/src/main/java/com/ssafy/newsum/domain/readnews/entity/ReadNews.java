@@ -1,10 +1,8 @@
-package com.ssafy.newsum.domain.scrap.entity;
+package com.ssafy.newsum.domain.readnews.entity;
+
 
 import com.ssafy.newsum.domain.users.entity.User;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,20 +10,24 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "scrap")
+@Table(name = "read_list")
+@Builder
 @Getter
-public class Scrap {
+public class ReadNews {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer sId;
+    private Integer rlId;
     private Character type;
+
     @Column(name = "content_id")
-    private Integer contentId;
+    private int contentId;
+
+    @Column(name = "read_dt")
+    private LocalDateTime readDt;
+
     @ManyToOne
     @JoinColumn(name = "usr_id")
     private User user;
-    @Column(name = "created_at")
-    private LocalDateTime createdAt;
 
 }
