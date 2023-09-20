@@ -143,7 +143,7 @@ public class NewsService {
             if (optionId == 1) {
                 newsList = newsRepository.selectAllPopular();
             }
-            // 최신순
+            // 최신 순
             else {
                 newsList = newsRepository.selectAllByRecent();
             }
