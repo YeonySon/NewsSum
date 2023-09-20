@@ -36,6 +36,7 @@ public class ReadNews {
     @JoinColumn(name = "usr_id")
     private User user;
 
+    // 날짜 업데이트
     public void updateReadDt() {
         this.readDt = LocalDateTime.now();
     }
