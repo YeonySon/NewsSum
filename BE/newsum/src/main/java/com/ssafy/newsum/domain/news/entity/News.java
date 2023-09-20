@@ -49,13 +49,13 @@ public class News {
     @JoinColumn(name = "cg_id", referencedColumnName = "id")
     private Category cgId;
 
-    @Column
+    @Column(name = "total_like")
     private Integer totalLike;
 
-    @Column
+    @Column(name = "total_scrap")
     private Integer totalScrap;
 
-    @Column
+    @Column(name = "view_cnt")
     private Integer viewCnt;
 
 

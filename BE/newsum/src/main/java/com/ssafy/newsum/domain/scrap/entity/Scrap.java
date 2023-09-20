@@ -29,5 +29,9 @@ public class Scrap {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
+    // 날짜 업데이트
+    public void updateReadDt() {
+        this.createdAt = LocalDateTime.now();
+    }
 
 }
