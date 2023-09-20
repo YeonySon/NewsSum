@@ -65,7 +65,7 @@ public class NewsController {
         return ResponseEntity.ok(CommonResponseDto.success(200, "detail success"));
     }
 
-    // 뉴스 검색하기
+    // 뉴스 검색하기 최신
 
 
 }
