@@ -1,6 +1,7 @@
 package com.ssafy.newsum.domain.news.controller;
 
 
+import com.ssafy.newsum.domain.news.dto.request.NewsRequestDto;
 import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
 import com.ssafy.newsum.domain.news.service.NewsService;
 import com.ssafy.newsum.global.common.CommonResponseDto;
@@ -56,12 +57,15 @@ public class NewsController {
     }
 
     // 뉴스 상세보기
-//    @PostMapping("/detail")
-//    public ResponseEntity selectNewsDetail(@RequestBody NewsRequestDto newsRequestDto) {
-//
-//        //return ResponseEntity.ok(CommonResponseDto.success(200, resultList));
-//
-//    }
+    @PostMapping("/detail")
+    public ResponseEntity selectNewsDetail(@RequestBody NewsRequestDto newsRequestDto) {
+
+        newsService.selectNewsDetail(newsRequestDto);
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "detail success"));
+    }
+
+    // 뉴스 검색하기
 
 
 }
