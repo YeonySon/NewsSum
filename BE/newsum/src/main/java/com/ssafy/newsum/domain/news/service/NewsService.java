@@ -139,7 +139,7 @@ public class NewsService {
         // 전체분야
         if (categoryId == 0) {
 
-            // 인기도   fffffff순
+            // 인기도 ttttttttaaa순
             if (optionId == 1) {
                 newsList = newsRepository.selectAllPopular();
             }
