@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "like")
+@Table(name = "dibs")
 @Getter
 public class Dibs {
 
@@ -28,5 +28,10 @@ public class Dibs {
     private User user;
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    // 날짜 업데이트
+    public void updateReadDt() {
+        this.createdAt = LocalDateTime.now();
+    }
 
 }

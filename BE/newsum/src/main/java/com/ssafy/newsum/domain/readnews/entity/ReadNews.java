@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "read_list")
+@Table(name = "read_news")
 @Builder
 @Getter
 public class ReadNews {
@@ -32,5 +32,9 @@ public class ReadNews {
     @JoinColumn(name = "usr_id")
     private User user;
 
+    // 날짜 업데이트
+    public void updateReadDt() {
+        this.readDt = LocalDateTime.now();
+    }
 
 }

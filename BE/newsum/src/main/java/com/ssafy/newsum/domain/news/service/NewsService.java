@@ -121,45 +121,10 @@ public class NewsService {
 
         List<NewsResponseDto> resultList = new ArrayList<>();
 
-        // 해당 카테고리에 맞는 뉴스기사 전체 가져와서
-        // 각 뉴스에 있는 카테고리 id 값이랑 media id 값 가지고
-        // CategoryRepository와 MediaRepository를 활용하여 responsedto맞는 타입 맞춰서 넣어준다
-        for (News ns : newsList) {
+        List<NewsResponseDto> result = makeNewsResponseDto(newsList, resultList, userId);
 
-            // 언론사 정보
-            Optional<Media> mediaInfo = mediaRepository.findById(ns.getMediaId().getMediaId());
+        return result;
 
-            // 카테고리 정보
-            Optional<Category> cgInfo = categoryRepository.findById(ns.getCgId().getCategoryId());
-
-            // 해당기사 해당 유저가 좋아요 유무
-            Boolean isLiked = dibsRepository.isLiked(userId, categoryId);
-
-            // 해당기사 해당 유저가 스크랩 유무
-            Boolean isScrap = scrapRepository.isScrap(userId, categoryId);
-
-
-            NewsResponseDto newsResDto = NewsResponseDto.builder()
-                    .id(ns.getNewsId())
-                    .head(ns.getHead())
-                    .main(ns.getMain())
-                    .threeLine(ns.getThreeLine())
-                    .url(ns.getUrl())
-                    .postedDate(ns.getPostedDate())
-                    .mediaName(mediaInfo.get().getName())
-                    .mediaImage(mediaInfo.get().getLogo())
-                    .image(ns.getImage())
-                    .viewCnt(ns.getViewCnt())
-                    .cgName(cgInfo.get().getName())
-                    .likeCnt(ns.getTotalLike())
-                    .scrapCnt(ns.getTotalScrap())
-                    .isScrap(isScrap ? "t" : "f")
-                    .isLike(isLiked ? "t" : "f")
-                    .build();
-
-            resultList.add(newsResDto);
-        }
-        return resultList;
     }
 
 
@@ -174,11 +139,11 @@ public class NewsService {
         // 전체분야
         if (categoryId == 0) {
 
-            // 인기도순
+            // 인기도 ttttttttaaafffffaa순
             if (optionId == 1) {
                 newsList = newsRepository.selectAllPopular();
             }
-            // 최신순
+            // 최신 순
             else {
                 newsList = newsRepository.selectAllByRecent();
             }
@@ -196,6 +161,62 @@ public class NewsService {
             }
         }
 
+        List<NewsResponseDto> result = makeNewsResponseDto(newsList, resultList, userId);
+
+        return result;
+    }
+
+    // 뉴스 상세보기
+    // 나의 최근 본 뉴스에 포함
+    // 조회수 증가
+    @Transactional
+    public void selectNewsDetail(NewsRequestDto newsRequestDto) {
+
+        // 조회수 증가
+        newsRepository.updateViewCnt(newsRequestDto.getNewsId());
+
+        // 나의 최근 본 뉴스에 추가
+        Optional<ReadNews> readNews = readListRepository.findByUserId(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
+
+        // 이미 읽은 기사면 날짜 갱신
+        if (readNews.isPresent()) {
+            readNews.get().updateReadDt();
+            readListRepository.save(readNews.get());
+            return;
+        }
+
+        // user 찾기
+        User userByUserId = userRepository.findUserByUserId(newsRequestDto.getUserId());
+
+
+        // 읽지 않았다면 최근 본 뉴스에 추가
+        ReadNews myReadNews = ReadNews.builder()
+                .type('n')
+                .contentId(newsRequestDto.getNewsId())
+                .user(userByUserId)
+                .build();
+        readListRepository.save(myReadNews);
+
+    }
+
+
+    // 검색하기
+    @Transactional
+    public List<NewsResponseDto> searchNews(String keyword, Integer userId) {
+
+        List<News> newsList = newsRepository.searchNews(keyword);
+
+        List<NewsResponseDto> resultList = new ArrayList<>();
+
+        List<NewsResponseDto> result = makeNewsResponseDto(newsList, resultList, userId);
+
+        return result;
+    }
+
+
+    // newsresponsedto 만드는 메소드
+    public List<NewsResponseDto> makeNewsResponseDto(List<News> newsList, List<NewsResponseDto> resultList,
+                                                     Integer userId) {
         // 해당 카테고리에 맞는 뉴스기사 전체 가져와서
         // 각 뉴스에 있는 카테고리 id 값이랑 media id 값 가지고
         // CategoryRepository와 MediaRepository를 활용하여 responsedto맞는 타입 맞춰서 넣어준다
@@ -208,10 +229,10 @@ public class NewsService {
             Optional<Category> cgInfo = categoryRepository.findById(ns.getCgId().getCategoryId());
 
             // 해당기사 해당 유저가 좋아요 유무
-            Boolean isLiked = dibsRepository.isLiked(userId, categoryId);
+            Boolean isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
 
             // 해당기사 해당 유저가 스크랩 유무
-            Boolean isScrap = scrapRepository.isScrap(userId, categoryId);
+            Boolean isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
 
 
             NewsResponseDto newsResDto = NewsResponseDto.builder()
@@ -235,38 +256,6 @@ public class NewsService {
             resultList.add(newsResDto);
         }
         return resultList;
-    }
-
-    // 뉴스 상세보기
-    // 나의 최근 본 뉴스에 포함
-    // 조회수 증가
-    @Transactional
-    public void selectNewsDetail(NewsRequestDto newsRequestDto) {
-
-        // 조회수 증가
-        newsRepository.updateViewCnt(newsRequestDto.getNewsId());
-
-        // 나의 최근 본 뉴스에 추가
-        Optional<ReadNews> readNews = readListRepository.findByUserId(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
-
-        // 이미 읽은 기사면 날짜 갱신
-        if (readNews.isPresent()) {
-            readListRepository.save(readNews.get());
-            return;
-        }
-
-        // user 찾기
-        User userByUserId = userRepository.findUserByUserId(newsRequestDto.getUserId());
-
-
-        // 읽지 않았다면 최근 본 뉴스에 추가
-        ReadNews myReadNews = ReadNews.builder()
-                .type('n')
-                .contentId(newsRequestDto.getNewsId())
-                .user(userByUserId)
-                .build();
-        readListRepository.save(myReadNews);
-
     }
 
 
