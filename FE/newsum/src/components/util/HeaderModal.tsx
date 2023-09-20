@@ -11,6 +11,8 @@ const Item = styled.div`
   margin: 0;
   padding: 10px 0 0 0;
 
+
+
   a:hover{
     color:darkblue;
   }
@@ -24,7 +26,13 @@ const Items = styled.div`
   margin: 0;
   padding: 0;
 
-  box-shadow: 2px 2px 5px 5px #f8f8f8
+  box-shadow: 2px 2px 5px 5px #f8f8f8;
+
+  /* 프로필 아이콘 밑으로 이동 */
+  position: absolute;
+  top: 65px;
+  left: 100%;
+  transform: translate(-105%,0);
 
 `;
 
@@ -36,8 +44,7 @@ const Hr = styled.hr`
 
 `;
 
-function HeaderModal() {
-  const [user, setUser] =  useState(true)
+function HeaderModal({userInfo, setUserInfo, setProfileModal}) {
 
 
   //로그인 되었는지 확인
@@ -48,18 +55,20 @@ function HeaderModal() {
 
   function logout()  {
     alert('로그아웃');
-    setUser(false)
+    setUserInfo(false)
+    setProfileModal(false)
   }
 
   function login()  {
     alert('로그인');
-    setUser(true)
+    setUserInfo(true)
+    setProfileModal(false)
   }
 
 
   return (
     <div className="headerModal">
-      {user ? 
+      {userInfo ? 
       <Items>
         <Item onClick={myPage}><a>마이페이지</a></Item>
         <Hr/>
