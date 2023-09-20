@@ -133,10 +133,10 @@ public class NewsService {
             Optional<Category> cgInfo = categoryRepository.findById(ns.getCgId().getCategoryId());
 
             // 해당기사 해당 유저가 좋아요 유무
-            Boolean isLiked = dibsRepository.isLiked(userId, categoryId);
+            Boolean isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
 
             // 해당기사 해당 유저가 스크랩 유무
-            Boolean isScrap = scrapRepository.isScrap(userId, categoryId);
+            Boolean isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
 
 
             NewsResponseDto newsResDto = NewsResponseDto.builder()
@@ -208,10 +208,10 @@ public class NewsService {
             Optional<Category> cgInfo = categoryRepository.findById(ns.getCgId().getCategoryId());
 
             // 해당기사 해당 유저가 좋아요 유무
-            Boolean isLiked = dibsRepository.isLiked(userId, categoryId);
+            Boolean isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
 
             // 해당기사 해당 유저가 스크랩 유무
-            Boolean isScrap = scrapRepository.isScrap(userId, categoryId);
+            Boolean isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
 
 
             NewsResponseDto newsResDto = NewsResponseDto.builder()
@@ -251,6 +251,7 @@ public class NewsService {
 
         // 이미 읽은 기사면 날짜 갱신
         if (readNews.isPresent()) {
+            readNews.get().updateReadDt();
             readListRepository.save(readNews.get());
             return;
         }
@@ -267,6 +268,65 @@ public class NewsService {
                 .build();
         readListRepository.save(myReadNews);
 
+    }
+
+
+    // 검색하기
+    @Transactional
+    public List<NewsResponseDto> searchNews(String keyword, Integer userId) {
+
+        List<News> newsList = newsRepository.searchNews(keyword);
+
+        List<NewsResponseDto> resultList = new ArrayList<>();
+
+        List<NewsResponseDto> result = selectNewsWithCgAndMedia(newsList, resultList, userId);
+
+        return result;
+    }
+
+
+    // newsresponsedto 만드는 메소드
+    public List<NewsResponseDto> selectNewsWithCgAndMedia(List<News> newsList, List<NewsResponseDto> resultList,
+                                                          Integer userId) {
+        // 해당 카테고리에 맞는 뉴스기사 전체 가져와서
+        // 각 뉴스에 있는 카테고리 id 값이랑 media id 값 가지고
+        // CategoryRepository와 MediaRepository를 활용하여 responsedto맞는 타입 맞춰서 넣어준다
+        for (News ns : newsList) {
+
+            // 언론사 정보
+            Optional<Media> mediaInfo = mediaRepository.findById(ns.getMediaId().getMediaId());
+
+            // 카테고리 정보
+            Optional<Category> cgInfo = categoryRepository.findById(ns.getCgId().getCategoryId());
+
+            // 해당기사 해당 유저가 좋아요 유무
+            Boolean isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
+
+            // 해당기사 해당 유저가 스크랩 유무
+            Boolean isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
+
+
+            NewsResponseDto newsResDto = NewsResponseDto.builder()
+                    .id(ns.getNewsId())
+                    .head(ns.getHead())
+                    .main(ns.getMain())
+                    .threeLine(ns.getThreeLine())
+                    .url(ns.getUrl())
+                    .postedDate(ns.getPostedDate())
+                    .mediaName(mediaInfo.get().getName())
+                    .mediaImage(mediaInfo.get().getLogo())
+                    .image(ns.getImage())
+                    .viewCnt(ns.getViewCnt())
+                    .cgName(cgInfo.get().getName())
+                    .likeCnt(ns.getTotalLike())
+                    .scrapCnt(ns.getTotalScrap())
+                    .isScrap(isScrap ? "t" : "f")
+                    .isLike(isLiked ? "t" : "f")
+                    .build();
+
+            resultList.add(newsResDto);
+        }
+        return resultList;
     }
 
 

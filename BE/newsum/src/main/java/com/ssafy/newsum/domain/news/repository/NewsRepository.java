@@ -46,4 +46,8 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
     List<News> selectPopularByCategory(@Param("categoryId") Integer categoryId);
 
 
+    // 해당 검색어 헤드라인에 있으면 가져오기
+    @Query("select n from News n where n.head like %:keyword% order by n.postedDate desc")
+    List<News> searchNews(@Param("keyword") String keyword);
+
 }

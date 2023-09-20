@@ -3,6 +3,8 @@ package com.ssafy.newsum.domain.readnews.entity;
 
 import com.ssafy.newsum.domain.users.entity.User;
 import lombok.*;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -11,9 +13,10 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "read_list")
+@Table(name = "read_news")
 @Builder
 @Getter
+@EntityListeners(AuditingEntityListener.class)
 public class ReadNews {
 
     @Id
@@ -25,6 +28,7 @@ public class ReadNews {
     @Column(name = "content_id")
     private int contentId;
 
+    @LastModifiedDate
     @Column(name = "read_dt")
     private LocalDateTime readDt;
 
@@ -32,5 +36,8 @@ public class ReadNews {
     @JoinColumn(name = "usr_id")
     private User user;
 
+    public void updateReadDt() {
+        this.readDt = LocalDateTime.now();
+    }
 
 }
