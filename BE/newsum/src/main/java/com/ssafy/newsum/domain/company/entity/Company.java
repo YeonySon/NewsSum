@@ -1,5 +1,4 @@
-package com.ssafy.newsum.domain.news.entity;
-
+package com.ssafy.newsum.domain.company.entity;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -11,18 +10,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "category")
+@Table(name = "company")
 @Getter
-public class Category {
-
-
+public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer categoryId;
-
-    @Column
-    private String name;
-
+    private Integer comId;
+    @Column(name = "name")
+    private String comName;
+    private String image;
 
 }

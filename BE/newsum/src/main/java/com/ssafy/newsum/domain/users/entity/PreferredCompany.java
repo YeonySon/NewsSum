@@ -1,6 +1,6 @@
 package com.ssafy.newsum.domain.users.entity;
 
-import com.ssafy.newsum.domain.techstack.entity.TechStack;
+import com.ssafy.newsum.domain.company.entity.Company;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,24 +11,19 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name = "preferred_stack")
+@Table(name = "preferred_company")
 @Getter
-public class PreferredTechStack {
-
+public class PreferredCompany {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Integer prefTsId;
-
+    private Integer prefComId;
 
     @ManyToOne
     @JoinColumn(name = "usr_id")
     private User user;
 
-
     @ManyToOne
-    @JoinColumn(name = "stack_id")
-    private TechStack techStack;
-
-
+    @JoinColumn(name = "cp_id")
+    private Company company;
 }
