@@ -1,18 +1,29 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { FaPlayCircle, FaRegPlayCircle } from 'react-icons/fa';
+import { RiFilePaperFill, RiFilePaperLine } from 'react-icons/ri';
+import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa';
 
 export const NavBar = styled.div`
   padding: 0;
   margin: 0;
   height: calc(100vh - 60px);
   width: 30%;
-  background-color: gray;
+  /* background-color: gray; */
 
   position: relative;
 
+  color: #394867;
+
+  border-right: 1px solid gray;
+
+  .active {
+    color: #0583f2;
+  }
+
   .nav {
-    background-color: aliceblue;
+    /* background-color: aliceblue; */
 
     position: absolute;
     top: 20px;
@@ -23,20 +34,70 @@ export const NavBar = styled.div`
     width: 250px;
 
     list-style-type: none;
+
+    font-size: 2.5rem;
+  }
+
+  .nav li {
+    margin: 20px 0;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
+  .nav strong {
+    display: inline-block;
+    padding: 0px 0px 0px 20px;
+  }
+
+  @media (max-width: 950px) {
+    .nav {
+      width: 30%;
+    }
+    .nav strong {
+      display: none;
+    }
   }
 
   //700px 보다 작을 때
   @media (max-width: 700px) {
-    background-color: blue;
+    /* background-color: blue; */
 
-    height: auto;
+    height: 120px;
     width: 100%;
 
     position: absolute;
     top: 100%;
     left: 0;
     transform: translate(0, -100%);
+
+    border-right: 0px;
+
+    border-top: 1px solid gray;
     .nav {
+      position: absolute;
+      top: 0;
+      left: 0;
+      transform: translate(00%, 0%);
+      padding: 0px;
+      margin: 0px;
+      width: 100%;
+      /* 요소정렬 */
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+    }
+
+    .nav li {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      transform: translate(50%, 0%);
+    }
+    .nav strong {
+      display: inline;
+      font-size: 1.5rem;
+      transform: translate(-35%, 0%);
     }
   }
 `;
@@ -61,6 +122,42 @@ const Footer = styled.div`
   @media (max-width: 950px) {
     display: none;
   }
+  @media (max-height: 730px) {
+    display: none;
+  }
+`;
+
+const Button = styled.div`
+  line-height: 45px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
+  display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
+
+  width: 200px;
+  height: 60px;
+  border-radius: 12px;
+
+  background-color: #0583f2;
+  color: white;
+  font-size: 36px;
+  font-weight: bold;
+
+  /* margin-top: px; */
+
+  text-align: center;
+
+  position: absolute;
+  top: 300px;
+  left: 100%;
+  transform: translate(-105%, 0%);
+  padding: 10px;
+  margin: 5px;
+  width: 250px;
+
+  &:hover {
+    cursor: pointer;
+  }
+  @media (max-width: 950px) {
+    display: none;
+  }
 `;
 
 const Hr = styled.hr`
@@ -71,28 +168,43 @@ const Hr = styled.hr`
 `;
 
 function Navbar() {
+  const [nav, setNav] = useState('');
+  const [userInfo, setUserInfo] = useState(true);
+
+  function short() {
+    setNav('short');
+  }
+
+  function news() {
+    setNav('news');
+  }
+
+  function mypage() {
+    setNav('mypage');
+  }
+
+  function login() {
+    setUserInfo(true);
+  }
+
   return (
     <div>
       <NavBar>
-        <ul className="nav-img">
-          <li>
-            aaa<i className="fa-regular fa-circle-play">zzz</i>zzz
-            {/* <FontAwesomeIcon icon={regular('circle-play')} /> */}
+        <ul className="nav">
+          <li className={nav == 'short' ? 'active' : ''} onClick={short}>
+            {nav == 'short' ? <FaPlayCircle /> : <FaRegPlayCircle />}
+            <strong>short</strong>
           </li>
-          <li>
-            <img />
+          <li className={nav == 'news' ? 'active' : ''} onClick={news}>
+            {nav == 'news' ? <RiFilePaperFill /> : <RiFilePaperLine />}
+            <strong>news</strong>
           </li>
-          <li>
-            <img />
+          <li className={nav == 'mypage' ? 'active' : ''} onClick={mypage}>
+            {nav == 'mypage' ? <FaUserCircle /> : <FaRegUserCircle />}
+            <strong>my page</strong>
           </li>
         </ul>
-        <ul className="nav-text">
-          <li>
-            <i className="fa fa-play"></i>short
-          </li>
-          <li>news</li>
-          <li>my page</li>
-        </ul>
+        <Button onClick={login}>Log In</Button>
 
         <Footer>
           <div>
