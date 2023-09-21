@@ -1,6 +1,11 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+//스타일드 컴포넌트
 import styled from 'styled-components';
+//아이콘
+import { faCirclePlay } from '@fortawesome/free-solid-svg-icons';
+import { faPlay } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export const NavBar = styled.div`
   padding: 0;
@@ -76,20 +81,17 @@ function Navbar() {
       <NavBar>
         <ul className="nav-img">
           <li>
-            aaa<i className="fa-regular fa-circle-play">zzz</i>zzz
-            {/* <FontAwesomeIcon icon={regular('circle-play')} /> */}
+            <FontAwesomeIcon icon={faCirclePlay} />
           </li>
           <li>
-            <img />
+            <FontAwesomeIcon icon={faCirclePlay} />
           </li>
           <li>
-            <img />
+            <FontAwesomeIcon icon={faCirclePlay} />
           </li>
         </ul>
         <ul className="nav-text">
-          <li>
-            <i className="fa fa-play"></i>short
-          </li>
+          <li>short</li>
           <li>news</li>
           <li>my page</li>
         </ul>
