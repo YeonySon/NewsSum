@@ -13,6 +13,7 @@ import com.ssafy.newsum.domain.news.repository.MediaRepository;
 import com.ssafy.newsum.domain.news.repository.NewsRepository;
 import com.ssafy.newsum.domain.readnews.entity.ReadNews;
 import com.ssafy.newsum.domain.readnews.repository.ReadNewsRepository;
+import com.ssafy.newsum.domain.scrap.entity.Scrap;
 import com.ssafy.newsum.domain.scrap.repository.ScrapRepository;
 import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.repository.UserRepository;
@@ -283,5 +284,23 @@ public class NewsService {
         dibsRepository.delete(dibs.get());
 
     }
+
+    // 뉴스기사 스크랩
+    @Transactional
+    public void scrapNews(Integer newsId, Integer userId) {
+
+        User user = userRepository.findUserByUserId(userId);
+
+        Scrap scrap = Scrap.builder()
+                .type('n')
+                .contentId(newsId)
+                .user(user)
+                .build();
+
+        scrapRepository.save(scrap);
+    }
+
+    // 뉴스 스크랩 취소
+  
 
 }

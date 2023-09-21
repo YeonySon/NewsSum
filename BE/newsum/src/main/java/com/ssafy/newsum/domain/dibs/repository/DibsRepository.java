@@ -17,7 +17,7 @@ public interface DibsRepository extends JpaRepository<Dibs, Integer> {
 
 
     // 좋아요
-    @Query("select d from Dibs d where d.user.userId =:userId and d.contentId =:newsId")
+    @Query("select d from Dibs d where d.contentId =:newsId and d.user.userId =:userId")
     Optional<Dibs> selectDibs(@Param("newsId") Integer newsId, @Param("userId") Integer userId);
 
 }

@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface ScrapRepository extends JpaRepository<Scrap, Integer> {
 
     //스크랩 유무
@@ -12,6 +14,10 @@ public interface ScrapRepository extends JpaRepository<Scrap, Integer> {
             "and a.user.userId = :userId " +
             "and a.contentId = :newsId")
     Boolean isScrap(@Param("userId") Integer userId, @Param("newsId") Integer newsId);
+
+    // 스크랩 가져오기
+    @Query("select s from Scrap s where s.contentId =:newsId and s.user.userId =:userId")
+    Optional<Scrap> selectScrap(@Param("newsId") Integer newsId, @Param("userId") Integer userId);
 
 
 }
