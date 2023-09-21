@@ -1,5 +1,6 @@
 package com.ssafy.newsum.domain.users.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -22,6 +23,8 @@ import com.ssafy.newsum.domain.headline.entity.Headline;
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
 import com.ssafy.newsum.domain.users.dto.request.UserLoginRequestDto;
 import com.ssafy.newsum.domain.users.dto.request.UserRequestDto;
+import com.ssafy.newsum.domain.users.dto.response.HeadlineResponseDto;
+import com.ssafy.newsum.domain.users.dto.response.TechStackResponseDto;
 import com.ssafy.newsum.domain.users.dto.response.UserInfoDto;
 import com.ssafy.newsum.domain.users.dto.response.UserLoginResponseDto;
 import com.ssafy.newsum.domain.users.entity.User;
@@ -44,15 +47,35 @@ public class UserController {
 	@GetMapping("/headline")
 	public ResponseEntity<CommonResponseDto<?>> getHeadlineList() {
 		List<Headline> headlineList = userService.getAllHeadline();
+		List<HeadlineResponseDto> headlineResponseDtoList = new ArrayList<>();
+
+		for (Headline headline : headlineList) {
+			HeadlineResponseDto headlineResponseDto = HeadlineResponseDto.builder()
+				.hlId(headline.getHlId())
+				.hlName(headline.getHlName())
+				.build();
+
+			headlineResponseDtoList.add(headlineResponseDto);
+		}
 
 		return ResponseEntity.ok(
-			CommonResponseDto.success(200, "success print headlineList", headlineList));
+			CommonResponseDto.success(200, "success print headlineList", headlineResponseDtoList));
 	}
 
 	//기술스택 리스트 출력
 	@GetMapping("/techstack")
 	public ResponseEntity<CommonResponseDto<?>> getTechStackList() {
 		List<TechStack> techStackList = userService.getAllTechStack();
+		List<TechStackResponseDto> techStackResponseDtoList = new ArrayList<>();
+
+		for (TechStack techStack : techStackList) {
+			TechStackResponseDto techStackResponseDto = TechStackResponseDto.builder()
+				.tsId(techStack.getTsId())
+				.tsName(techStack.getTsName())
+				.build();
+
+			techStackResponseDtoList.add(techStackResponseDto);
+		}
 
 		return ResponseEntity.ok(
 			CommonResponseDto.success(200, "success print tech-stack list", techStackList));
