@@ -52,7 +52,7 @@ public class UserController {
     //회원 탈퇴
     @DeleteMapping
     public ResponseEntity withdrawl(Authentication authentication) {
-        return ResponseEntity.ok(CommonResponseDto.success(200, "success delete user"));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "success delete user", null));
     }
 
 }
