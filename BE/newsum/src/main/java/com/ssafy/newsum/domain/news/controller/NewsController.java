@@ -27,7 +27,7 @@ public class NewsController {
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(500, "recommendList error"));
 
-        return ResponseEntity.ok(CommonResponseDto.success(200, resultList));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "recommendList success", resultList));
     }
 
     // 분야별 조회
@@ -39,7 +39,7 @@ public class NewsController {
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(500, "categoryList error"));
 
-        return ResponseEntity.ok(CommonResponseDto.success(200, resultList));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "categoryList success", resultList));
     }
 
     // 인기도순 최신순으로 분야별 조회
@@ -53,20 +53,16 @@ public class NewsController {
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(500, "sortList error"));
 
-        return ResponseEntity.ok(CommonResponseDto.success(200, resultList));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "sortList success", resultList));
     }
 
     // 뉴스 상세보기
     @PostMapping("/detail")
     public ResponseEntity selectNewsDetail(@RequestBody NewsRequestDto newsRequestDto) {
 
-        System.out.println(newsRequestDto);
-
-        System.out.println("여기 들어와??");
-
         newsService.selectNewsDetail(newsRequestDto);
 
-        return ResponseEntity.ok(CommonResponseDto.success(200, "detail success"));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "detail success", null));
     }
 
     // 뉴스 검색하기
@@ -78,9 +74,43 @@ public class NewsController {
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(500, "search error"));
 
-        return ResponseEntity.ok(CommonResponseDto.success(200, resultList));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "search success", resultList));
 
     }
 
+    // 뉴스 좋아요
+    @GetMapping("/dibs/{newsId}/{userId}")
+    public ResponseEntity likeNews(@PathVariable Integer newsId, @PathVariable Integer userId) {
+        newsService.likeNews(newsId, userId);
 
+        return ResponseEntity.ok(CommonResponseDto.success(200, "like success", null));
+
+    }
+
+    // 뉴스 좋아요 취소
+    @DeleteMapping("/dibs/{newsId}/{userId}")
+    public ResponseEntity likeNewsCancel(@PathVariable Integer newsId, @PathVariable Integer userId) {
+
+        newsService.likeNewsCancel(newsId, userId);
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "like cancel success", null));
+    }
+
+    // 뉴스 스크랩
+    @GetMapping("/scrap/{newsId}/{userId}")
+    public ResponseEntity scrapNews(@PathVariable Integer newsId, @PathVariable Integer userId) {
+
+        newsService.scrapNews(newsId, userId);
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "scrap success", null));
+    }
+
+    // 뉴스 스크랩 취소
+    @DeleteMapping("/scrap/{newsId}/{userId}")
+    public ResponseEntity scrapNewsCancel(@PathVariable Integer newsId, @PathVariable Integer userId) {
+
+        newsService.scrapNewsCancel(newsId, userId);
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "scrap cancel success", null));
+    }
 }

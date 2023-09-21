@@ -1,6 +1,7 @@
 package com.ssafy.newsum.domain.news.service;
 
 
+import com.ssafy.newsum.domain.dibs.entity.Dibs;
 import com.ssafy.newsum.domain.dibs.repository.DibsRepository;
 import com.ssafy.newsum.domain.news.dto.request.NewsRequestDto;
 import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
@@ -12,6 +13,7 @@ import com.ssafy.newsum.domain.news.repository.MediaRepository;
 import com.ssafy.newsum.domain.news.repository.NewsRepository;
 import com.ssafy.newsum.domain.readnews.entity.ReadNews;
 import com.ssafy.newsum.domain.readnews.repository.ReadNewsRepository;
+import com.ssafy.newsum.domain.scrap.entity.Scrap;
 import com.ssafy.newsum.domain.scrap.repository.ScrapRepository;
 import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.repository.UserRepository;
@@ -258,5 +260,53 @@ public class NewsService {
         return resultList;
     }
 
+    // 뉴스기사 좋아요
+    @Transactional
+    public void likeNews(Integer newsId, Integer userId) {
+
+        User user = userRepository.findUserByUserId(userId);
+
+        Dibs dibs = Dibs.builder()
+                .type('n')
+                .contentId(newsId)
+                .user(user)
+                .build();
+
+        dibsRepository.save(dibs);
+    }
+
+    // 뉴스기사 좋아요 취소
+    @Transactional
+    public void likeNewsCancel(Integer newsId, Integer userId) {
+
+        Optional<Dibs> dibs = dibsRepository.selectDibs(newsId, userId);
+
+        dibsRepository.delete(dibs.get());
+
+    }
+
+    // 뉴스기사 스크랩
+    @Transactional
+    public void scrapNews(Integer newsId, Integer userId) {
+
+        User user = userRepository.findUserByUserId(userId);
+
+        Scrap scrap = Scrap.builder()
+                .type('n')
+                .contentId(newsId)
+                .user(user)
+                .build();
+
+        scrapRepository.save(scrap);
+    }
+
+    // 뉴스 스크랩 취소
+    @Transactional
+    public void scrapNewsCancel(Integer newsId, Integer userId) {
+
+        Optional<Scrap> scrap = scrapRepository.selectScrap(newsId, userId);
+
+        scrapRepository.delete(scrap.get());
+    }
 
 }
