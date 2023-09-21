@@ -9,7 +9,7 @@ export const NavBar = styled.div`
   padding: 0;
   margin: 0;
   height: calc(100vh - 60px);
-  width: 30%;
+  width: 25%;
   /* background-color: gray; */
 
   position: relative;
@@ -48,11 +48,15 @@ export const NavBar = styled.div`
   .nav strong {
     display: inline-block;
     padding: 0px 0px 0px 20px;
+    font-size: 2.2rem;
+    transform: translate(0%, -22%);
   }
 
   @media (max-width: 950px) {
     .nav {
-      width: 30%;
+      width: 20%;
+      font-size: 3rem;
+      padding-right: 50px;
     }
     .nav strong {
       display: none;
@@ -74,6 +78,8 @@ export const NavBar = styled.div`
     border-right: 0px;
 
     border-top: 1px solid gray;
+
+    font-size: 2.5rem;
     .nav {
       position: absolute;
       top: 0;
@@ -131,13 +137,13 @@ const Button = styled.div`
   line-height: 45px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
   display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
 
-  width: 200px;
-  height: 60px;
+  width: 180px;
+  height: 50px;
   border-radius: 12px;
 
   background-color: #0583f2;
   color: white;
-  font-size: 36px;
+  font-size: 30px;
   font-weight: bold;
 
   /* margin-top: px; */
