@@ -301,6 +301,12 @@ public class NewsService {
     }
 
     // 뉴스 스크랩 취소
-  
+    @Transactional
+    public void scrapNewsCancel(Integer newsId, Integer userId) {
+
+        Optional<Scrap> scrap = scrapRepository.selectScrap(newsId, userId);
+
+        scrapRepository.delete(scrap.get());
+    }
 
 }

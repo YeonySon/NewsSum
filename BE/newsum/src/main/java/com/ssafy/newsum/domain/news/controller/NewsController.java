@@ -109,5 +109,12 @@ public class NewsController {
         return ResponseEntity.ok(CommonResponseDto.success(200, "scrap success"));
     }
 
+    // 뉴스 스크랩 취소
+    @DeleteMapping("/scrap/{newsId}/{userId}")
+    public ResponseEntity scrapNewsCancel(@PathVariable Integer newsId, @PathVariable Integer userId) {
 
+        newsService.scrapNewsCancel(newsId, userId);
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "scrap cancel success"));
+    }
 }
