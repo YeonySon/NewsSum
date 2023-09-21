@@ -14,10 +14,10 @@ public class CommonResponseDto<T> {
 	private String message;
 	private T data;
 
-	public static <T> CommonResponseDto<T> success(int statusCode, T data) {
+	public static <T> CommonResponseDto<T> success(int statusCode, String message, T data) {
 		return CommonResponseDto.<T>builder()
 			.statusCode(statusCode)
-			.message("SUCCESS")
+			.message(message)
 			.data(data)
 			.build();
 	}

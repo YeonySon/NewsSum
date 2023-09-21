@@ -26,6 +26,7 @@ public class NewsService {
 
 		//이미 읽은 기사라면 날짜 갱신
 		if (readNewsObject.isPresent()) {
+			System.out.println("news --");
 			readListRepository.save(readNewsObject.get());
 			return;
 		}
