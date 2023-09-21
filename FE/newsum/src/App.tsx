@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 //import pages
-import HeaderModal from './components/util/HeaderModal'
 import Header from './components/util/Header'
+import Navbar from './components/util/Navbar';
 
 function App() {
 
@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path='/header' element={<Header />}/>
-          <Route path='/headermodal' element={<HeaderModal />}/>
+          <Route path='/navbar' element={<Navbar />}/>
         </Routes>
       </BrowserRouter>
       {/* <header className="App-header">
