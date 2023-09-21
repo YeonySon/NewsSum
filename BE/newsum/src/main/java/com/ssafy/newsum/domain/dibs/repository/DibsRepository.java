@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface DibsRepository extends JpaRepository<Dibs, Integer> {
 
     //좋아요 유무
@@ -13,5 +15,9 @@ public interface DibsRepository extends JpaRepository<Dibs, Integer> {
             "and a.contentId = :newsId ")
     Boolean isLiked(@Param("userId") Integer userId, @Param("newsId") Integer newsId);
 
+
+    // 좋아요
+    @Query("select d from Dibs d where d.user.userId =:userId and d.contentId =:newsId")
+    Optional<Dibs> selectDibs(@Param("newsId") Integer newsId, @Param("userId") Integer userId);
 
 }

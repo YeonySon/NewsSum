@@ -82,5 +82,16 @@ public class NewsController {
 
     }
 
+    // 뉴스 좋아요
+    @GetMapping("/dibs/{newsId}/{userId}")
+    public ResponseEntity likeNews(@PathVariable Integer newsId, @PathVariable Integer userId) {
+        newsService.likeNews(newsId, userId);
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "like success"));
+
+    }
+
+    // 뉴스 좋아요 취소
+
 
 }

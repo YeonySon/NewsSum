@@ -1,6 +1,7 @@
 package com.ssafy.newsum.domain.news.service;
 
 
+import com.ssafy.newsum.domain.dibs.entity.Dibs;
 import com.ssafy.newsum.domain.dibs.repository.DibsRepository;
 import com.ssafy.newsum.domain.news.dto.request.NewsRequestDto;
 import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
@@ -257,6 +258,23 @@ public class NewsService {
         }
         return resultList;
     }
+
+    // 뉴스기사 좋아요
+    @Transactional
+    public void likeNews(Integer newsId, Integer userId) {
+
+        User user = userRepository.findUserByUserId(userId);
+
+        Dibs dibs = Dibs.builder()
+                .type('n')
+                .contentId(newsId)
+                .user(user)
+                .build();
+
+        dibsRepository.save(dibs);
+    }
+
+    // 뉴스기사 좋아요 취소
 
 
 }

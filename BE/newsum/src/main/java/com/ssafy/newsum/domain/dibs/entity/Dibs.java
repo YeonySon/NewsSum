@@ -1,10 +1,7 @@
 package com.ssafy.newsum.domain.dibs.entity;
 
 import com.ssafy.newsum.domain.users.entity.User;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "dibs")
 @Getter
+@Builder
 public class Dibs {
 
     @Id
