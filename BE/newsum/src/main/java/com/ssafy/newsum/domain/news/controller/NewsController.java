@@ -92,6 +92,13 @@ public class NewsController {
     }
 
     // 뉴스 좋아요 취소
+    @DeleteMapping("/dibs/{newsId}/{userId}")
+    public ResponseEntity likeNewsCancel(@PathVariable Integer newsId, @PathVariable Integer userId) {
+
+        newsService.likeNewsCancel(newsId, userId);
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "like cancel success"));
+    }
 
 
 }

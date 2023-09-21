@@ -275,6 +275,13 @@ public class NewsService {
     }
 
     // 뉴스기사 좋아요 취소
+    @Transactional
+    public void likeNewsCancel(Integer newsId, Integer userId) {
 
+        Optional<Dibs> dibs = dibsRepository.selectDibs(newsId, userId);
+
+        dibsRepository.delete(dibs.get());
+
+    }
 
 }
