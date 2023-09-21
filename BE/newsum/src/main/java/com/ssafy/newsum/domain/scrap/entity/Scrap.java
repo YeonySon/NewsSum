@@ -24,7 +24,7 @@ public class Scrap {
     @ManyToOne
     @JoinColumn(name = "usr_id")
     private User user;
-    @Column(name = "created_at")
+    @Column(name = "created_at", insertable = false)
     private LocalDateTime createdAt;
 
     // 날짜 업데이트

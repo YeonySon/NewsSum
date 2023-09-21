@@ -60,10 +60,6 @@ public class NewsController {
     @PostMapping("/detail")
     public ResponseEntity selectNewsDetail(@RequestBody NewsRequestDto newsRequestDto) {
 
-        System.out.println(newsRequestDto);
-
-        System.out.println("여기 들어와??");
-
         newsService.selectNewsDetail(newsRequestDto);
 
         return ResponseEntity.ok(CommonResponseDto.success(200, "detail success"));

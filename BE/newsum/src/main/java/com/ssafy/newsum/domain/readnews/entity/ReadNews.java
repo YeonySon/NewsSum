@@ -25,7 +25,7 @@ public class ReadNews {
     @Column(name = "content_id")
     private int contentId;
 
-    @Column(name = "read_dt")
+    @Column(name = "read_dt", insertable = false)
     private LocalDateTime readDt;
 
     @ManyToOne
