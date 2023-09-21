@@ -1,20 +1,21 @@
 import logo from './logo.svg';
-import React from 'react'
+import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 //import pages
-import Header from './components/util/Header'
+import Header from './components/util/Header';
 import Navbar from './components/util/Navbar';
+import Short from './page/short/Short';
 
 function App() {
-
   return (
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path='/header' element={<Header />}/>
-          <Route path='/navbar' element={<Navbar />}/>
+          <Route path="/header" element={<Header />} />
+          <Route path="/navbar" element={<Navbar />} />
+          <Route path="/test" element={<Short />} />
         </Routes>
       </BrowserRouter>
       {/* <header className="App-header">
@@ -31,7 +32,6 @@ function App() {
           Learn React
         </a>
       </header> */}
-
     </div>
   );
 }

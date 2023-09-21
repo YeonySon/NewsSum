@@ -8,7 +8,7 @@ import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa';
 export const NavBar = styled.div`
   padding: 0;
   margin: 0;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 62px);
   width: 25%;
   /* background-color: gray; */
 
