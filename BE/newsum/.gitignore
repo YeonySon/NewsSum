@@ -37,7 +37,6 @@ out/
 .vscode/
 
 
-
 # dependencies
 /node_modules
 /.cert
