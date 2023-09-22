@@ -8,7 +8,7 @@ import { FaBookmark, FaRegBookmark, FaEye, FaHeart, FaRegHeart } from 'react-ico
 import CardModal from './CardModal';
 
 const Card = styled.div`
-  background-color: gray;
+  /* background-color: gray; */
   position: relative;
 
   width: 500px;
@@ -38,11 +38,31 @@ const Card = styled.div`
     font-size: 1.2rem;
     display: flex;
     justify-content: end;
+    margin: 15px 20px 5px;
+  }
+  .num {
+    transform: translate(0, -20%);
+    margin: 0 10px 0 5px;
   }
 
   .data {
     display: flex;
     justify-content: space-between;
+    text-align: left;
+  }
+
+  .media {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    margin: 0 0 3px 10px;
+  }
+  .media img {
+    height: 3rem;
+  }
+  .date {
+    text-align: right;
+    margin: 0 0 0 0;
   }
 `;
 
@@ -55,7 +75,7 @@ function CardSlot() {
 
   const [scrap, setScrap] = useState(false);
   const [like, setLike] = useState(false);
-  const [cardModal, setCardModal] = useState(true);
+  const [cardModal, setCardModal] = useState(false);
 
   const newsInfo = {
     id: 1,
@@ -65,7 +85,7 @@ function CardSlot() {
     url: 'https://www.',
     postedDate: '2023.09.13',
     mediaName: '중앙일보',
-    mediaImage: 'https://www',
+    mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
     image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
     viewCnt: 12,
     cgName: '모바일',
@@ -93,20 +113,24 @@ function CardSlot() {
           </div>
         </div>
 
-        {/* 두번째 줄 */}
-        <div className="info">
-          {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
-
-          {newsInfo.likeCnt}
-          {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
-
-          {newsInfo.scrapCnt}
-          <FaEye />
-          {newsInfo.viewCnt}
-        </div>
+        {/* 기타정보 */}
         <div className="data">
-          <img src={newsInfo.mediaImage} alt={newsInfo.mediaName} />
-          <div>{newsInfo.postedDate}</div>
+          <div className="media">
+            <img src={newsInfo.mediaImage} alt={newsInfo.mediaName} />
+          </div>
+          <div>
+            {/* 조회수 등 */}
+            <div className="info">
+              {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
+              <span className="num">{newsInfo.likeCnt}</span>
+              {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
+              <span className="num">{newsInfo.scrapCnt}</span>
+              <FaEye />
+              <span className="num">{newsInfo.viewCnt}</span>
+            </div>
+            {/* 날자 */}
+            <div className="date">{newsInfo.postedDate}</div>
+          </div>
         </div>
 
         {cardModal && (

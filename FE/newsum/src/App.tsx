@@ -17,15 +17,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-<<<<<<< HEAD
           <Route path="/card" element={<Card />} />
           <Route path="/test" element={<Short />} />
-=======
-          <Route path='/signup/1' element={<SignUp1 />}/>
-          <Route path='/signup/2' element={<SignUp2 />}/>
-          <Route path='/signup/3' element={<SignUp3 />}/>
-          {/* <Route path='/test' element={<Test />}/> */}
->>>>>>> ba0f6c4f37528dfd8464e807a25f4e40231edaf1
         </Routes>
       </BrowserRouter>
       {/* <header className="App-header">
@@ -42,10 +35,6 @@ function App() {
           Learn React
         </a>
       </header> */}
-<<<<<<< HEAD
-=======
-
->>>>>>> ba0f6c4f37528dfd8464e807a25f4e40231edaf1
     </div>
   );
 }
