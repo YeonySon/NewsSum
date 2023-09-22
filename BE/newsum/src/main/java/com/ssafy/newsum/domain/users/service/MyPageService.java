@@ -96,14 +96,51 @@ public class MyPageService {
         List<News> newsList = new ArrayList<>();
 
         // 전체 뉴스기사
-        if (categoryId == 0) {
+        if (categoryId.equals(0)) {
             newsList = newsRepository.selectAllMyScrapNews(userId);
         } else {
             // 카테고리별 뉴스기사
-            newsList = newsRepository.selectMyScrapNewsByOption(userId, categoryId);
+            newsList = newsRepository.selectMyScrapNewsByCategory(userId, categoryId);
         }
 
         List<NewsResponseDto> resultList = new ArrayList<>();
+
+        List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList, resultList, userId);
+
+        return result;
+    }
+
+    // 스크랩 뉴스 인기도순 최신순 정렬
+    @Transactional
+    public List<NewsResponseDto> selectScrapNewsSortByOption(Integer userId, Integer categoryId, Integer optionId) {
+
+        List<NewsResponseDto> resultList = new ArrayList<>();
+        List<News> newsList = new ArrayList<>();
+
+        // 전체분야
+        if (categoryId.equals(0)) {
+
+            // 인기도 순
+            if (optionId.equals(1)) {
+                newsList = newsRepository.selectAllScrapPopular(userId);
+            }
+            // 최신 순
+            else {
+                newsList = newsRepository.selectAllMyScrapNews(userId);
+            }
+        }
+        // 해당 분야별
+        else {
+
+            // 인기도순
+            if (optionId.equals(1)) {
+                newsList = newsRepository.selectScrapCategoryByOption(userId, categoryId);
+            }
+            // 최신순
+            else {
+                newsList = newsRepository.selectMyScrapNewsByCategory(userId, categoryId);
+            }
+        }
 
         List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList, resultList, userId);
 

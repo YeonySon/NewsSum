@@ -31,7 +31,7 @@ public class MyPageController {
 
     }
 
-    // 최근 본 뉴스 조회
+    // 최근 본 뉴스 조회 읽은뉴스 순
     @GetMapping("/mynews/{userId}")
     public ResponseEntity selectByMyNews(@PathVariable Integer userId) {
 
@@ -43,7 +43,7 @@ public class MyPageController {
         return ResponseEntity.ok(CommonResponseDto.success(200, "news list success", resultList));
     }
 
-    // 스크랩 카테고리별 뉴스
+    // 스크랩 카테고리별 뉴스 스크랩순
     @GetMapping("/myscrapnews/{userId}/{categoryId}")
     public ResponseEntity selectMyScrapByCategoryId(@PathVariable Integer userId, @PathVariable Integer categoryId) {
 
@@ -53,6 +53,20 @@ public class MyPageController {
             return ResponseEntity.ok(CommonResponseDto.error(400, "scrap category fail"));
 
         return ResponseEntity.ok(CommonResponseDto.success(200, "scrap category success", resultList));
+
+    }
+
+    // 스크랩 인기도순 최신순
+    @GetMapping("/myscrap/{userId}/sort")
+    public ResponseEntity selectScrapNewsSortByOption(@PathVariable Integer userId,
+                                                      @RequestParam(name = "categoryId") Integer categoryId,
+                                                      @RequestParam(name = "optionId") Integer optionId) {
+        List<NewsResponseDto> resultList = myPageService.selectScrapNewsSortByOption(userId, categoryId, optionId);
+
+        if (resultList == null)
+            return ResponseEntity.ok(CommonResponseDto.error(400, "scrap option fail"));
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "scrap option success", resultList));
 
     }
 
