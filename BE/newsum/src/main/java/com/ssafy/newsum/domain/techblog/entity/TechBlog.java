@@ -1,17 +1,28 @@
 package com.ssafy.newsum.domain.techblog.entity;
 
-import lombok.Data;
-import org.apache.ibatis.annotations.Many;
+
+import com.ssafy.newsum.domain.company.entity.Company;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Data
 @Table(name = "tech_blog")
+@Getter
 public class TechBlog {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer blogId;
+
 
     @Column
     private String head;
@@ -22,8 +33,10 @@ public class TechBlog {
     @Column
     private String url;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "cp_id", referencedColumnName = "id")
-//    private Company cpId;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cp_id", referencedColumnName = "id")
+    private Company cpId;
+
 
 }

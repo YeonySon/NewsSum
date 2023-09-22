@@ -1,0 +1,69 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://j9b202.p.ssafy.io:3350/newsum?useUniCode=yes&characterEncoding=UTF-8&serverTimezone=Asia/Seoul
+    username: newsum
+    password: k3s2b202ssafy
+
+  jpa:
+    show-sql: true
+    database: mysql
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+
+  security:
+    user:
+      name: admin
+      password: admin
+
+# JPA log
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+# smtp
+mail:
+  smtp:
+    port: 465
+    socketFactory:
+      port: 465
+      class: javax.net.ssl.SSLSocketFactory
+      fallback: false
+    auth: true
+    starttls:
+      required: true
+      enable: true
+
+# admin 구글 계정
+AdminMail:
+  id: newsumAd@gmail.com
+  password: zqsz qbmi dkhf hfiv
+
+# jwt
+jwt:
+  secret: d39gssddf6SsdahASDFFaesdGHJFDGjsdfsddfsdhSDS2HSZDasEsd48Os923459780012I4E3IdjSLOFJaseyH
+  access:
+    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
+    header: Authorization
+    # expiration: 3600000 # 1시간(60분) (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h))
+
+  refresh:
+    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> 하루) * 14(2주))
+    header: Authorization-refresh
+
+
+
+server:
+  port: 8811
+  max-http-header-size: 2MB
+
+
+

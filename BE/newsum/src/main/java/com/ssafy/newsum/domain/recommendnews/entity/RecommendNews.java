@@ -1,9 +1,12 @@
 package com.ssafy.newsum.domain.recommendnews.entity;
 
-
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,8 +15,11 @@ import javax.persistence.*;
 @Table(name = "recommend_news")
 public class RecommendNews {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer recommendId;
 
     @Column
     private Integer newsId;
@@ -23,8 +29,6 @@ public class RecommendNews {
 
     @Column(name = "is_read")
     private Integer isRead;
-
-
 
 
 }
