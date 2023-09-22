@@ -5,7 +5,6 @@ import './App.css';
 
 //import pages
 import Card from './components/news/CardSlot';
-import CardModal from './components/news/CardModal';
 
 import Short from './page/short/Short';
 
@@ -15,7 +14,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/card" element={<Card />} />
-          <Route path="/cardmodal" element={<CardModal />} />
           <Route path="/test" element={<Short />} />
         </Routes>
       </BrowserRouter>

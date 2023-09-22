@@ -19,6 +19,31 @@ const Card = styled.div`
     width: 500px;
     height: 250px;
   }
+
+  .card-head {
+    display: flex;
+    justify-content: space-between;
+    font-size: 2rem;
+  }
+  .card-head .text {
+    display: block;
+    height: 2.5rem;
+    font-weight: bold;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap; // 아래줄로 내려가는 것을 막기위해
+    /* word-break: break-all; */
+  }
+  .info {
+    font-size: 1.2rem;
+    display: flex;
+    justify-content: end;
+  }
+
+  .data {
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const Deactive = styled.div``;
@@ -34,7 +59,7 @@ function CardSlot() {
 
   const newsInfo = {
     id: 1,
-    head: '헤드라인',
+    head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
     main: '메인이야',
     threeLine: '3줄요약',
     url: 'https://www.',
@@ -60,10 +85,16 @@ function CardSlot() {
     <div>
       <Card>
         <img onClick={openNews} className="card-img" src={newsInfo.image} />
-        <div className="card-head">{newsInfo.head}</div>
-        <div>{newsInfo.postedDate}</div>
-        <img src={newsInfo.mediaImage} alt={newsInfo.mediaName} />
-        <div>
+        {/* 첫 줄 : 기사 제목, 모달 버튼 */}
+        <div className="card-head">
+          <div className="text">{newsInfo.head}</div>
+          <div onClick={() => setCardModal(true)}>
+            <CiMenuKebab />
+          </div>
+        </div>
+
+        {/* 두번째 줄 */}
+        <div className="info">
           {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
 
           {newsInfo.likeCnt}
@@ -73,10 +104,9 @@ function CardSlot() {
           <FaEye />
           {newsInfo.viewCnt}
         </div>
-
-        <div onClick={() => setCardModal(true)}>
-          <CiMenuKebab />
-          모달열기
+        <div className="data">
+          <img src={newsInfo.mediaImage} alt={newsInfo.mediaName} />
+          <div>{newsInfo.postedDate}</div>
         </div>
 
         {cardModal && (
