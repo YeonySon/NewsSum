@@ -13,4 +13,5 @@ public interface ReadNewsRepository extends JpaRepository<ReadNews, Integer> {
     @Query("select rn from ReadNews rn where rn.contentId=:newsId and rn.user.userId=:userId")
     Optional<ReadNews> findByUserId(@Param("newsId") Integer newsId, @Param("userId") Integer userId);
 
+
 }
