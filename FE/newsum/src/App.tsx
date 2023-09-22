@@ -4,7 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 //import pages
-import Tabbar from './components/util/Tabbar';
+import Card from './components/news/CardSlot';
+import CardModal from './components/news/CardModal';
 
 import Short from './page/short/Short';
 
@@ -13,7 +14,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/tab" element={<Tabbar />} />
+          <Route path="/card" element={<Card />} />
+          <Route path="/cardmodal" element={<CardModal />} />
           <Route path="/test" element={<Short />} />
         </Routes>
       </BrowserRouter>

@@ -1,15 +1,21 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
+//아이콘 가져오기
+import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { FaBookmark, FaRegBookmark, FaHeart, FaRegHeart } from 'react-icons/fa6';
+
+import { PiShareFat } from 'react-icons/pi';
+
 const Item = styled.div`
   color: #353845;
-  text-align: center;
+  text-align: left;
   font-size: 1.2rem;
   line-height: 2rem;
-  font-weight: 400;
+  font-weight: bold;
   height: 40px;
   margin: 0;
-  padding: 10px 0 0 0;
+  padding: 10px 0px 0 50px;
 
   a:hover {
     color: darkblue;
@@ -20,65 +26,65 @@ const Items = styled.div`
   border: 1px solid #9aa3aa;
   background-color: #ffffff;
   border-radius: 8px;
-  width: 300px;
+  width: 200px;
   margin: 0;
   padding: 0;
 
-  box-shadow: 2px 2px 5px 5px #f8f8f8;
+  box-shadow: 0px 0px 0px 0px #636363;
 
   /* 프로필 아이콘 밑으로 이동 */
   position: absolute;
-  top: 65px;
+  top: 100%;
   left: 100%;
-  transform: translate(-105%, 0);
+  transform: translate(-105%, -105%);
+
+  z-index: 10;
 `;
 
-const Hr = styled.hr`
-  color: gray;
+function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
+  //카드 뉴스 정보 확인
 
-  margin: 0;
-  padding: 0, 10px;
-`;
-
-function HeaderModal({ userInfo, setUserInfo, setProfileModal }) {
-  //로그인 되었는지 확인
-
-  function myPage() {
-    alert('마이페이지로 이동');
+  async function copyURL() {
+    try {
+      await navigator.clipboard.writeText(newsInfo.url);
+      alert('복사되었습니다.');
+    } catch (err) {
+      console.log(err);
+    }
   }
 
-  function logout() {
-    alert('로그아웃');
-    setUserInfo(false);
-    setProfileModal(false);
+  function scrap() {
+    alert('스크랩');
+    setScrap(!newsInfo);
   }
 
-  function login() {
-    alert('로그인');
-    setUserInfo(true);
-    setProfileModal(false);
+  function like() {
+    alert('좋아요');
+    setLike(!newsInfo);
   }
 
   return (
     <div className="headerModal">
-      {userInfo ? (
-        <Items>
-          <Item onClick={myPage}>
-            <a>마이페이지</a>
-          </Item>
-          <Hr />
-          {/* 나중에 onclick으로 로그아웃 구현 */}
-          <Item onClick={logout}>로그아웃</Item>
-        </Items>
-      ) : (
-        <Items>
-          <Item onClick={login}>
-            <a>로그인</a>
-          </Item>
-        </Items>
-      )}
+      <Items>
+        <Item onClick={like}>
+          {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
+          좋아요
+        </Item>
+        <Item onClick={scrap}>
+          {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
+          스크랩
+        </Item>
+        <Item onClick={copyURL}>
+          <PiShareFat />
+          URL 복사
+        </Item>
+        <Item onClick={() => setCardModal(false)}>
+          <AiOutlineCloseCircle />
+          닫기
+        </Item>
+      </Items>
     </div>
   );
 }
 
-export default HeaderModal;
+export default CardModal;
