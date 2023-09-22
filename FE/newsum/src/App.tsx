@@ -10,6 +10,7 @@ import SignUp3 from './page/signup/signUp3';
 //import pages
 import Card from './components/news/CardSlot';
 
+import News from './page/news/News';
 import Short from './page/short/Short';
 
 function App() {
@@ -17,15 +18,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-<<<<<<< HEAD
-          <Route path="/card" element={<Card />} />
+          <Route path="/news" element={<News />} />
           <Route path="/test" element={<Short />} />
-=======
-          <Route path="/signup/1" element={<SignUp1 />} />
-          <Route path="/signup/2" element={<SignUp2 />} />
-          <Route path="/signup/3" element={<SignUp3 />} />
-          {/* <Route path='/test' element={<Test />}/> */}
->>>>>>> 9b961478da7a412eb2f0bceb8242b5fe80bc5eff
         </Routes>
       </BrowserRouter>
       {/* <header className="App-header">

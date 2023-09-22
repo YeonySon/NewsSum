@@ -11,12 +11,14 @@ const Card = styled.div`
   /* background-color: gray; */
   position: relative;
 
-  width: 500px;
+  margin: 20px 0px 0px 25px;
+
+  width: 370px;
   height: 380px;
 
   .card-img {
     border-radius: 10px;
-    width: 500px;
+    width: 350px;
     height: 250px;
   }
 
