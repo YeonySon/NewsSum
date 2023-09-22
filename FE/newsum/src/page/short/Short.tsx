@@ -7,8 +7,18 @@ import Navbar from '../../components/util/Navbar';
 import Tabbar from '../../components/util/Tabbar';
 
 export const Content = styled.div`
-  background-color: lightblue;
+  /* background-color: lightblue; */
   width: 100%;
+
+  .wrap-vertical {
+    overflow: scroll;
+    /* 가로 스크롤 */
+    overflow: auto;
+    white-space: nowrap;
+  }
+  .wrap-vertical::-webkit-scrollbar {
+    display: none;
+  }
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
@@ -25,16 +35,12 @@ function Short() {
       <Header />
       <Navbar />
       <Content>
-        <div>
+        <div className="wrap-vertical">
           <Tabbar />
-          <hr />
         </div>
+        <hr />
         {/* 여기 안에 페이지 제작 */}
-        <div>
-          zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-          <br />
-          sddssfdsdf
-        </div>
+        <div></div>
       </Content>
     </div>
   );

@@ -1,6 +1,16 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
+const TabBar = styled.div`
+  /* width: max-content;
+  overflow: scroll;
+
+  
+  &::-webkit-scrollbar {
+    display: none;
+  } */
+`;
+
 const Active = styled.div`
   color: #ffffff;
   background-color: #0583f2;
@@ -50,7 +60,7 @@ const Deactive = styled.div`
 
 function Tabbar() {
   //무슨 페이지인지 확인
-  const [type, setType] = useState(1);
+  const [type, setType] = useState(0);
   const [title, setTitle] = useState('추천');
 
   const nav = [
@@ -61,11 +71,11 @@ function Tabbar() {
 
   return (
     <div>
-      <div>
+      <TabBar>
         {nav[type].map((manu) =>
           manu == title ? <Active>{manu}</Active> : <Deactive onClick={() => setTitle(manu)}>{manu}</Deactive>
         )}
-      </div>
+      </TabBar>
     </div>
   );
 }
