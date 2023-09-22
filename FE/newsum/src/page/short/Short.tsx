@@ -11,13 +11,23 @@ export const Content = styled.div`
   width: 100%;
 
   .wrap-vertical {
-    overflow: scroll;
+    padding: 5px 30px;
+    overflow-x: scroll;
     /* 가로 스크롤 */
     overflow: auto;
     white-space: nowrap;
   }
   .wrap-vertical::-webkit-scrollbar {
-    display: none;
+    height: 6px;
+  }
+  .wrap-vertical::-webkit-scrollbar-thumb {
+    width: 50%; /* 스크롤바의 길이 */
+    background: #788ca8; /* 스크롤바의 색상 */
+
+    border-radius: 10px;
+  }
+  .wrap-vertical::-webkit-scrollbar-track {
+    background: rgba(43, 49, 57, 0.1); /*스크롤바 뒷 배경 색상*/
   }
   //700px 보다 클 때
   @media (min-width: 700px) {
@@ -38,7 +48,7 @@ function Short() {
         <div className="wrap-vertical">
           <Tabbar />
         </div>
-        <hr />
+        {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}
         <div></div>
       </Content>
