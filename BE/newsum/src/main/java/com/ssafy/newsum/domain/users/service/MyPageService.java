@@ -96,7 +96,7 @@ public class MyPageService {
         List<News> newsList = new ArrayList<>();
 
         // 전체 뉴스기사
-        if (categoryId.equals(0)) {
+        if (categoryId == 0) {
             newsList = newsRepository.selectAllMyScrapNews(userId);
         } else {
             // 카테고리별 뉴스기사
@@ -118,10 +118,10 @@ public class MyPageService {
         List<News> newsList = new ArrayList<>();
 
         // 전체분야
-        if (categoryId.equals(0)) {
+        if (categoryId == 0) {
 
             // 인기도 순
-            if (optionId.equals(1)) {
+            if (optionId == 1) {
                 newsList = newsRepository.selectAllScrapPopular(userId);
             }
             // 최신 순
@@ -133,7 +133,7 @@ public class MyPageService {
         else {
 
             // 인기도순
-            if (optionId.equals(1)) {
+            if (optionId == 1) {
                 newsList = newsRepository.selectScrapCategoryByOption(userId, categoryId);
             }
             // 최신순

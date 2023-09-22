@@ -114,7 +114,7 @@ public class NewsService {
         List<News> newsList = new ArrayList<>();
 
         // 전체 뉴스기사
-        if (categoryId.equals(0)) {
+        if (categoryId == 0) {
             newsList = newsRepository.selectAllByRecent();
         } else {
             // 카테고리별 뉴스기사
@@ -139,10 +139,10 @@ public class NewsService {
         List<News> newsList = new ArrayList<>();
 
         // 전체분야
-        if (categoryId.equals(0)) {
+        if (categoryId == 0) {
 
             // 인기도 ttttttttaaafffffaa순
-            if (optionId.equals(1)) {
+            if (optionId == 1) {
                 newsList = newsRepository.selectAllPopular();
             }
             // 최신 순
@@ -154,7 +154,7 @@ public class NewsService {
         else {
 
             // 인기도순
-            if (optionId.equals(1)) {
+            if (optionId == 1) {
                 newsList = newsRepository.selectPopularByCategory(categoryId);
             }
             // 최신순
