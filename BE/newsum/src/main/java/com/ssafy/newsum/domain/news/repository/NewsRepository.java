@@ -55,5 +55,14 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
             "and r.contentId = n.newsId order by  r.readDt desc")
     List<News> selectAllMyReadNews(@Param("userId") Integer userId);
 
+    // 내가 스크랩한 뉴스 최신순으로 조회
+    @Query("select n from News n, Scrap s where s.user.userId =:userId and s.contentId = n.newsId " +
+            "order by s.createdAt desc")
+    List<News> selectAllMyScrapNews(@Param("userId") Integer userId);
+
+    // 내가 스크랩한 뉴스 카테고리별 조회
+    @Query("select n from News n, Scrap s where s.user.userId =:userId and s.contentId = n.newsId " +
+            "and n.cgId.categoryId =:categoryId order by s.createdAt desc")
+    List<News> selectMyScrapNewsByOption(@Param("userId") Integer userId, @Param("categoryId") Integer categoryId);
 
 }

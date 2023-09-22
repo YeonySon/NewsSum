@@ -89,5 +89,26 @@ public class MyPageService {
         return result;
     }
 
+    // 스크랩 뉴스 카테고리별 조회
+    @Transactional
+    public List<NewsResponseDto> selectMyScrapByCategoryId(Integer userId, Integer categoryId) {
+
+        List<News> newsList = new ArrayList<>();
+
+        // 전체 뉴스기사
+        if (categoryId == 0) {
+            newsList = newsRepository.selectAllMyScrapNews(userId);
+        } else {
+            // 카테고리별 뉴스기사
+            newsList = newsRepository.selectMyScrapNewsByOption(userId, categoryId);
+        }
+
+        List<NewsResponseDto> resultList = new ArrayList<>();
+
+        List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList, resultList, userId);
+
+        return result;
+    }
+
 
 }

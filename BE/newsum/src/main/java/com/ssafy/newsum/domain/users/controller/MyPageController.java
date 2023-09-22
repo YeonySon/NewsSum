@@ -43,5 +43,18 @@ public class MyPageController {
         return ResponseEntity.ok(CommonResponseDto.success(200, "news list success", resultList));
     }
 
+    // 스크랩 카테고리별 뉴스
+    @GetMapping("/myscrapnews/{userId}/{categoryId}")
+    public ResponseEntity selectMyScrapByCategoryId(@PathVariable Integer userId, @PathVariable Integer categoryId) {
+
+        List<NewsResponseDto> resultList = myPageService.selectMyScrapByCategoryId(userId, categoryId);
+
+        if (resultList == null)
+            return ResponseEntity.ok(CommonResponseDto.error(400, "scrap category fail"));
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "scrap category success", resultList));
+
+    }
+
 
 }
