@@ -1,5 +1,10 @@
 package com.ssafy.newsum.domain.users.service;
 
+import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
+import com.ssafy.newsum.domain.news.entity.News;
+import com.ssafy.newsum.domain.news.repository.NewsRepository;
+import com.ssafy.newsum.domain.news.service.NewsService;
+import com.ssafy.newsum.domain.readnews.repository.ReadNewsRepository;
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
 import com.ssafy.newsum.domain.techstack.repository.TechStackRepository;
 import com.ssafy.newsum.domain.users.dto.request.TechRequestDto;
@@ -23,6 +28,9 @@ public class MyPageService {
     private final UserRepository userRepository;
     private final PreferredTechStackRepository preferredTechStackRepository;
     private final TechStackRepository techStackRepository;
+    private final NewsRepository newsRepository;
+    private ReadNewsRepository readNewsRepository;
+    private final NewsService newsService;
 
 
     // 기술스택 수정
@@ -65,6 +73,20 @@ public class MyPageService {
         }
 
         return resultList;
+    }
+
+    // 최근 본 뉴스 가져오기
+    @Transactional
+    public List<NewsResponseDto> selectByMyNews(Integer userId) {
+
+        // 해당 user가 읽은목록에서 뉴스id 값 가져와서 뉴스 테이블에서 조회해서 가져옴
+        List<News> newsList = newsRepository.selectAllMyReadNews(userId);
+        List<NewsResponseDto> resultList = new ArrayList<>();
+
+        // newsresponsedto 만드는 메소드 재활용
+        List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList, resultList, userId);
+
+        return result;
     }
 
 

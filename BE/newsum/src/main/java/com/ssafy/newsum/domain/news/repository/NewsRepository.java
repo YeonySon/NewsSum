@@ -50,4 +50,10 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
     @Query("select n from News n where n.head like %:keyword% order by n.postedDate desc")
     List<News> searchNews(@Param("keyword") String keyword);
 
+    // 내가 읽은 뉴스 최신순으로 조회
+    @Query("select n from News n, ReadNews r where r.user.userId =:userId and r.type='n' " +
+            "and r.contentId = n.newsId order by  r.readDt desc")
+    List<News> selectAllMyReadNews(@Param("userId") Integer userId);
+
+
 }

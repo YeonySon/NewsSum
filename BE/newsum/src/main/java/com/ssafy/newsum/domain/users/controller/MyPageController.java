@@ -1,5 +1,6 @@
 package com.ssafy.newsum.domain.users.controller;
 
+import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
 import com.ssafy.newsum.domain.users.dto.request.TechRequestDto;
 import com.ssafy.newsum.domain.users.dto.response.TechResponseDto;
 import com.ssafy.newsum.domain.users.service.MyPageService;
@@ -30,11 +31,17 @@ public class MyPageController {
 
     }
 
-    // 뉴스 조회
-//    @GetMapping("/mynews/{userId}")
-//    public ResponseEntity selectByMyNews(@PathVariable Integer userId) {
-//
-//    }
+    // 최근 본 뉴스 조회
+    @GetMapping("/mynews/{userId}")
+    public ResponseEntity selectByMyNews(@PathVariable Integer userId) {
+
+        List<NewsResponseDto> resultList = myPageService.selectByMyNews(userId);
+
+        if (resultList == null)
+            return ResponseEntity.ok(CommonResponseDto.error(400, "news list fail"));
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "news list success", resultList));
+    }
 
 
 }
