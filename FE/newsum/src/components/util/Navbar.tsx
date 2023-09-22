@@ -35,7 +35,7 @@ export const NavBar = styled.div`
 
     list-style-type: none;
 
-    font-size: 2.5rem;
+    font-size: 2.2rem;
   }
 
   .nav li {
@@ -48,14 +48,14 @@ export const NavBar = styled.div`
   .nav strong {
     display: inline-block;
     padding: 0px 0px 0px 20px;
-    font-size: 2.2rem;
+    font-size: 2rem;
     transform: translate(0%, -22%);
   }
 
-  @media (max-width: 950px) {
+  @media (max-width: 1120px) {
     .nav {
       width: 20%;
-      font-size: 3rem;
+      font-size: 2.5rem;
       padding-right: 50px;
     }
     .nav strong {
@@ -125,7 +125,7 @@ const Footer = styled.div`
   top: 100%;
   left: 100%;
   transform: translate(-105%, -105%);
-  @media (max-width: 950px) {
+  @media (max-width: 1130px) {
     display: none;
   }
   @media (max-height: 730px) {
@@ -161,7 +161,7 @@ const Button = styled.div`
   &:hover {
     cursor: pointer;
   }
-  @media (max-width: 950px) {
+  @media (max-width: 1130px) {
     display: none;
   }
 `;

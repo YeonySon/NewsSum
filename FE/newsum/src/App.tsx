@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 //import pages
-import Header from './components/util/Header';
-import Navbar from './components/util/Navbar';
+import Tabbar from './components/util/Tabbar';
+
 import Short from './page/short/Short';
 
 function App() {
@@ -13,8 +13,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/header" element={<Header />} />
-          <Route path="/navbar" element={<Navbar />} />
+          <Route path="/tab" element={<Tabbar />} />
           <Route path="/test" element={<Short />} />
         </Routes>
       </BrowserRouter>
