@@ -7,7 +7,14 @@
     "strict": true /* Enable all strict type-checking options. */,
     "skipLibCheck": true /* Skip type checking all .d.ts files. */,
     "allowImportingTsExtensions": true,
+<<<<<<< HEAD
     "jsx": "react-jsx",
     "include": ["src", "src/custom.d.ts"]
   }
 }
+=======
+    "jsx" : "react-jsx",
+    "include": [ "src", "src/custom.d.ts" ],
+  },
+}
+>>>>>>> ba0f6c4f37528dfd8464e807a25f4e40231edaf1

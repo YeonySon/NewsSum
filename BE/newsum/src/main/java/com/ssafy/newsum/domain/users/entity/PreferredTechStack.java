@@ -1,10 +1,7 @@
 package com.ssafy.newsum.domain.users.entity;
 
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -13,6 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "preferred_stack")
 @Getter
+@Builder
 public class PreferredTechStack {
 
     @Id
