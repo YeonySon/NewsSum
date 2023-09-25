@@ -38,20 +38,6 @@
                 steps {
                     dir('BE'){
                         sh 'echo "Docker Container Stop"'
-                        sh '''
-                            result=$( docker container ls -a --filter "name=newsum*" -q )
-                            if [ -n "$result" ]
-                            then
-                                docker rm $(docker container ls -a --filter "name=newsum*" -q)
-                            else
-                                echo "No such containers"
-                            fi
-                        '''
-
-
-
-
-
                         //pwd
         //              도커 컴포즈 다운
                         //sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose'
