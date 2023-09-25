@@ -62,10 +62,10 @@ public class SecurityConfig {
 			//요청에 대한 권한 설정
 			.authorizeRequests()
 			//모든 권한 허용
-			.antMatchers("/**").permitAll()
-		// .antMatchers("/user/headline", "/user/techstack", "/user", "/user/login", "/user/id")
-		// .permitAll()
-		// .antMatchers("/**").authenticated()
+			// .antMatchers("/**").permitAll()
+			.antMatchers("/user/headline", "/user/techstack", "/user", "/user/login", "/user/id")
+			.permitAll()
+			.antMatchers("/**").authenticated()
 		//1. 회원가입 모두 허용
 		// .antMatchers("/user/**", "/api/v1/user")
 		// .permitAll()
