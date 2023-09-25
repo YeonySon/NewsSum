@@ -65,7 +65,7 @@ public class SecurityConfig {
 			.antMatchers("/**").permitAll()
 		// .antMatchers("/user/headline", "/user/techstack", "/user", "/user/login", "/user/id")
 		// .permitAll()
-		// .antMatchers("/**").authenticated()
+		// .antMatchers("/**").permitAll()
 		//1. 회원가입 모두 허용
 		// .antMatchers("/user/**", "/api/v1/user")
 		// .permitAll()
