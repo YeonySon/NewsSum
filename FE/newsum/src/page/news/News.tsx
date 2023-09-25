@@ -66,6 +66,7 @@ export const Content = styled.div`
       /* padding: 0 0 0 20px; */
 
       display: flex;
+      flex-direction: row;
       flex-wrap: wrap;
     }
 

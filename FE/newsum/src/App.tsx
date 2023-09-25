@@ -11,7 +11,7 @@ import SignUp3 from './page/signup/signUp3';
 import Card from './components/news/CardSlot';
 
 import News from './page/news/News';
-import ShortComponent from './components/short/Short';
+import Short from './page/short/Short';
 
 function App() {
   return (
@@ -20,7 +20,7 @@ function App() {
         <Routes>
           <Route path="/news" element={<News />} />
           {/* <Route path="/test" element={<Short />} /> */}
-          <Route path="/short" element={<ShortComponent />} />
+          <Route path="/short" element={<Short />} />
         </Routes>
       </BrowserRouter>
       {/* <header className="App-header">

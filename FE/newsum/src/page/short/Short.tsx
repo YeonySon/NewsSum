@@ -6,8 +6,8 @@ import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
 import Tabbar from '../../components/util/Tabbar';
 
-//news compoent import
-import CardSlot from '../../components/news/CardSlot';
+//Short compoent import
+import ShortComponent from '../../components/short/ShortComponent';
 
 export const Content = styled.div`
   border-left: 0;
@@ -15,34 +15,15 @@ export const Content = styled.div`
   width: 100%;
   margin: 0;
 
-  .wrap-vertical {
-    margin: 15px 0 0;
-    padding: 5px 0 5px 40px;
-    overflow-x: scroll;
-    /* 가로 스크롤 */
-    overflow: auto;
-    white-space: nowrap;
-  }
-  .wrap-vertical::-webkit-scrollbar {
-    height: 6px;
-  }
-  .wrap-vertical::-webkit-scrollbar-thumb {
-    width: 50%; /* 스크롤바의 길이 */
-    background: #788ca8; /* 스크롤바의 색상 */
-
-    border-radius: 10px;
-  }
-  .wrap-vertical::-webkit-scrollbar-track {
-    background: rgba(43, 49, 57, 0.1); /*스크롤바 뒷 배경 색상*/
-  }
-
   .main {
     /* background-color: #788ca8; */
 
     display: flex;
-
+    flex-direction: column;
     position: relative;
-    margin: 0 0 0 0;
+    margin: 30px auto 100px auto;
+
+    width: 370px;
 
     width: 300;
   }
@@ -53,23 +34,13 @@ export const Content = styled.div`
     top: 60px;
     left: 17%;
 
+    height: calc(100% - 60px);
     width: 80%;
     max-width: 1600px;
 
     border-left: 1px solid gray;
-  }
-  .main {
-    /* background-color: #788ca8; */
-    width: 100%;
-    max-width: 1600px;
-    /* padding: 0 0 0 20px; */
-
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .main > div {
-    margin: 20px 0px 0px 15px;
+    .main {
+    }
   }
 `;
 
@@ -621,7 +592,7 @@ function News() {
     },
   ];
 
-  const [items, setItems] = useState([]); // 렌더링할 아이템 리스트
+  const [items, setItems] = useState(0); // 렌더링할 아이템 리스트
 
   const [pages, setPages] = useState(1);
 
@@ -641,7 +612,9 @@ function News() {
       <Content>
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}
-        <div className="main"></div>
+        <div className="main">
+          <ShortComponent shortInfo={newsInfo[items]} />
+        </div>
       </Content>
     </div>
   );
