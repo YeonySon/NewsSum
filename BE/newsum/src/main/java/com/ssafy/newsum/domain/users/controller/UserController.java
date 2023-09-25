@@ -2,12 +2,14 @@ package com.ssafy.newsum.domain.users.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -21,6 +23,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.newsum.domain.email.EmailService;
 import com.ssafy.newsum.domain.headline.entity.Headline;
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
+import com.ssafy.newsum.domain.users.dto.request.HeadlineRequestDto;
+import com.ssafy.newsum.domain.users.dto.request.TechRequestDto;
 import com.ssafy.newsum.domain.users.dto.request.UserLoginRequestDto;
 import com.ssafy.newsum.domain.users.dto.request.UserRequestDto;
 import com.ssafy.newsum.domain.users.dto.response.HeadlineResponseDto;
@@ -99,14 +103,35 @@ public class UserController {
 
 	//회원 가입
 	@PostMapping
+	@Transactional
 	public ResponseEntity<CommonResponseDto<?>> signup(@RequestBody UserRequestDto userRequestDto) {
 		//아이디 중복 검사
 		if (!userService.validateId(userRequestDto.getUserEmail())) {
 			return ResponseEntity.ok(
 				CommonResponseDto.error(400, "exist email [" + userRequestDto.getUserEmail() + "]"));
 		}
-		//회원정보 저장
+
+		//1. 유저 정보 유무 확인
+		if (userService.getUserByEmail(userRequestDto.getUserEmail()).isPresent()) {
+			return ResponseEntity.ok(CommonResponseDto.error(400, "exist email"));
+		}
+
+		//2. 기술 스택, 헤드라인 유무 확인
+		List<TechRequestDto> techRequestDtoList = userRequestDto.getTech();
+		List<HeadlineRequestDto> headlineRequestDtoList = userRequestDto.getHeadline();
+		if (!userService.getTechStack(techRequestDtoList)) {
+			return ResponseEntity.ok(CommonResponseDto.error(400, "does not exist techStack"));
+		}
+		if (!userService.getHeadline(headlineRequestDtoList)) {
+			return ResponseEntity.ok(CommonResponseDto.error(400, "does not exist headline"));
+		}
+
+		//유저정보 저장
 		User user = userService.signup(userRequestDto);
+
+		//기술스택, 헤드라인 정보 저장
+		userService.saveTechAndHeadline(userRequestDto, user);
+
 		UserInfoDto userInfoDto = UserInfoDto.builder()
 			.id(user.getUserId())
 			.email(user.getEmail())
@@ -147,13 +172,14 @@ public class UserController {
 	@PostMapping("/login")
 	public ResponseEntity<CommonResponseDto<?>> login(@RequestBody @Valid UserLoginRequestDto request) {
 		CommonResponseDto fResponse = CommonResponseDto.builder().statusCode(400).build();
-		User user = userService.getUserByEmail(request.getUserEmail());
+		Optional<User> userOp = userService.getUserByEmail(request.getEmail());
 
 		// 아이디 존재하지 않음
-		if (user == null) {
+		if (userOp.isEmpty()) {
 			return ResponseEntity.ok(CommonResponseDto.error(400, "does not exist email"));
 		}
 
+		User user = userOp.get();
 		// 비밀번호 틀림
 		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
 			return ResponseEntity.ok(CommonResponseDto.error(400, "wrong password"));
