@@ -1,16 +1,16 @@
 package com.ssafy.newsum.domain.users.dto.request;
 
+import java.util.List;
+
 import com.ssafy.newsum.domain.users.entity.User;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Builder
 public class UserRequestDto {
 	private Integer id;
 	private String userEmail;
@@ -18,6 +18,8 @@ public class UserRequestDto {
 	private String password;
 	private String birthDate;
 	private String authenticate;
+	private List<TechRequestDto> tech;
+	private List<HeadlineRequestDto> headline;
 
 	public User toEntity(UserRequestDto userRequestDto) {
 		User user = User.builder()
