@@ -86,7 +86,7 @@ public class UserController {
 	}
 
 	//아이디 중복 체크 + 이메일 전송
-	@PostMapping("/id")
+	@GetMapping("/id")
 	public ResponseEntity<CommonResponseDto<?>> validateId(
 		@RequestParam String email) throws Exception {
 		Boolean isUsed = userService.validateId(email);
