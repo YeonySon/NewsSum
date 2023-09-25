@@ -40,9 +40,11 @@ export const Content = styled.div`
     /* background-color: #788ca8; */
 
     display: flex;
-
+    flex-direction: column;
     position: relative;
-    margin: 0 0 0 0;
+    margin: 30px auto 100px auto;
+
+    width: 370px;
 
     width: 300;
   }
@@ -57,19 +59,19 @@ export const Content = styled.div`
     max-width: 1600px;
 
     border-left: 1px solid gray;
-  }
-  .main {
-    /* background-color: #788ca8; */
-    width: 100%;
-    max-width: 1600px;
-    /* padding: 0 0 0 20px; */
+    .main {
+      /* background-color: #788ca8; */
+      width: 100%;
+      max-width: 1600px;
+      /* padding: 0 0 0 20px; */
 
-    display: flex;
-    flex-wrap: wrap;
-  }
+      display: flex;
+      flex-wrap: wrap;
+    }
 
-  .main > div {
-    margin: 20px 0px 0px 15px;
+    .main > div {
+      margin: 20px 0px 0px 15px;
+    }
   }
 `;
 

@@ -1,66 +1,33 @@
-import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
-
-const Short = styled.div`
-  background-color: gray;
-
-  position: absolute;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  height: 500px;
-  width: 300px;
-
-  @media (max-width: 700px) {
-    .img {
-      display: none;
-    }
-  }
-`;
+import React, { useState, useEffect, useRef } from 'react';
+// import './InfiniteScroll.css'; // 필요에 따라 스타일을 추가하세요.
 
 function ShortComponent() {
-  const [isNavOn, setIsNavOn] = useState(true);
-  //이전 스크롤 초기값
-  const beforeScrollY = useRef(0);
-  
-    useEffect(() => {
-      window.addEventListener("scroll", scrollEvent);
-      if (token) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    }, [isLoggedIn, setIsLoggedIn, token]);
-  
-    const scrollEvent = useMemo(
-      () =>
-        throttle(() => {
-          const currentScrollY = window.scrollY;
-          if (beforeScrollY.current < currentScrollY) {
-            setIsNavOn(false);
-            console.log("내림");
-          } else {
-            setIsNavOn(true);
-            console.log("올림");
-          }
-          //이전 스크롤값 저장
-          beforeScrollY.current = currentScrollY;
-        }, 300),
-      [beforeScrollY]
-    );
-  return(
-    <div className={isNavOn ? "main__first" : "main__first hidden"}>
+  const [items, setItems] = useState([]); // 렌더링할 아이템 리스트
+
+  const [pages, setPages] = useState(1);
+
+  function scrollToNextPage() {
+    setPages(pages + 1);
+  }
+
+  window.addEventListener('wheel', (event) => {
+    if (event.deltaY > 0) {
+      scrollToNextPage();
+    }
+    // console.log(event.deltaY);
+  });
 
   return (
-    <div>
-      <Short>
-        <img className="img" src="" alt="" />
-        <div className="title">{`title`}</div>
-        <div className="line3">{`line3`}</div>
-      </Short>
+    <div className="infinite-scroll-container">
+      {pages}
+      {items.map((item, index) => (
+        <div key={index} className="item">
+          {/* 여기에 각 항목을 렌더링하는 UI를 작성하세요. */}
+          {item}
+        </div>
+      ))}
+
+      <div className="sentinel"></div>
     </div>
   );
 }
