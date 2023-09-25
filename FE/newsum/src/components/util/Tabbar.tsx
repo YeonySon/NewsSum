@@ -58,10 +58,9 @@ const Deactive = styled.div`
   }
 `;
 
-function Tabbar() {
+function Tabbar({ type }) {
   //무슨 페이지인지 확인
-  const [type, setType] = useState(0);
-  const [title, setTitle] = useState('추천');
+  // const [type, setType] = useState(0);
 
   const nav = [
     ['추천', '전체', '모바일', '인터넷/sns', 'it/일반', '보안/해킹'],
@@ -71,6 +70,7 @@ function Tabbar() {
     ['희망 직무', '관심 기업'],
   ];
 
+  const [title, setTitle] = useState(nav[type][0]);
   return (
     <div>
       <TabBar>

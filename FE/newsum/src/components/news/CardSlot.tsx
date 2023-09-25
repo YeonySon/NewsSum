@@ -68,7 +68,7 @@ const Card = styled.div`
 
 const Deactive = styled.div``;
 
-function CardSlot() {
+function CardSlot({ newsInfo }) {
   //무슨 페이지인지 확인
   const [type, setType] = useState(0);
   const [title, setTitle] = useState('추천');
@@ -76,24 +76,6 @@ function CardSlot() {
   const [scrap, setScrap] = useState(false);
   const [like, setLike] = useState(false);
   const [cardModal, setCardModal] = useState(false);
-
-  const newsInfo = {
-    id: 1,
-    head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-    main: '메인이야',
-    threeLine: '3줄요약',
-    url: 'https://www.',
-    postedDate: '2023.09.13',
-    mediaName: '중앙일보',
-    mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-    image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-    viewCnt: 12,
-    cgName: '모바일',
-    likeCnt: 12,
-    scrapCnt: 22,
-    isScrap: 't',
-    isLike: 'f',
-  };
 
   function openNews() {
     alert(`조회수 올리기`);
