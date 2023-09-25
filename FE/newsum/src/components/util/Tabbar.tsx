@@ -18,7 +18,7 @@ const Active = styled.div`
   border-radius: 8px;
 
   font-family: 'Roboto', 'Arial', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   line-height: 2rem;
   font-weight: 400;
 
@@ -39,7 +39,7 @@ const Deactive = styled.div`
   border-radius: 8px;
 
   font-family: 'Roboto', 'Arial', sans-serif;
-  font-size: 1.4rem;
+  font-size: 1.1rem;
   line-height: 2rem;
   font-weight: 400;
 

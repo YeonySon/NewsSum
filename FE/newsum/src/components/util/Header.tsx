@@ -19,7 +19,7 @@ export const HeaderStyle = styled.div`
   /* 로고 */
   .header-logo {
     height: 60px;
-    padding-left: 20px;
+    padding-left: 60px;
   }
 
   //검색창
@@ -79,24 +79,25 @@ export const HeaderStyle = styled.div`
   //700px 보다 클 때
   @media (min-width: 700px) {
     .header-login-button {
-      line-height: 45px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
+      line-height: 41px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
       display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
 
       width: 85px;
-      height: 45px;
+      height: 40px;
       border-radius: 8px;
 
       background-color: #0583f2;
       color: white;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: bold;
 
-      margin-top: 8px;
+      margin: 11px 5px 0 0;
     }
 
     .header-search-big {
       display: flex;
       width: 80%;
+      max-width: 1600px;
       text-align: center;
     }
 
@@ -168,8 +169,8 @@ const Hr = styled.hr`
 
 function Header() {
   const [profileModal, setProfileModal] = useState(false);
-  const [searchClicked, setSearchClicked] = useState(true);
-  const [userInfo, setUserInfo] = useState(true);
+  const [searchClicked, setSearchClicked] = useState(false);
+  const [userInfo, setUserInfo] = useState(false);
   const [keyword, setKeyword] = useState('');
 
   const [windowSize, setWindowSize] = useState({
@@ -207,8 +208,7 @@ function Header() {
     <div>
       <HeaderStyle>
         {/* 로고 */}
-        <img className="header-logo" src={`${process.env.PUBLIC_URL}/newsum.png`} alt="logo" />
-
+        {!searchClicked && <img className="header-logo" src={`${process.env.PUBLIC_URL}/newsum.png`} alt="logo" />}
         {/* 큰 화면일 때 검색창 */}
         <div className="header-search-big">
           <SearchInput>

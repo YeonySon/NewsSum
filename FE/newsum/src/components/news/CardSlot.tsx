@@ -11,25 +11,23 @@ const Card = styled.div`
   /* background-color: gray; */
   position: relative;
 
-  margin: 20px 0px 0px 25px;
-
   width: 370px;
   height: 380px;
 
   .card-img {
     border-radius: 10px;
-    width: 350px;
+    width: 370px;
     height: 250px;
   }
 
   .card-head {
     display: flex;
     justify-content: space-between;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   .card-head .text {
     display: block;
-    height: 2.5rem;
+    height: 2rem;
     font-weight: bold;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -37,7 +35,7 @@ const Card = styled.div`
     /* word-break: break-all; */
   }
   .info {
-    font-size: 1.2rem;
+    font-size: 1rem;
     display: flex;
     justify-content: end;
     margin: 15px 20px 5px;

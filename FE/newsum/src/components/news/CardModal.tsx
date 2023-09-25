@@ -10,19 +10,19 @@ import { FaShare } from 'react-icons/fa6';
 const Item = styled.div`
   color: #353845;
   text-align: left;
-  font-size: 1.7rem;
+  font-size: 1.3rem;
   /* line-height: 2rem; */
   font-weight: bold;
-  height: 40px;
+  height: 30px;
   margin: 0;
-  padding: 10px 0px 0 50px;
+  padding: 10px 0px 0 15px;
 
   .text {
     display: block;
     margin: 0px 20px 0px 15px;
-    transform: translate(20%, -125%);
+    transform: translate(18%, -125%);
 
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
 
   a:hover {
@@ -34,7 +34,7 @@ const Items = styled.div`
   border: 1px solid #9aa3aa;
   background-color: #ffffff;
   border-radius: 8px;
-  width: 200px;
+  width: 150px;
   margin: 0;
   padding: 0;
 
