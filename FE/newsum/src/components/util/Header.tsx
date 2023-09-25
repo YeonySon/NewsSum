@@ -97,7 +97,7 @@ export const HeaderStyle = styled.div`
     .header-search-big {
       display: flex;
       width: 80%;
-      max-width: 1600px;
+      max-width: 600px;
       text-align: center;
     }
 
