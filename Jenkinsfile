@@ -38,6 +38,18 @@
                 steps {
                     dir('BE'){
                         sh 'echo "Docker Container Stop"'
+
+
+                        sh '''
+                        result=$( docker container ls -a --filter "name=newsum*" -q )
+                        if [ -n "$result" ]
+                        then
+                            docker stop $(docker container ls -a --filter "name=newsum*" -q)
+                        else
+                            echo "No stop containers"
+                        fi
+                        '''
+
                         //pwd
         //              도커 컴포즈 다운
                         //sh 'curl -L https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m) -o /usr/local/bin/docker-compose'
@@ -60,69 +72,50 @@
                 }
             }
                     
-            stage('RM Docker'){
-                steps {
+stage('RM Docker') {
+    steps {
+        sh 'echo "Remove Docker"'
 
-                    sh 'echo "Remove Docker"'
+        // 정지된 도커 컨테이너 찾아서 컨테이너 ID로 삭제함
+        sh '''
+            result=$( docker container ls -a --filter "name=newsum*" -q )
+            if [ -n "$result" ]
+            then
+                docker rm $(docker container ls -a --filter "name=newsum*" -q)
+            else
+                echo "No such containers"
+            fi
+        '''
 
-                    //정지된 도커 컨테이너 찾아서 컨테이너 ID로 삭제함
-                                    
-                    sh '''
-                        result=$( docker container ls -a --filter "name=newsum*" -q )
-                        if [ -n "$result" ]
-                        then
-                            docker rm $(docker container ls -a --filter "name=newsum*" -q)
-                        else
-                            echo "No such containers"
-                        fi
-                    '''
-                    sh '''
-                                        result=$( docker container ls -a --filter "name=newsum*" -q )
-                                        if [ -n "$result" ]
-                                        then
-                                            docker rm $(docker container ls -a --filter "name=newsum*" -q)
-                                        else
-                                            echo "No such containers"
-                                        fi
-                                    '''
+        // homesketcher로 시작하는 이미지 찾아서 삭제함
+        sh '''
+            result=$( docker images -f "reference=newsum*" -q )
+            if [ -n "$result" ]
+            then
+                docker rmi -f $(docker images -f "reference=newsum*" -q)
+            else
+                echo "No such container images"
+            fi
+        '''
 
-                    // homesketcher로 시작하는 이미지 찾아서 삭제함
-                    sh '''
-                        result=$( docker images -f "reference=newsum*" -q )
-                        if [ -n "$result" ]
-                        then
-                            docker rmi -f $(docker images -f "reference=newsum*" -q)
-                        else
-                            echo "No such container images"
-                        fi
-                    '''
-                    sh '''
-                                        result=$( docker images -f "reference=newsum*" -q )
-                                        if [ -n "$result" ]
-                                        then
-                                            docker rmi -f $(docker images -f "reference=newsum*" -q)
-                                        else
-                                            echo "No such container images"
-                                        fi
-                                    '''
-                    // 안쓰는이미지 -> <none> 태그 이미지 찾아서 삭제함
-                    sh '''
-                        result=$(docker images -f "dangling=true" -q)
-                        if [ -n "$result" ]
-                        then
-                            docker rmi -f $(docker images -f "dangling=true" -q)
-                        else
-                            echo "No such container images"
-                        fi
-                    '''
+        // 안쓰는이미지 -> <none> 태그 이미지 찾아서 삭제함
+        sh '''
+            result=$(docker images -f "dangling=true" -q)
+            if [ -n "$result" ]
+            then
+                docker rmi -f $(docker images -f "dangling=true" -q)
+            else
+                echo "No such container images"
+            fi
+        '''
+    }
+    post {
+        failure {
+            sh 'echo "Remove Fail"'
+        }
+    }
+}
 
-                }
-                post {
-                    failure {
-                        sh 'echo "Remove Fail"'
-                    }
-                }
-            }
                     
             stage('Set Permissions') {
                         steps {

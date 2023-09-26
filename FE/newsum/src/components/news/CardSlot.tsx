@@ -8,26 +8,26 @@ import { FaBookmark, FaRegBookmark, FaEye, FaHeart, FaRegHeart } from 'react-ico
 import CardModal from './CardModal';
 
 const Card = styled.div`
-  background-color: gray;
+  /* background-color: gray; */
   position: relative;
 
-  width: 500px;
-  height: 380px;
+  width: 370px;
+  height: 340px;
 
   .card-img {
     border-radius: 10px;
-    width: 500px;
-    height: 250px;
+    width: 370px;
+    height: 210px;
   }
 
   .card-head {
     display: flex;
     justify-content: space-between;
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   .card-head .text {
     display: block;
-    height: 2.5rem;
+    height: 2rem;
     font-weight: bold;
     text-overflow: ellipsis;
     overflow: hidden;
@@ -35,45 +35,47 @@ const Card = styled.div`
     /* word-break: break-all; */
   }
   .info {
-    font-size: 1.2rem;
+    font-size: 1rem;
     display: flex;
     justify-content: end;
+    margin: 15px 20px 5px;
+  }
+  .num {
+    transform: translate(0, -20%);
+    margin: 0 10px 0 5px;
   }
 
   .data {
     display: flex;
     justify-content: space-between;
+    text-align: left;
+  }
+
+  .media {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+    margin: 0 0 3px 10px;
+  }
+  .media img {
+    height: 3rem;
+  }
+  .date {
+    text-align: right;
+    margin: 0 0 0 0;
   }
 `;
 
 const Deactive = styled.div``;
 
-function CardSlot() {
+function CardSlot({ newsInfo }) {
   //무슨 페이지인지 확인
   const [type, setType] = useState(0);
   const [title, setTitle] = useState('추천');
 
   const [scrap, setScrap] = useState(false);
   const [like, setLike] = useState(false);
-  const [cardModal, setCardModal] = useState(true);
-
-  const newsInfo = {
-    id: 1,
-    head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-    main: '메인이야',
-    threeLine: '3줄요약',
-    url: 'https://www.',
-    postedDate: '2023.09.13',
-    mediaName: '중앙일보',
-    mediaImage: 'https://www',
-    image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-    viewCnt: 12,
-    cgName: '모바일',
-    likeCnt: 12,
-    scrapCnt: 22,
-    isScrap: 't',
-    isLike: 'f',
-  };
+  const [cardModal, setCardModal] = useState(false);
 
   function openNews() {
     alert(`조회수 올리기`);
@@ -93,20 +95,24 @@ function CardSlot() {
           </div>
         </div>
 
-        {/* 두번째 줄 */}
-        <div className="info">
-          {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
-
-          {newsInfo.likeCnt}
-          {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
-
-          {newsInfo.scrapCnt}
-          <FaEye />
-          {newsInfo.viewCnt}
-        </div>
+        {/* 기타정보 */}
         <div className="data">
-          <img src={newsInfo.mediaImage} alt={newsInfo.mediaName} />
-          <div>{newsInfo.postedDate}</div>
+          <div className="media">
+            <img src={newsInfo.mediaImage} alt={newsInfo.mediaName} />
+          </div>
+          <div>
+            {/* 조회수 등 */}
+            <div className="info">
+              {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
+              <span className="num">{newsInfo.likeCnt}</span>
+              {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
+              <span className="num">{newsInfo.scrapCnt}</span>
+              <FaEye />
+              <span className="num">{newsInfo.viewCnt}</span>
+            </div>
+            {/* 날자 */}
+            <div className="date">{newsInfo.postedDate}</div>
+          </div>
         </div>
 
         {cardModal && (
