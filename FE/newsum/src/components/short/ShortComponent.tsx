@@ -11,17 +11,18 @@ export const Short = styled.div`
   background-color: #ebf3f8;
 
   align-items: center;
-  width: 500px;
-  height: 850px;
+  width: 400px;
+  min-height: 600px;
 
   border-radius: 10px;
+  margin: 0 0 10px 0;
 
   padding: 10px 10px 10px 10px;
 
   position: relative;
 
   .short-img {
-    width: 440px;
+    width: 340px;
     height: 150px;
     object-fit: cover;
 
@@ -41,16 +42,18 @@ export const Short = styled.div`
   }
 
   .short-threeLine {
+    background-color: #ebf3f8;
     word-break: break-all;
     white-space: pre-wrap;
 
-    width: 480px;
+    width: 340px;
 
-    margin: 0 10px 0 10px;
+    margin: 0 30px 100px 30px;
+    border-radius: 10px;
   }
   @media (max-width: 700px) {
-    height: 750px;
-
+    min-height: 520px;
+    margin: 0 0 0 0;
     .short-img {
       display: none;
     }
@@ -63,31 +66,33 @@ export const ShortMenu = styled.div`
 
   color: #394867;
 
-  height: 400px;
+  height: 300px;
 
   top: 50%;
   left: 105%;
   flex-direction: column;
   justify-content: space-between;
 
-  font-size: 2.5rem;
+  font-size: 2.2rem;
   .text {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     position: absolute;
     white-space: nowrap;
 
     overflow: visible;
-    transform: translate(-80%, 170%);
+    transform: translate(-70%, 170%);
 
     font-weight: bold;
 
     /* left: -0%; */
   }
   @media (max-width: 700px) {
-    top: 87%;
+    top: 100%;
     left: 10%;
 
-    width: 400px;
+    transform: translate(0, -80px);
+
+    width: 330px;
     height: 100px;
     flex-direction: row;
     justify-content: space-between;
