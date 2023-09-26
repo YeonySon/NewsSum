@@ -12,7 +12,6 @@ import SignUp3 from './page/signup/SignUp3';
 import LoginTest from './page/login/test';
 
 //import pages
-import Card from './components/news/CardSlot';
 
 import News from './page/news/News';
 import Short from './page/short/Short';
@@ -22,8 +21,8 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/card" element={<Card />} />
-          <Route path="/test" element={<Short />} />
+          <Route path="/news" element={<News />} />
+          <Route path="/short" element={<Short />} />
           <Route path='/signup/1' element={<SignUp1 />}/>
           <Route path='/signup/2' element={<SignUp2 />}/>
           <Route path='/signup/3' element={<SignUp3 />}/>
