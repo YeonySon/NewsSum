@@ -3,9 +3,13 @@ import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
+// 회원가입
 import SignUp1 from './page/signup/signUp1';
 import SignUp2 from './page/signup/signUp2';
 import SignUp3 from './page/signup/signUp3';
+
+// 로그인 모달창 테스트
+import LoginTest from './page/login/test';
 
 //import pages
 import Card from './components/news/CardSlot';
@@ -18,9 +22,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/news" element={<News />} />
-          {/* <Route path="/test" element={<Short />} /> */}
-          <Route path="/short" element={<Short />} />
+          <Route path="/card" element={<Card />} />
+          <Route path="/test" element={<Short />} />
+          <Route path='/signup/1' element={<SignUp1 />}/>
+          <Route path='/signup/2' element={<SignUp2 />}/>
+          <Route path='/signup/3' element={<SignUp3 />}/>
+          <Route path='/logintest' element={<LoginTest />}/>
+          {/* <Route path='/test' element={<Test />}/> */}
         </Routes>
       </BrowserRouter>
       {/* <header className="App-header">
