@@ -82,7 +82,7 @@ public class UserService {
 		userRepository.save(user);
 
 		//2. 유저 조회
-		User findUser = userRepository.findByEmail(userRequestDto.getUserEmail()).get();
+		User findUser = userRepository.findByEmail(userRequestDto.getEmail()).get();
 		return findUser;
 	}
 
