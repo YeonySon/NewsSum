@@ -19,6 +19,8 @@ export const NavBar = styled.div`
 
   color: #394867;
 
+  border-right: 1px solid gray;
+
   .active {
     color: #0583f2;
   }
@@ -68,7 +70,7 @@ export const NavBar = styled.div`
   @media (max-width: 700px) {
     /* background-color: blue; */
 
-    height: 100px;
+    height: 90px;
     width: 100%;
 
     position: absolute;
@@ -81,9 +83,11 @@ export const NavBar = styled.div`
     margin: 0;
     padding: 0;
 
+    border-right: 0;
+
     border-top: 1px solid gray;
 
-    font-size: 2.5rem;
+    font-size: 2rem;
     .nav {
       position: absolute;
       top: 0;
@@ -102,11 +106,11 @@ export const NavBar = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      transform: translate(50%, 0%);
+      transform: translate(20%, 0%);
     }
     .nav strong {
       display: inline;
-      font-size: 1.5rem;
+      font-size: 1rem;
       transform: translate(-35%, 0%);
     }
   }
@@ -169,21 +173,14 @@ const Button = styled.div`
   }
 `;
 
-function Navbar() {
-  const [nav, setNav] = useState('');
+function Navbar({ nav }) {
   const [userInfo, setUserInfo] = useState(true);
 
-  function short() {
-    setNav('short');
-  }
+  function short() {}
 
-  function news() {
-    setNav('news');
-  }
+  function news() {}
 
-  function mypage() {
-    setNav('mypage');
-  }
+  function mypage() {}
 
   function login() {
     setUserInfo(true);

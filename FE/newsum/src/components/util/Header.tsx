@@ -120,7 +120,7 @@ export const SearchInput = styled.div`
   .header-input {
     width: 80%;
     height: 35px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 
     margin: 10px 5%;
     padding-left: 20px;
@@ -140,15 +140,15 @@ export const SearchInput = styled.div`
   }
 
   .big {
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
 
     margin: 0 15px;
   }
 
   .small {
-    height: 20px;
-    width: 20px;
+    height: 15px;
+    width: 15px;
 
     transform: translate(-190%, -50%);
 

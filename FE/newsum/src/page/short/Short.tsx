@@ -23,9 +23,9 @@ export const Content = styled.div`
     position: relative;
     margin: 30px auto 100px auto;
 
-    width: 500px;
+    width: 400px;
 
-    width: 300;
+    /* width: 300; */
   }
 
   //700px 보다 클 때
@@ -634,7 +634,7 @@ function News() {
   return (
     <div>
       <Header />
-      <Navbar />
+      <Navbar nav={'short'} />
       <Content>
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}

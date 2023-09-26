@@ -627,7 +627,7 @@ function News() {
   return (
     <div>
       <Header />
-      <Navbar nav={'news'} />
+      <Navbar />
       <Content>
         <div className="wrap-vertical">
           <Tabbar type={0} />
