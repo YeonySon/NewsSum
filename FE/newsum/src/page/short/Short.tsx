@@ -23,7 +23,7 @@ export const Content = styled.div`
     position: relative;
     margin: 30px auto 100px auto;
 
-    width: 370px;
+    width: 500px;
 
     width: 300;
   }
@@ -48,9 +48,23 @@ function News() {
   const newsInfo = [
     {
       id: 1,
-      head: '헤1라인헤드라인헤드라인',
+      head: '1111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111',
       main: '메인이야',
-      threeLine: '3줄요약',
+      threeLine: `
+      국내 유료방송 시장에서 '코드커터(유료방송 해지)' 
+      현상은 낮은 요금과 초고속 인터넷 결합에 영향으로현상은 낮은 요금과 초고속 인터넷 결합에 영향으로
+      나타나지만, 
+      1인가구 증가와 결혼율 하락세로 장기적으로는 
+      어둡게 예상되며, 유료방송 산업도 위기를 맞고 있어 
+      전략적 대비가 필요합니다. 
+      
+      OTT 환경의 확산으로 인해 
+      유료방송 산업이 국경을 넘어서며, 홈쇼핑 
+      송출수수료 갈등과 수익 감소로 인해 유료방송의 
+      미래가 불투명하고 위기에 처해 있습니다. 
+      
+      코드네버와 코드커터 현상이 
+      유료방송 산업을 변화시킬 가능성이 높습니다.`,
       url: 'https://www.',
       postedDate: '2023.09.13',
       mediaName: '중앙일보',
@@ -60,12 +74,12 @@ function News() {
       cgName: '모바일',
       likeCnt: 12,
       scrapCnt: 22,
-      isScrap: 't',
+      isScrap: 'f',
       isLike: 'f',
     },
     {
       id: 2,
-      head: '헤드1인1인',
+      head: '2',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -78,11 +92,11 @@ function News() {
       likeCnt: 12,
       scrapCnt: 22,
       isScrap: 't',
-      isLike: 'f',
+      isLike: 't',
     },
     {
       id: 3,
-      head: '헤드3라인헤드라인헤드라인헤드라인',
+      head: '3',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -99,7 +113,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤5인헤드라인헤드라인헤드라인헤드라인',
+      head: '4',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -116,7 +130,7 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드4인헤드라인헤드라인헤드라인',
+      head: '5',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -133,7 +147,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '6',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -150,7 +164,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '7',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -167,7 +181,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '8',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -184,7 +198,7 @@ function News() {
     },
     {
       id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '9',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -201,7 +215,7 @@ function News() {
     },
     {
       id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '0',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -218,7 +232,7 @@ function News() {
     },
     {
       id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '11',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -235,7 +249,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '12',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -252,7 +266,7 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '13',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -269,7 +283,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '14',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -286,7 +300,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '15',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -303,7 +317,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '16',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -320,7 +334,7 @@ function News() {
     },
     {
       id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '17',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -337,7 +351,7 @@ function News() {
     },
     {
       id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '18',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -354,7 +368,7 @@ function News() {
     },
     {
       id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '9',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -371,7 +385,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '90',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -388,7 +402,7 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '12',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -405,7 +419,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '22',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -422,7 +436,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '23',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -439,7 +453,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '24',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -456,7 +470,7 @@ function News() {
     },
     {
       id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '25',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -473,7 +487,7 @@ function News() {
     },
     {
       id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '37',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -490,7 +504,7 @@ function News() {
     },
     {
       id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '38',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -507,7 +521,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '36',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -524,7 +538,7 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '9',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -541,7 +555,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '0',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -558,7 +572,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '111',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -575,7 +589,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '222',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -597,12 +611,24 @@ function News() {
   const [pages, setPages] = useState(1);
 
   function scrollToNextPage() {
-    setPages(pages + 1);
+    if (newsInfo.length - 1 > pages) {
+      setPages(pages + 1);
+    } else {
+      console.log('새로운 쇼츠 목록 요청');
+    }
+  }
+
+  function scrollToPrevPage() {
+    if (pages > 0) {
+      setPages(pages - 1);
+    }
   }
 
   window.addEventListener('wheel', (event) => {
     if (event.deltaY > 0) {
       scrollToNextPage();
+    } else {
+      scrollToPrevPage();
     }
   });
   return (
@@ -613,7 +639,7 @@ function News() {
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
-          <ShortComponent shortInfo={newsInfo[items]} />
+          <ShortComponent shortInfo={newsInfo[pages]} />
         </div>
       </Content>
     </div>
