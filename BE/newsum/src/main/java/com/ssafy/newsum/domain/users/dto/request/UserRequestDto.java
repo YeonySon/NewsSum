@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class UserRequestDto {
 	private Integer id;
-	private String userEmail;
+	private String email;
 	private String name;
 	private String password;
 	private String birthDate;
@@ -24,7 +24,7 @@ public class UserRequestDto {
 	public User toEntity(UserRequestDto userRequestDto) {
 		User user = User.builder()
 			.userId(userRequestDto.getId())
-			.email(userRequestDto.getUserEmail())
+			.email(userRequestDto.getEmail())
 			.password(userRequestDto.getPassword())
 			.name(userRequestDto.getName())
 			.birthDate(userRequestDto.getBirthDate())

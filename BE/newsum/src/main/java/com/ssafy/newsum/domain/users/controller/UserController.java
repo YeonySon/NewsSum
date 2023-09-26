@@ -106,13 +106,13 @@ public class UserController {
 	@Transactional
 	public ResponseEntity<CommonResponseDto<?>> signup(@RequestBody UserRequestDto userRequestDto) {
 		//아이디 중복 검사
-		if (!userService.validateId(userRequestDto.getUserEmail())) {
+		if (!userService.validateId(userRequestDto.getEmail())) {
 			return ResponseEntity.ok(
-				CommonResponseDto.error(400, "exist email [" + userRequestDto.getUserEmail() + "]"));
+				CommonResponseDto.error(400, "exist email [" + userRequestDto.getEmail() + "]"));
 		}
 
 		//1. 유저 정보 유무 확인
-		if (userService.getUserByEmail(userRequestDto.getUserEmail()).isPresent()) {
+		if (userService.getUserByEmail(userRequestDto.getEmail()).isPresent()) {
 			return ResponseEntity.ok(CommonResponseDto.error(400, "exist email"));
 		}
 
