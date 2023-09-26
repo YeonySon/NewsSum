@@ -2,20 +2,28 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 //아이콘 가져오기
-import { AiOutlineCloseCircle } from 'react-icons/ai';
+import { AiOutlineClose } from 'react-icons/ai';
 import { FaBookmark, FaRegBookmark, FaHeart, FaRegHeart } from 'react-icons/fa6';
 
-import { PiShareFat } from 'react-icons/pi';
+import { FaShare } from 'react-icons/fa6';
 
 const Item = styled.div`
   color: #353845;
   text-align: left;
-  font-size: 1.2rem;
-  line-height: 2rem;
+  font-size: 1.3rem;
+  /* line-height: 2rem; */
   font-weight: bold;
-  height: 40px;
+  height: 30px;
   margin: 0;
-  padding: 10px 0px 0 50px;
+  padding: 10px 0px 0 15px;
+
+  .text {
+    display: block;
+    margin: 0px 20px 0px 15px;
+    transform: translate(18%, -125%);
+
+    font-size: 1rem;
+  }
 
   a:hover {
     color: darkblue;
@@ -26,7 +34,7 @@ const Items = styled.div`
   border: 1px solid #9aa3aa;
   background-color: #ffffff;
   border-radius: 8px;
-  width: 200px;
+  width: 150px;
   margin: 0;
   padding: 0;
 
@@ -68,19 +76,19 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
       <Items>
         <Item onClick={like}>
           {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
-          좋아요
+          <span className="text">좋아요</span>
         </Item>
         <Item onClick={scrap}>
           {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
-          스크랩
+          <span className="text">스크랩</span>
         </Item>
         <Item onClick={copyURL}>
-          <PiShareFat />
-          URL 복사
+          <FaShare className="share" />
+          <span className="text">URL 복사</span>
         </Item>
         <Item onClick={() => setCardModal(false)}>
-          <AiOutlineCloseCircle />
-          닫기
+          <AiOutlineClose className="close" />
+          <span className="text">닫기</span>
         </Item>
       </Items>
     </div>
