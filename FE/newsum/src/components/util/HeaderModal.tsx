@@ -4,10 +4,10 @@ import styled from 'styled-components';
 const Item = styled.div`
   color: #353845;
   text-align: center;
-  font-size: 1.2rem;
-  line-height: 2rem;
+  font-size: 1rem;
+  line-height: 1rem;
   font-weight: bold;
-  height: 40px;
+  height: 30px;
   margin: 0;
   padding: 10px 0 0 0;
 
@@ -20,7 +20,7 @@ const Items = styled.div`
   border: 2px solid #9aa3aa;
   background-color: #ffffff;
   border-radius: 8px;
-  width: 300px;
+  width: 150px;
   margin: 0;
   padding: 0;
 
