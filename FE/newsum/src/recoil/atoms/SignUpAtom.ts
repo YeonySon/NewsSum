@@ -1,10 +1,10 @@
 import { atom, selector } from "recoil";
 
 export interface signUpAtomTypes {
-  id: string;         // email
+  email: string;         // email
   password: string;   // 비밀번호
   name: string;       // 이름
-  birthdate: string;  // 생년월일, YYYYMMDD
+  birthDate: string;  // 생년월일, YYYYMMDD
   tech: number[];     // 관심기술
   headline: number[]; // 헤드라인
 }
@@ -12,19 +12,11 @@ export interface signUpAtomTypes {
 export const SignUpAtom = atom<signUpAtomTypes>({
   key: 'SignUpAtom',
   default: {
-    id: '',    
+    email: '',    
     password: '',
     name: '',
-    birthdate: '',
+    birthDate: '',
     tech: [],
     headline: []
   },
 })
-
-// const SignUpUpdateSelector = selector({
-//   key: 'SignUpUpdateSelector',
-//   get: ({get}) => {
-//     const SignUp = get(SignUpAtom);
-//     return 원본변형값
-//   }
-// })

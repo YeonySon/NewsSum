@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { BaseInstance } from '../../hook/AxiosInstance';
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
-
 
 import { 
   NavButtonBox,
@@ -32,17 +32,21 @@ function SignUp2() {
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom);
 
-  const items = [
-    'Java', 'JavaScript', 'HTML/CSS', 'jQuery', 'JSP', 'Vue.js',
-    'Oracle', 'MySQL', 'React', 'SpringBoot', 'PHP', 'C#',
-    'sample', 'sample', 'sample', 'sample', 'sample'
-  ] 
+  useEffect(() => {
+    // 서버에 데이터 요청
+    const responseData = async () => {
+      await BaseInstance.get('/user/techstack')
+        .then((response) => {
+          setItems(response.data.data.map((item: {tsName: string}) => item.tsName))
+        })
+        .catch((error) => [] as string[])
+    }
+    responseData()
+  }, [])
 
+  const [items, setItems] = useState<string[]>([])
   const [checkedList, setCheckedList] = useState<number[]>([]);
   const [itemStates, setItemStates] = useState<boolean[]>(new Array(items.length).fill(false))
-
-  console.log(checkedList)
-  console.log(itemStates)
 
   const handleCheckedList = (index: number, isChecked: boolean) => {
     if (isChecked) {
@@ -71,8 +75,9 @@ function SignUp2() {
       return;
     }
 
-    // 관심기술 저장
-    const data = {tech: checkedList}
+    // 관심기술 recoil에 저장
+    const newData = checkedList.map(item => item + 1)
+    const data = {tech: newData}
     setFormData((prev) => ({...prev, ...data}))
     
     // page 이동

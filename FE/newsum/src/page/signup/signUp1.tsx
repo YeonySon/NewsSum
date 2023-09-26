@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from "axios";
 
 // state, recoil import
 import { useRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
+
+// axios 요청
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 import { 
   NavButtonBox,
@@ -24,6 +26,7 @@ import {
 } from '../../components/signup/signUp';
 
 function SignUp1() {
+  const BACKEND_URL = 'http://localhost:8811'
   const page = 1;
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom); // recoil data
@@ -34,7 +37,7 @@ function SignUp1() {
   const nameWarningMessage = ['.', '이름을 입력해 주세요.']
 
   // 이메일
-  const [email, setEmail] = useState(formData.id);
+  const [email, setEmail] = useState(formData.email);
   const [emailMessageType, setEmailMessageType] = useState(0);  // 이메일 warning 메세지 타입
   const emailWarningMessage = ['.', '인증코드가 전송되었습니다.', '이메일 정보를 다시 확인해주세요.', '이미 존재하는 이메일 입니다.']
   const [isSendCode, setIsSendCode] = useState(false);
@@ -61,7 +64,7 @@ function SignUp1() {
   const passwordIsCheck = password === checkPassword;
 
   // 생년월일
-  const [birthDate, setBirthDate] = useState(formData.birthdate);
+  const [birthDate, setBirthDate] = useState(formData.birthDate);
   const birthDateWarningMessage = ['.', '.', '생년월일을 다시 확인해주세요. (ex 20230101)']
   const [birthDateIsCheck, setBirthDateIsCheck] = useState(false);
 
@@ -73,7 +76,6 @@ function SignUp1() {
     } else {
       setNameMessageType(0);
     }
-
   }
 
   const handleEmail = (e) => {
@@ -87,29 +89,25 @@ function SignUp1() {
 
     const emailRegEx = /^[A-Za-z0-9]([-_.]?[A-Za-z0-9])*@[A-Za-z0-9]([-_.]?[A-Za-z0-9])*\.[A-Za-z]{2,3}$/;
     if (emailRegEx.test(email)) {
-      // testing
-      setIsSendCode(true)             // 코드 전송 여부
-      setResponseCode('abc')          // 전달받은 인증 코드 저장
-      setAuthenticationTime(300)      // 인증시간 5분 설정
-      setEmailMessageType(1);         // 인증코드가 전송되었습니다.
-      setCodeMessageType(0);          // 인증코드 warning message 초기화
-      setCodeIsCheck(false)           // 코드 인증 여부 초기화
 
-      // const data = {id: email};
-      // await axios
-      // .post('/', data)
-      // .then((response) => {
-      //   setIsSendCode(true)             // 코드 전송 여부
-      //   setResponseCode(response.data)  // 전달받은 인증 코드 저장
-      //   setAuthenticationTime(300)      // 인증시간 5분 설정
-      //   setEmailMessageType(1);         // 인증코드가 전송되었습니다.
-      //   setCodeMessageType(0);          // 인증코드 warning message 초기화
-      //   setCodeIsCheck(false)           // 코드 인증 여부 초기화
-
-      // })
-      // .catch((error) => {
-      //   setEmailMessageType(3);         // 이미 존재하는 이메일 입니다
-      // })
+      // 서버에 요청
+      BaseInstance.get(`/user/id?email=${email}`, {headers: {}})
+        .then((response) => {
+          if (response.data.statusCode === 400) {
+            setEmailMessageType(3);
+          } else {
+            console.log(response.data.data)
+            setIsSendCode(true)             // 코드 전송 여부
+            setResponseCode(response.data.data)   // 전달받은 인증 코드 저장
+            setAuthenticationTime(300)      // 인증시간 5분 설정
+            setEmailMessageType(1);         // 인증코드가 전송되었습니다.
+            setCodeMessageType(0);          // 인증코드 warning message 초기화
+            setCodeIsCheck(false)           // 코드 인증 여부 초기화
+          }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } else {
       setEmailMessageType(2)            // 이메일 정보를 다시 확인해주세요.
     }
@@ -150,7 +148,7 @@ function SignUp1() {
     const newPassword = e.target.value;
     setPassword(newPassword);
 
-    const passwordRegEx = /^[A-Za-z0-9@$!%*?&]{8,16}$/
+    const passwordRegEx = /^[A-Za-z0-9@$!%*?&#]{8,16}$/
     if (newPassword.match(passwordRegEx) === null) {
       setPasswordMessageType(2);  // 8~16자의 영문, 숫자, 특수기호를 포함해 주세요.
     } else {
@@ -225,7 +223,7 @@ function SignUp1() {
     }
 
     // 이름, 이메일, 비밀번호, 생년월일을 recoil로 저장
-    const data = {id: email, password: password, name: name, birthdate: birthDate}
+    const data = {email: email, password: password, name: name, birthDate: birthDate}
     setFormData((prev) => ({...prev, ...data}))
     
     // page 이동
@@ -235,12 +233,12 @@ function SignUp1() {
   // 시작 시 최초 검사
   useEffect(() => {
     // 이메일 인증 여부 검사
-    if (!!formData.id) {
+    if (!!formData.email) {
       setCodeIsCheck(true);
     }
 
     // 생년월일 유효성 검사
-    if (isValidBirthDate(formData.birthdate)) {
+    if (isValidBirthDate(formData.birthDate)) {
       setBirthDateIsCheck(true)
     } else {
       setBirthDateIsCheck(false)

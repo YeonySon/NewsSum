@@ -1,9 +1,8 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { BaseInstance } from '../../hook/AxiosInstance';
 
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
 
 import { 
@@ -24,26 +23,30 @@ function SignUp3() {
   const page = 3
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom);
+  useEffect(() => {
+    // 서버에 데이터 요청
+    const responseData = async () => {
+      await BaseInstance.get('/user/headline')
+        .then((response) => {
+          setItems(response.data.data.map((item: {hlName: string}) => item.hlName))
+        })
+        .catch((error) => [] as string[])
+    }
+    responseData()
+  }, [])
 
-  const items = [
-    '헤드라인 헤드라인 헤드라인 헤드라인',
-    '헤드라인 헤드라인 헤드라인 헤드라인',
-    '헤드라인 헤드라인 헤드라인 헤드라인',
-    '헤드라인 헤드라인 헤드라인 헤드라인',
-    '헤드라인 헤드라인 헤드라인 헤드라인',
-    '헤드라인 헤드라인 헤드라인 헤드라인',
-    '헤드라인 헤드라인 헤드라인 헤드라인',
-  ] 
-
+  const [items, setItems] = useState<string[]>([])
   const [checkedList, setCheckedList] = useState<number[]>([]);
   const [itemStates, setItemStates] = useState<boolean[]>(new Array(items.length).fill(false))
-
+  console.log('headline 데이터', formData.headline)
   const handleCheckedList = (index: number, isChecked: boolean) => {
     if (isChecked) {
+      setFormData((prev) => ({...prev, headline: [...formData.headline, index + 1]}))
       setCheckedList((prev) => [...prev, index])
       return;
     }
     if (!isChecked && checkedList.includes(index)) {
+      setFormData((prev) => ({ ...prev, headline: formData.headline.filter((item) => item !== index+1) }))
       setCheckedList(checkedList.filter((item) => item !== index));
       return;
     }
@@ -65,39 +68,34 @@ function SignUp3() {
       return;
     }
 
-    // 헤드라인 저장
-    const data = {headline: checkedList}
-    setFormData((prev) => ({...prev, ...data}))
-    
     // 서버로 요청 (회원가입)
-    // await axios
-    // .post('/', formData)
-    // .then((response) => {
-    //   // recoil SignUpAtom 초기화
-      
+    const requestBodyJSON = JSON.stringify(formData);
+    console.log('데이터', requestBodyJSON)
+    const headers = {
+      'Content-Type' : 'application/json',
+    }
 
+    await BaseInstance.post('/user', requestBodyJSON, {headers})
+      .then((resposne) => {
+        console.log(resposne)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
-    //   // page 이동 (home으로 이동)
-    //   // navigate('/')
-    //   window.location.href = '/singup/1'
-    // })
-    // .catch((error) => {
-    //   console.log(error)
-    // })
-
-    window.location.href = '/signup/1'
+    // window.location.href = '/signup/1'
   }
 
   // formData 체크 시, 필요한 값이 없다면 해당 페이지로 보냄
   useEffect(() => {
-    if ( !formData.name || !formData.id || !formData.password && !formData.birthdate ) {
+    if ( !formData.name || !formData.email || !formData.password && !formData.birthDate ) {
       alert('회원정보를 확인해주세요.')
       navigate('/signup/1')
     } else if ( formData.tech.length === 0 ) {
       alert('관심기술 직무를 선택해주세요.')
       navigate('/signup/2')
     } 
-  }, formData)
+  }, [formData])
 
   return (
     <SignUpPage>

@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
 
 // 회원가입
-import SignUp1 from './page/signup/signUp1';
-import SignUp2 from './page/signup/signUp2';
-import SignUp3 from './page/signup/signUp3';
+import SignUp1 from './page/signup/SignUp1';
+import SignUp2 from './page/signup/SignUp2';
+import SignUp3 from './page/signup/SignUp3';
 
 // 로그인 모달창 테스트
 import LoginTest from './page/login/test';
