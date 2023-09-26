@@ -41,7 +41,7 @@ import datetime
 #define
 now = datetime.datetime.now()
 date = str(now.strftime('%Y%m%d')) #그날날자 뉴스 가져오기
-date = '20230910' #특정한 날자의 뉴스 가져오기
+#date = '20230910' #특정한 날자의 뉴스 가져오기
 MaxNum = '100'; #최대 pg
 path = "C://Users/SSAFY/Desktop/news/" #저장할 파일 - 마지막에 / 필수
 
@@ -121,37 +121,42 @@ for category in categorys:
             response = requests.get(pageUrl)
             strSoup = ""
             if response.status_code == 200:
-                html = response.text
-                soup = BeautifulSoup(html, 'html.parser')
-                #print(soup)
-                strSoup = str(soup);
-                
-                title = soup.select_one('h2#title_area')
-                time = soup.select_one('span._ARTICLE_DATE_TIME')
-                media = soup.select_one('a.media_end_head_top_logo > img')
-                media_name = media['title']
-                media_img = media['src']
-                media_id = pageUrl.split("/")[-2]
-                text = soup.select_one('article')
-                img = soup.select_one('article img')
-                if (img != None):
-                    img_src = img['data-src']
-                    #print(img_src)
-                    if(img == None):
-                        img_src = img['src']
-                else:
-                    img_src = None
+                try :
+                    html = response.text
+                    soup = BeautifulSoup(html, 'html.parser')
+                    #print(soup)
+                    strSoup = str(soup);
+                    
+                    title = soup.select_one('h2#title_area')
+                    time = soup.select_one('span._ARTICLE_DATE_TIME')
+                    media = soup.select_one('a.media_end_head_top_logo img')
+                    media_name = media['title']
+                    media_img = media['src']
+                    media_id = pageUrl.split("/")[-2]
+                    text = soup.select_one('article')
+                    img = soup.select_one('article img')
+                    if (img != None):
+                        img_src = img['data-src']
+                        #print(img_src)
+                        if(img == None):
+                            img_src = img['src']
+                    else:
+                        img_src = None
 
-                category[2][i].append(title.get_text())
-                category[2][i].append(time.get_text())
-                category[2][i].append(media_id)
-                category[2][i].append(media_name)
-                category[2][i].append(media_img)
-                category[2][i].append(text.get_text())
-                category[2][i].append(img_src)
+                    category[2][i].append(title.get_text())
+                    category[2][i].append(time.get_text())
+                    category[2][i].append(media_id)
+                    category[2][i].append(media_name)
+                    category[2][i].append(media_img)
+                    category[2][i].append(text.get_text())
+                    category[2][i].append(img_src)
+                except:
+                    print('error')
+
 
             else : 
                 print(response.status_code)
+                    
 
         
 

@@ -8,9 +8,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.newsum.domain.headline.entity.Headline;
+import com.ssafy.newsum.domain.headline.entity.PreferredHeadline;
 import com.ssafy.newsum.domain.headline.repository.HeadlineRepository;
+import com.ssafy.newsum.domain.headline.repository.PreferredHeadlineRepository;
+import com.ssafy.newsum.domain.techstack.entity.PreferredTechStack;
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
+import com.ssafy.newsum.domain.techstack.repository.PreferredTechStackRepository;
 import com.ssafy.newsum.domain.techstack.repository.TechStackRepository;
+import com.ssafy.newsum.domain.users.dto.request.HeadlineRequestDto;
+import com.ssafy.newsum.domain.users.dto.request.TechRequestDto;
 import com.ssafy.newsum.domain.users.dto.request.UserRequestDto;
 import com.ssafy.newsum.domain.users.dto.response.UserLoginResponseDto;
 import com.ssafy.newsum.domain.users.entity.User;
@@ -24,7 +30,9 @@ import lombok.RequiredArgsConstructor;
 public class UserService {
 	private final UserRepository userRepository;
 	private final HeadlineRepository headlineRepository;
+	private final PreferredHeadlineRepository preferredHeadlineRepository;
 	private final TechStackRepository techStackRepository;
+	private final PreferredTechStackRepository preferredTechStackRepository;
 	private final JwtService jwtService;
 	private final PasswordEncoder passwordEncoder;
 
@@ -35,7 +43,7 @@ public class UserService {
 			.message("success login")
 			.accessToken(jwtService.createAccessToken(user.getEmail()))
 			.refreshToken(refreshToken)
-			.userEmail(user.getEmail())
+			.email(user.getEmail())
 			.usrId(user.getUserId())
 			.build();
 		userRepository.updateRefreshToken(refreshToken, user.getEmail());
@@ -63,7 +71,7 @@ public class UserService {
 		return true;
 	}
 
-	//회원 가입
+	//회원 가입1. 유저 정보 저장
 	@Transactional
 	public User signup(UserRequestDto userRequestDto) {
 		if (userRequestDto.getAuthenticate() == null)
@@ -74,8 +82,58 @@ public class UserService {
 		userRepository.save(user);
 
 		//2. 유저 조회
-		User findUser = userRepository.findByEmail(userRequestDto.getUserEmail()).get();
+		User findUser = userRepository.findByEmail(userRequestDto.getEmail()).get();
 		return findUser;
+	}
+
+	//회원 가입2. 기술스택, 헤드라인 정보 저장
+	@Transactional
+	public Boolean saveTechAndHeadline(UserRequestDto userRequestDto, User user) {
+		//1. 기술스택, 헤드라인 리스트 저장
+		List<TechRequestDto> techRequestDtoList = userRequestDto.getTech();
+		List<HeadlineRequestDto> headlineRequestDtoList = userRequestDto.getHeadline();
+
+		for (TechRequestDto techRequestDto : techRequestDtoList) {
+			//입력한 기술스택이 없는 경우
+			Optional<TechStack> techStackOp = techStackRepository.findById(techRequestDto.getTechId());
+
+			PreferredTechStack preferredTechStack = techRequestDto.toEntity(techStackOp.get(), user);
+			preferredTechStackRepository.save(preferredTechStack);
+		}
+
+		for (HeadlineRequestDto headlineRequestDto : headlineRequestDtoList) {
+			//입력한 헤드라인이 없는 경우
+			Optional<Headline> headlineOp = headlineRepository.findById(headlineRequestDto.getHlId());
+
+			PreferredHeadline preferredHeadline = headlineRequestDto.toEntity(headlineOp.get(), user);
+			preferredHeadlineRepository.save(preferredHeadline);
+		}
+
+		return true;
+	}
+
+	//기술 스택 리스트 조회
+	public Boolean getTechStack(List<TechRequestDto> techRequestDtoList) {
+		for (TechRequestDto techRequestDto : techRequestDtoList) {
+			//입력한 기술스택이 없는 경우
+			Optional<TechStack> techStackOp = techStackRepository.findById(techRequestDto.getTechId());
+
+			if (techStackOp.isEmpty())
+				return false;
+		}
+		return true;
+	}
+
+	//헤드라인 리스트 조회
+	public Boolean getHeadline(List<HeadlineRequestDto> headlineRequestDtoList) {
+		for (HeadlineRequestDto headlineRequestDto : headlineRequestDtoList) {
+			//입력한 기술스택이 없는 경우
+			Optional<Headline> headlineOp = headlineRepository.findById(headlineRequestDto.getHlId());
+
+			if (headlineOp.isEmpty())
+				return false;
+		}
+		return true;
 	}
 
 	//비밀번호 수정
@@ -113,8 +171,8 @@ public class UserService {
 	}
 
 	//이메일로 회원 조회
-	public User getUserByEmail(String userEmail) {
-		return userRepository.findByEmail(userEmail).get();
+	public Optional<User> getUserByEmail(String userEmail) {
+		return userRepository.findByEmail(userEmail);
 	}
 
 	//아이디로 회원 조회

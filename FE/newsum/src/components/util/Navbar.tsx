@@ -9,10 +9,13 @@ export const NavBar = styled.div`
   padding: 0;
   margin: 0;
   height: calc(100vh - 62px);
-  width: 25%;
+  width: 17%;
   /* background-color: gray; */
 
-  position: relative;
+  z-index: 10;
+  background-color: white;
+
+  position: fixed;
 
   color: #394867;
 
@@ -28,14 +31,14 @@ export const NavBar = styled.div`
     position: absolute;
     top: 20px;
     left: 100%;
-    transform: translate(-105%, 0%);
+    transform: translate(-95%, 0%);
     padding: 10px;
     margin: 5px;
     width: 250px;
 
     list-style-type: none;
 
-    font-size: 2.2rem;
+    font-size: 2rem;
   }
 
   .nav li {
@@ -48,14 +51,14 @@ export const NavBar = styled.div`
   .nav strong {
     display: inline-block;
     padding: 0px 0px 0px 20px;
-    font-size: 2rem;
+    font-size: 1.7rem;
     transform: translate(0%, -22%);
   }
 
-  @media (max-width: 1120px) {
+  @media (max-width: 1200px) {
     .nav {
       width: 20%;
-      font-size: 2.5rem;
+      font-size: 2.2rem;
       padding-right: 50px;
     }
     .nav strong {
@@ -67,7 +70,7 @@ export const NavBar = styled.div`
   @media (max-width: 700px) {
     /* background-color: blue; */
 
-    height: 120px;
+    height: 90px;
     width: 100%;
 
     position: absolute;
@@ -75,11 +78,16 @@ export const NavBar = styled.div`
     left: 0;
     transform: translate(0, -100%);
 
-    border-right: 0px;
+    position: fixed;
+
+    margin: 0;
+    padding: 0;
+
+    border-right: 0;
 
     border-top: 1px solid gray;
 
-    font-size: 2.5rem;
+    font-size: 2rem;
     .nav {
       position: absolute;
       top: 0;
@@ -98,11 +106,11 @@ export const NavBar = styled.div`
       display: flex;
       flex-direction: column;
       justify-content: center;
-      transform: translate(50%, 0%);
+      transform: translate(20%, 0%);
     }
     .nav strong {
       display: inline;
-      font-size: 1.5rem;
+      font-size: 1rem;
       transform: translate(-35%, 0%);
     }
   }
@@ -116,7 +124,7 @@ const Footer = styled.div`
   padding: 10px;
   margin: 5px;
 
-  width: 250px;
+  width: 225px;
   height: 250px;
   border-radius: 5px;
 
@@ -125,7 +133,7 @@ const Footer = styled.div`
   top: 100%;
   left: 100%;
   transform: translate(-105%, -105%);
-  @media (max-width: 1130px) {
+  @media (max-width: 1300px) {
     display: none;
   }
   @media (max-height: 730px) {
@@ -137,13 +145,13 @@ const Button = styled.div`
   line-height: 45px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
   display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
 
-  width: 180px;
+  width: 200px;
   height: 50px;
   border-radius: 12px;
 
   background-color: #0583f2;
   color: white;
-  font-size: 30px;
+  font-size: 24px;
   font-weight: bold;
 
   /* margin-top: px; */
@@ -153,41 +161,26 @@ const Button = styled.div`
   position: absolute;
   top: 300px;
   left: 100%;
-  transform: translate(-105%, 0%);
+  transform: translate(-115%, 0%);
   padding: 10px;
   margin: 5px;
-  width: 250px;
 
   &:hover {
     cursor: pointer;
   }
-  @media (max-width: 1130px) {
+  @media (max-width: 1300px) {
     display: none;
   }
 `;
 
-const Hr = styled.hr`
-  color: gray;
-
-  margin: 0;
-  padding: 0;
-`;
-
-function Navbar() {
-  const [nav, setNav] = useState('');
+function Navbar({ nav }) {
   const [userInfo, setUserInfo] = useState(true);
 
-  function short() {
-    setNav('short');
-  }
+  function short() {}
 
-  function news() {
-    setNav('news');
-  }
+  function news() {}
 
-  function mypage() {
-    setNav('mypage');
-  }
+  function mypage() {}
 
   function login() {
     setUserInfo(true);

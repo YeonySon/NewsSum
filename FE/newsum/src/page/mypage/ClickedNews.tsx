@@ -40,11 +40,9 @@ export const Content = styled.div`
     /* background-color: #788ca8; */
 
     display: flex;
-    flex-direction: column;
-    position: relative;
-    margin: 30px auto 100px auto;
 
-    width: 370px;
+    position: relative;
+    margin: 0 0 0 0;
 
     width: 300;
   }
@@ -59,28 +57,27 @@ export const Content = styled.div`
     max-width: 1600px;
 
     border-left: 1px solid gray;
-    .main {
-      /* background-color: #788ca8; */
-      width: 100%;
-      max-width: 1600px;
-      /* padding: 0 0 0 20px; */
+  }
+  .main {
+    /* background-color: #788ca8; */
+    width: 100%;
+    max-width: 1600px;
+    /* padding: 0 0 0 20px; */
 
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-    .main > div {
-      margin: 20px 0px 0px 15px;
-    }
+  .main > div {
+    margin: 20px 0px 0px 15px;
   }
 `;
 
-function News() {
+function Clicked() {
   const newsInfo = [
     {
       id: 1,
-      head: '헤1라인헤드라인헤드라인',
+      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -97,7 +94,7 @@ function News() {
     },
     {
       id: 2,
-      head: '헤드1인1인',
+      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -114,7 +111,7 @@ function News() {
     },
     {
       id: 3,
-      head: '헤드3라인헤드라인헤드라인헤드라인',
+      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -131,7 +128,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤5인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -148,23 +145,6 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드4인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
       head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
@@ -199,7 +179,24 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드2345라인헤드라인헤드라인헤드라인헤드라인',
+      main: '메인이야',
+      threeLine: '3줄요약',
+      url: 'https://www.',
+      postedDate: '2023.09.13',
+      mediaName: '중앙일보',
+      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
+      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
+      viewCnt: 12,
+      cgName: '모바일',
+      likeCnt: 12,
+      scrapCnt: 22,
+      isScrap: 't',
+      isLike: 'f',
+    },
+    {
+      id: 6,
+      head: '헤드1111라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -216,7 +213,7 @@ function News() {
     },
     {
       id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드3333라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -233,7 +230,7 @@ function News() {
     },
     {
       id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드2222라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -250,7 +247,7 @@ function News() {
     },
     {
       id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤34566드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -267,7 +264,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '3222드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -284,7 +281,7 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라3425인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -301,7 +298,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드1234라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -318,7 +315,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤22345드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -335,7 +332,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인헤234드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -352,7 +349,7 @@ function News() {
     },
     {
       id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인33헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -369,7 +366,7 @@ function News() {
     },
     {
       id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라23인헤드252라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -386,7 +383,7 @@ function News() {
     },
     {
       id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤22드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -403,7 +400,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인헤드라2345인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -420,7 +417,7 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인헤623드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -437,7 +434,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인234헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -454,7 +451,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인345헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -471,7 +468,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인435헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -488,7 +485,7 @@ function News() {
     },
     {
       id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인5헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -505,7 +502,7 @@ function News() {
     },
     {
       id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인3헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -522,7 +519,7 @@ function News() {
     },
     {
       id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라인헤5드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -539,7 +536,7 @@ function News() {
     },
     {
       id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드3라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -556,7 +553,7 @@ function News() {
     },
     {
       id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라4인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -573,7 +570,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드3라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -590,7 +587,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '헤드라4인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -607,7 +604,7 @@ function News() {
     },
     {
       id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
+      head: '2헤드라인헤드라인헤드라인헤드라인헤드라인',
       main: '메인이야',
       threeLine: '3줄요약',
       url: 'https://www.',
@@ -627,7 +624,7 @@ function News() {
   return (
     <div>
       <Header />
-      <Navbar nav={'news'} />
+      <Navbar />
       <Content>
         <div className="wrap-vertical">
           <Tabbar type={0} />
@@ -636,7 +633,7 @@ function News() {
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {newsInfo.map((news) => (
-            <CardSlot newsInfo={news} />
+            <CardSlot />
           ))}
         </div>
       </Content>
@@ -644,4 +641,4 @@ function News() {
   );
 }
 
-export default News;
+export default Clicked;

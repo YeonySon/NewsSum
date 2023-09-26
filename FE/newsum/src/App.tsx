@@ -14,6 +14,7 @@ import LoginTest from './page/login/test';
 //import pages
 import Card from './components/news/CardSlot';
 
+import News from './page/news/News';
 import Short from './page/short/Short';
 
 function App() {
