@@ -1,10 +1,12 @@
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 //Util component import
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
-import Tabbar from '../../components/util/Tabbar';
+import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
 import cookie from 'react-cookies';
+import { useState } from 'react';
 
 export const Content = styled.div`
   border-left: 0;
@@ -71,18 +73,33 @@ export const Content = styled.div`
 `;
 
 function Keyword() {
+  const tab = [
+    ['분석', 'visualization'],
+    ['뉴스', 'mynews'],
+    ['키워드', 'keyword'],
+    ['내정보', 'myinfo'],
+  ];
+  const [sort, setSort] = useState(tab[2][0]);
+
   return (
     <div>
       <Header />
-      <Navbar nav={'news'} />
+      <Navbar nav={'mypage'} />
       <Content>
         <div className="wrap-vertical">
-          <Tabbar type={1} />
+          {tab.map((manu) =>
+            manu[0] == sort ? (
+              <Active>{manu[0]}</Active>
+            ) : (
+              <NavLink to={`/mypage/` + manu[1]}>
+                <Deactive>{manu[0]}</Deactive>
+              </NavLink>
+            )
+          )}
         </div>
       </Content>
     </div>
-
-  )
-};
+  );
+}
 
 export default Keyword;

@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 //Util component import
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
-import Tabbar from '../../components/util/Tabbar';
-
-//news compoent import
-import CardSlot from '../../components/news/CardSlot';
+import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
+import cookie from 'react-cookies';
+import { useState } from 'react';
 
 export const Content = styled.div`
   border-left: 0;
@@ -73,26 +72,14 @@ export const Content = styled.div`
   }
 `;
 
-function Clicked() {
-  const newsInfo = [
-    {
-      id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
+function MyInfo() {
+  const tab = [
+    ['분석', 'visualization'],
+    ['뉴스', 'mynews'],
+    ['키워드', 'keyword'],
+    ['내정보', 'myinfo'],
   ];
+  const [sort, setSort] = useState(tab[3][0]);
 
   return (
     <div>
@@ -100,18 +87,19 @@ function Clicked() {
       <Navbar nav={'mypage'} />
       <Content>
         <div className="wrap-vertical">
-          <Tabbar type={0} />
-        </div>
-        {/* <hr /> */}
-        {/* 여기 안에 페이지 제작 */}
-        <div className="main">
-          {newsInfo.map((news) => (
-            <CardSlot newsInfo={news} />
-          ))}
+          {tab.map((manu) =>
+            manu[0] == sort ? (
+              <Active>{manu[0]}</Active>
+            ) : (
+              <NavLink to={`/mypage/` + manu[1]}>
+                <Deactive>{manu[0]}</Deactive>
+              </NavLink>
+            )
+          )}
         </div>
       </Content>
     </div>
   );
 }
 
-export default Clicked;
+export default MyInfo;
