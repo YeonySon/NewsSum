@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
 //Util component import
@@ -8,6 +8,13 @@ import Tabbar from '../../components/util/Tabbar';
 
 //news compoent import
 import CardSlot from '../../components/news/CardSlot';
+
+//loginModal component import
+import LoginModal from '../login/loginModal';
+
+// recoil
+import { useRecoilValue } from 'recoil';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
 
 export const Content = styled.div`
   border-left: 0;
@@ -624,6 +631,20 @@ function News() {
     },
   ];
 
+  const loginModalOpen = useRecoilValue(LoginModalIsOpenAtom)
+  const [isAnimating, setIsAnimating] = useState(false);
+  
+  // modal FadeIn, FadeOut를 위한 시간 지연
+  useEffect(() => {
+    if (loginModalOpen) {
+      setIsAnimating(true)
+    } else {
+      setTimeout(() => {
+        setIsAnimating(false)
+      }, 300)
+    }
+  }, [loginModalOpen])
+
   return (
     <div>
       <Header />
@@ -640,6 +661,8 @@ function News() {
           ))}
         </div>
       </Content>
+      
+      {(loginModalOpen || isAnimating) && (<LoginModal />)}
     </div>
   );
 }

@@ -4,6 +4,7 @@ const token = '';
 export const BaseInstance = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
   headers: {
-    Authorization: token,
+    'Authorization': token,
+    'Content-Type' : 'application/json',
   },
 });

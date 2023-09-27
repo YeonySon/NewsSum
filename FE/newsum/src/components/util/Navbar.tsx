@@ -5,6 +5,9 @@ import { FaPlayCircle, FaRegPlayCircle } from 'react-icons/fa';
 import { RiFilePaperFill, RiFilePaperLine } from 'react-icons/ri';
 import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa';
 
+import { useSetRecoilState } from 'recoil';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+
 export const NavBar = styled.div`
   padding: 0;
   margin: 0;
@@ -176,6 +179,9 @@ const Button = styled.div`
 function Navbar({ nav }) {
   const [userInfo, setUserInfo] = useState(true);
 
+  // login
+  const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom)
+
   function short() {}
 
   function news() {}
@@ -184,6 +190,7 @@ function Navbar({ nav }) {
 
   function login() {
     setUserInfo(true);
+    setLoginModalOpen(true);
   }
 
   return (
