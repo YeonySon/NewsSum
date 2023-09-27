@@ -11,7 +11,7 @@ const TabBar = styled.div`
   } */
 `;
 
-const Active = styled.div`
+export const Active = styled.div`
   color: #ffffff;
   background-color: #0583f2;
   border: 1px solid #9aa3aa;
@@ -32,7 +32,28 @@ const Active = styled.div`
   cursor: pointer;
 `;
 
-const Deactive = styled.div`
+export const ActiveDark = styled.div`
+  color: #ffffff;
+  background-color: #394867;
+  border: 1px solid #9aa3aa;
+  border-radius: 8px;
+
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-size: 1.1rem;
+  line-height: 2rem;
+  font-weight: 400;
+
+  text-align: center;
+  //font-size: 23px;
+  height: 32px;
+  min-width: 12px;
+  display: inline-block;
+  padding: 0 12px;
+  margin: 3px 6px;
+  cursor: pointer;
+`;
+
+export const Deactive = styled.div`
   color: #353845;
   background-color: #ffffff;
   border: 1px solid #9aa3aa;
@@ -58,7 +79,7 @@ const Deactive = styled.div`
   }
 `;
 
-function Tabbar({ type }) {
+function Tabbar({ type = 0 }) {
   //무슨 페이지인지 확인
   // const [type, setType] = useState(0);
 
@@ -75,7 +96,15 @@ function Tabbar({ type }) {
     <div>
       <TabBar>
         {nav[type].map((manu) =>
-          manu == title ? <Active>{manu}</Active> : <Deactive onClick={() => setTitle(manu)}>{manu}</Deactive>
+          manu == title ? (
+            type > 2 ? (
+              <ActiveDark>{manu}</ActiveDark>
+            ) : (
+              <Active>{manu}</Active>
+            )
+          ) : (
+            <Deactive onClick={() => setTitle(manu)}>{manu}</Deactive>
+          )
         )}
       </TabBar>
     </div>

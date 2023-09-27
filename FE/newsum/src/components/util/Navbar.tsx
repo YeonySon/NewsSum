@@ -1,6 +1,10 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
+
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+
+//icon import
 import { FaPlayCircle, FaRegPlayCircle } from 'react-icons/fa';
 import { RiFilePaperFill, RiFilePaperLine } from 'react-icons/ri';
 import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa';
@@ -30,6 +34,10 @@ export const NavBar = styled.div`
 
   .active {
     color: #0583f2;
+  }
+
+  .deactive a {
+    color: #394867;
   }
 
   .nav {
@@ -114,11 +122,18 @@ export const NavBar = styled.div`
       flex-direction: column;
       justify-content: center;
       transform: translate(20%, 0%);
+      position: relative;
     }
     .nav strong {
-      display: inline;
+      position: absolute;
+      display: inline-block;
+      text-align: center;
+      width: 100px;
       font-size: 1rem;
-      transform: translate(-35%, 0%);
+
+      /* overflow: auto; */
+      white-space: nowrap;
+      transform: translate(-73%, 160%);
     }
   }
 `;
@@ -184,19 +199,19 @@ function Navbar({ nav }) {
   const [userInfo, setUserInfo] = useState(true);
 
   // login
-  const [loginModalOpen, setLoginModalOpen]= useRecoilState(LoginModalIsOpenAtom)
+  const [loginModalOpen, setLoginModalOpen] = useRecoilState(LoginModalIsOpenAtom);
   const [isAnimating, setIsAnimating] = useState(false);
 
   // modal FadeIn, FadeOut를 위한 시간 지연
   useEffect(() => {
     if (loginModalOpen) {
-      setIsAnimating(true)
+      setIsAnimating(true);
     } else {
       setTimeout(() => {
-        setIsAnimating(false)
-      }, 280)
+        setIsAnimating(false);
+      }, 280);
     }
-  }, [loginModalOpen])
+  }, [loginModalOpen]);
 
   function short() {}
 
@@ -213,17 +228,23 @@ function Navbar({ nav }) {
     <div>
       <NavBar>
         <ul className="nav">
-          <li className={nav == 'short' ? 'active' : ''} onClick={short}>
-            {nav == 'short' ? <FaPlayCircle /> : <FaRegPlayCircle />}
-            <strong>short</strong>
+          <li className={nav == 'short' ? 'active' : 'deactive'}>
+            <NavLink to="/short">
+              {nav == 'short' ? <FaPlayCircle /> : <FaRegPlayCircle />}
+              <strong>short</strong>
+            </NavLink>
           </li>
-          <li className={nav == 'news' ? 'active' : ''} onClick={news}>
-            {nav == 'news' ? <RiFilePaperFill /> : <RiFilePaperLine />}
-            <strong>news</strong>
+          <li className={nav == 'news' ? 'active' : 'deactive'} onClick={news}>
+            <NavLink to="/news">
+              {nav == 'news' ? <RiFilePaperFill /> : <RiFilePaperLine />}
+              <strong>news</strong>
+            </NavLink>
           </li>
-          <li className={nav == 'mypage' ? 'active' : ''} onClick={mypage}>
-            {nav == 'mypage' ? <FaUserCircle /> : <FaRegUserCircle />}
-            <strong>my page</strong>
+          <li className={nav == 'mypage' ? 'active' : 'deactive'} onClick={mypage}>
+            <NavLink to="/mypage">
+              {nav == 'mypage' ? <FaUserCircle /> : <FaRegUserCircle />}
+              <strong>my page</strong>
+            </NavLink>
           </li>
         </ul>
         <Button onClick={login}>Log In</Button>
@@ -244,7 +265,7 @@ function Navbar({ nav }) {
         </Footer>
       </NavBar>
 
-      {(loginModalOpen || isAnimating) && (<LoginModal />)}
+      {(loginModalOpen || isAnimating) && <LoginModal />}
     </div>
   );
 }

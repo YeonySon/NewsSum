@@ -3,10 +3,11 @@ import styled from 'styled-components';
 //Util component import
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
-import Tabbar from '../../components/util/Tabbar';
+import { Active, Deactive } from '../../components/util/Tabbar';
 
 //news compoent import
 import CardSlot from '../../components/news/CardSlot';
+import { useState } from 'react';
 
 export const Content = styled.div`
   border-left: 0;
@@ -623,13 +624,24 @@ function News() {
     },
   ];
 
+  const tab = [['추천', '전체', '모바일', '인터넷/sns', 'it/일반', '보안/해킹']];
+  const [sort, setSort] = useState(tab[0][0]);
+
+  function clickedTab(info) {
+    setSort(info);
+    //aixos
+    console.log(info);
+  }
+
   return (
     <div>
       <Header />
       <Navbar nav={'news'} />
       <Content>
         <div className="wrap-vertical">
-          <Tabbar type={0} />
+          {tab[0].map((manu) =>
+            manu == sort ? <Active>{manu}</Active> : <Deactive onClick={() => clickedTab(manu)}>{manu}</Deactive>
+          )}
         </div>
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}
