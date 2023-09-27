@@ -5,7 +5,11 @@ import { FaPlayCircle, FaRegPlayCircle } from 'react-icons/fa';
 import { RiFilePaperFill, RiFilePaperLine } from 'react-icons/ri';
 import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa';
 
-import { useSetRecoilState } from 'recoil';
+// loginModal component import
+import LoginModal from '../../page/login/loginModal';
+
+// recoil
+import { useRecoilState } from 'recoil';
 import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
 
 export const NavBar = styled.div`
@@ -180,7 +184,19 @@ function Navbar({ nav }) {
   const [userInfo, setUserInfo] = useState(true);
 
   // login
-  const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom)
+  const [loginModalOpen, setLoginModalOpen]= useRecoilState(LoginModalIsOpenAtom)
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  // modal FadeIn, FadeOut를 위한 시간 지연
+  useEffect(() => {
+    if (loginModalOpen) {
+      setIsAnimating(true)
+    } else {
+      setTimeout(() => {
+        setIsAnimating(false)
+      }, 300)
+    }
+  }, [loginModalOpen])
 
   function short() {}
 
@@ -227,6 +243,8 @@ function Navbar({ nav }) {
           </div>
         </Footer>
       </NavBar>
+
+      {(loginModalOpen || isAnimating) && (<LoginModal />)}
     </div>
   );
 }
