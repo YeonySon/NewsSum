@@ -26,7 +26,6 @@ import {
 } from '../../components/signup/signUp';
 
 function SignUp1() {
-  const BACKEND_URL = 'http://localhost:8811'
   const page = 1;
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom); // recoil data

@@ -70,12 +70,8 @@ function SignUp3() {
 
     // 서버로 요청 (회원가입)
     const requestBodyJSON = JSON.stringify(formData);
-    console.log('데이터', requestBodyJSON)
-    const headers = {
-      'Content-Type' : 'application/json',
-    }
 
-    await BaseInstance.post('/user', requestBodyJSON, {headers})
+    await BaseInstance.post('/user', requestBodyJSON)
       .then((resposne) => {
         console.log(resposne)
       })
@@ -83,6 +79,8 @@ function SignUp3() {
         console.log(error)
       })
 
+    // formData 초기화
+    // 페이지 이동
     // window.location.href = '/signup/1'
   }
 

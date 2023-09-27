@@ -5,6 +5,10 @@ import styled from 'styled-components';
 //컴포넌트 import
 import HeaderModal from './HeaderModal';
 
+//recoil
+import { useSetRecoilState } from 'recoil';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+
 export const HeaderStyle = styled.div`
   width: 100%;
   height: 60px;
@@ -178,6 +182,8 @@ function Header() {
     height: window.innerHeight,
   });
 
+  const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom)
+
   useEffect(() => {
     setWindowSize({
       width: window.innerWidth,
@@ -192,6 +198,7 @@ function Header() {
   function login() {
     setUserInfo(true);
     setProfileModal(false);
+    setLoginModalOpen(true);
   }
 
   function ToggleProfileModal() {

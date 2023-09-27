@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+// cookies
+import cookie from 'react-cookies';
+
+// recoil
+import { useSetRecoilState } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+
+import { BaseInstance } from '../../hook/AxiosInstance';
+
 import { 
   ModalWindow,
   ModalContainer,
@@ -21,6 +30,7 @@ function LoginModal() {
 
   const navigate = useNavigate();
   const [loginModalOpen, setLoginModalOpen] = useRecoilState(LoginModalIsOpenAtom);
+  const setMyinfo = useSetRecoilState(MyInfoAtom);
   const closeLoginModal = () => {
     setLoginModalOpen(false);
   }
@@ -32,7 +42,7 @@ function LoginModal() {
   const [passwordIsValid, setPasswordIsValid] = useState(true);
 
   // 로그인 버튼 클릭
-  const finalCheck = () => {
+  const finalCheck = async () => {
     if (!emailValidCheck(email)) {
       return;
     }
@@ -41,14 +51,50 @@ function LoginModal() {
       return;
     }
 
-    // 유효성 검증되었으면 서버로 axios 요청
-    // 만일 존재하지 않는 아이디면, 
-    // setEmailIsValid(false)
-    // 만일 비밀번호와 일치하지 않는겨웅
-    // setPasswordIsValid(false)
-    // 로그인에 성공한 경우, 모달창 닫기
-    alert('로그인 성공')
-    closeLoginModal()
+    const expires = new Date();
+    expires.setMinutes(expires.getMinutes() + 60)
+
+    const requestBody = {
+      email: email,
+      password: password
+    }
+
+    const requestBodyJSON = JSON.stringify(requestBody);
+    const headers = {
+      'Content-Type' : 'application/json',
+    }
+
+    await BaseInstance.post('/user/login',requestBodyJSON, { headers })
+      .then((response) => {
+        console.log(response.data)
+        if (response.data.statusCode === 200) {
+          // userId recoil에 저장
+          setMyinfo(response.data.data.usrId)
+
+          // cookie에 accessToken 저장
+          cookie.save('accessToken', response.data.data.accessToken, {
+            path : '/',
+            expires,
+          })
+          // 로그인에 성공한 경우, 모달창 닫기
+          alert('로그인 성공')
+          closeLoginModal()
+        } else if (response.data.statusCode === 400) {
+          if (response.data.message === 'does not exist email') {
+            setEmailIsValid(false);     // 만일 존재하지 않는 아이디면,
+          } else {
+            setPasswordIsValid(false);  // 만일 비밀번호와 일치하지 않는 경우
+          }
+        }
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    
+    // setTimeout(function(){
+    //   alert(cookie.load('accessToken'))
+    // },1000);
+
   };
 
   // 이메일 유효성 검사
@@ -65,7 +111,7 @@ function LoginModal() {
 
   // 비밀번호 유효성 검사
   const passwordValidCheck = (data: string) => {
-    const passwordRegEx = /^[A-Za-z0-9@$!%*?&]{8,16}$/
+    const passwordRegEx = /^[A-Za-z0-9@$!%*?&#]{8,16}$/
     if (data.match(passwordRegEx) === null) {
       setPasswordIsValid(false);
       return false;
