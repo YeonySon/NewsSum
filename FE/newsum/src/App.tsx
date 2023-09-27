@@ -16,6 +16,11 @@ import LoginTest from './page/login/test';
 import News from './page/news/News';
 import Short from './page/short/Short';
 
+// myinfo
+import Clicked from './page/mypage/ClickedNews';
+import PersonalInfo from './page/mypage/PersonalInfo';
+import Keyword from './page/mypage/Keyword';
+
 function App() {
   return (
     <div className="App">
@@ -27,6 +32,10 @@ function App() {
           <Route path='/signup/2' element={<SignUp2 />}/>
           <Route path='/signup/3' element={<SignUp3 />}/>
           <Route path='/logintest' element={<LoginTest />}/>
+
+          <Route path='/mypage' element={<Clicked />}/>
+          <Route path='/mypage/PersonalInfo' element={<PersonalInfo />}/>
+          <Route path='/mypage/keyword' element={<Keyword />}/>
           {/* <Route path='/test' element={<Test />}/> */}
         </Routes>
       </BrowserRouter>
