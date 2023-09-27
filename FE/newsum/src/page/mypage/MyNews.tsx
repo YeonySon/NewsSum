@@ -15,7 +15,7 @@ export const Content = styled.div`
   width: 100%;
   margin: 0;
 
-  .wrap-vertical {
+  .mypage-menu > div {
     margin: 15px 0 0;
     padding: 5px 0 5px 40px;
     overflow-x: scroll;
@@ -23,17 +23,11 @@ export const Content = styled.div`
     overflow: auto;
     white-space: nowrap;
   }
-  .wrap-vertical::-webkit-scrollbar {
-    height: 6px;
-  }
-  .wrap-vertical::-webkit-scrollbar-thumb {
-    width: 50%; /* 스크롤바의 길이 */
-    background: #788ca8; /* 스크롤바의 색상 */
 
-    border-radius: 10px;
-  }
-  .wrap-vertical::-webkit-scrollbar-track {
-    background: rgba(43, 49, 57, 0.1); /*스크롤바 뒷 배경 색상*/
+  .mypage-menu > div:nth-child(2) {
+    border-top: 1px solid lightgray;
+    margin: 10px 0 0 0;
+    padding: 10px 0 0 40px;
   }
 
   .main {
@@ -627,10 +621,11 @@ function News() {
   return (
     <div>
       <Header />
-      <Navbar />
+      <Navbar nav={'mypage'} />
       <Content>
-        <div className="wrap-vertical">
-          <Tabbar type={0} />
+        <div className="mypage-menu">
+          <Tabbar type={1} />
+          <Tabbar type={3} />
         </div>
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}

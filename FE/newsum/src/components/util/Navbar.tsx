@@ -201,6 +201,22 @@ function Navbar({ nav }) {
   // login
   const [loginModalOpen, setLoginModalOpen] = useRecoilState(LoginModalIsOpenAtom);
   const [isAnimating, setIsAnimating] = useState(false);
+<<<<<<< HEAD
+=======
+
+  // modal FadeIn, FadeOut를 위한 시간 지연
+  useEffect(() => {
+    if (loginModalOpen) {
+      setIsAnimating(true);
+    } else {
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 280);
+    }
+  }, [loginModalOpen]);
+
+  function short() {}
+>>>>>>> fcb75213fe02802e57e6c1e17826ecc7b943438b
 
   // modal FadeIn, FadeOut를 위한 시간 지연
   useEffect(() => {
@@ -214,6 +230,10 @@ function Navbar({ nav }) {
   }, [loginModalOpen]);
 
   function login() {
+<<<<<<< HEAD
+=======
+    setUserInfo(true);
+>>>>>>> fcb75213fe02802e57e6c1e17826ecc7b943438b
     setLoginModalOpen(true);
   }
 
@@ -227,13 +247,21 @@ function Navbar({ nav }) {
               <strong>short</strong>
             </NavLink>
           </li>
+<<<<<<< HEAD
           <li className={nav == 'news' ? 'active' : 'deactive'}>
+=======
+          <li className={nav == 'news' ? 'active' : 'deactive'} onClick={news}>
+>>>>>>> fcb75213fe02802e57e6c1e17826ecc7b943438b
             <NavLink to="/news">
               {nav == 'news' ? <RiFilePaperFill /> : <RiFilePaperLine />}
               <strong>news</strong>
             </NavLink>
           </li>
+<<<<<<< HEAD
           <li className={nav == 'mypage' ? 'active' : 'deactive'}>
+=======
+          <li className={nav == 'mypage' ? 'active' : 'deactive'} onClick={mypage}>
+>>>>>>> fcb75213fe02802e57e6c1e17826ecc7b943438b
             <NavLink to="/mypage">
               {nav == 'mypage' ? <FaUserCircle /> : <FaRegUserCircle />}
               <strong>my page</strong>
@@ -257,6 +285,10 @@ function Navbar({ nav }) {
           </div>
         </Footer>
       </NavBar>
+<<<<<<< HEAD
+=======
+
+>>>>>>> fcb75213fe02802e57e6c1e17826ecc7b943438b
       {(loginModalOpen || isAnimating) && <LoginModal />}
     </div>
   );
