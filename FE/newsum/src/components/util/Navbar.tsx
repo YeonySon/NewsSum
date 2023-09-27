@@ -194,7 +194,7 @@ function Navbar({ nav }) {
     } else {
       setTimeout(() => {
         setIsAnimating(false)
-      }, 300)
+      }, 280)
     }
   }, [loginModalOpen])
 
