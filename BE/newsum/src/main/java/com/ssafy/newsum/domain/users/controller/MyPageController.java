@@ -1,7 +1,6 @@
 package com.ssafy.newsum.domain.users.controller;
 
 import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
-import com.ssafy.newsum.domain.users.dto.request.TechRequestDto;
 import com.ssafy.newsum.domain.users.dto.response.TechResponseDto;
 import com.ssafy.newsum.domain.users.service.MyPageService;
 import com.ssafy.newsum.global.common.CommonResponseDto;
@@ -20,14 +19,14 @@ public class MyPageController {
 
     // 기술 스택 수정
     @PatchMapping("/tech/{userId}")
-    public ResponseEntity updateTech(@PathVariable Integer userId, @RequestBody List<TechRequestDto> techRequestDto) {
+    public ResponseEntity updateTech(@PathVariable Integer userId, @RequestBody List<Integer> techList) {
 
-        List<TechResponseDto> resultList = myPageService.updateTech(userId, techRequestDto);
+        List<TechResponseDto> resultList = myPageService.updateTech(userId, techList);
 
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(400, "update tech fail"));
 
-        return ResponseEntity.ok(CommonResponseDto.success(200, "update tech success", resultList));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "update tech success", null));
 
     }
 
