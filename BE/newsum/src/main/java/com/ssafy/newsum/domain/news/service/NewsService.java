@@ -230,12 +230,19 @@ public class NewsService {
             // 카테고리 정보
             Optional<Category> cgInfo = categoryRepository.findById(ns.getCgId().getCategoryId());
 
-            // 해당기사 해당 유저가 좋아요 유무
-            Boolean isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
 
-            // 해당기사 해당 유저가 스크랩 유무
-            Boolean isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
+            Boolean isLiked = false;
+            Boolean isScrap = false;
 
+            // 회원일 때만
+            if (userId != 0) {
+
+                // 해당기사 해당 유저가 좋아요 유무
+                isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
+
+                // 해당기사 해당 유저가 스크랩 유무
+                isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
+            }
 
             NewsResponseDto newsResDto = NewsResponseDto.builder()
                     .id(ns.getNewsId())
