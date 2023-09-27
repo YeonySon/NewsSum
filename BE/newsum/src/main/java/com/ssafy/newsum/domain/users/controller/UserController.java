@@ -28,7 +28,7 @@ import com.ssafy.newsum.domain.users.dto.request.TechRequestDto;
 import com.ssafy.newsum.domain.users.dto.request.UserLoginRequestDto;
 import com.ssafy.newsum.domain.users.dto.request.UserRequestDto;
 import com.ssafy.newsum.domain.users.dto.response.HeadlineResponseDto;
-import com.ssafy.newsum.domain.users.dto.response.TechStackResponseDto;
+import com.ssafy.newsum.domain.users.dto.response.TechResponseDto;
 import com.ssafy.newsum.domain.users.dto.response.UserInfoDto;
 import com.ssafy.newsum.domain.users.dto.response.UserLoginResponseDto;
 import com.ssafy.newsum.domain.users.entity.User;
@@ -55,8 +55,8 @@ public class UserController {
 
 		for (Headline headline : headlineList) {
 			HeadlineResponseDto headlineResponseDto = HeadlineResponseDto.builder()
-				.hlId(headline.getHlId())
-				.hlName(headline.getHlName())
+				.id(headline.getHlId())
+				.name(headline.getHlName())
 				.build();
 
 			headlineResponseDtoList.add(headlineResponseDto);
@@ -70,12 +70,12 @@ public class UserController {
 	@GetMapping("/techstack")
 	public ResponseEntity<CommonResponseDto<?>> getTechStackList() {
 		List<TechStack> techStackList = userService.getAllTechStack();
-		List<TechStackResponseDto> techStackResponseDtoList = new ArrayList<>();
+		List<TechResponseDto> techStackResponseDtoList = new ArrayList<>();
 
 		for (TechStack techStack : techStackList) {
-			TechStackResponseDto techStackResponseDto = TechStackResponseDto.builder()
-				.tsId(techStack.getTsId())
-				.tsName(techStack.getTsName())
+			TechResponseDto techStackResponseDto = TechResponseDto.builder()
+				.id(techStack.getTsId())
+				.name(techStack.getTsName())
 				.build();
 
 			techStackResponseDtoList.add(techStackResponseDto);
@@ -145,10 +145,34 @@ public class UserController {
 	@GetMapping("/{userId}")
 	public ResponseEntity<CommonResponseDto<?>> getUserInfo(@PathVariable Integer userId) {
 		User user = userService.getUserById(userId);
+		List<TechStack> techStackList = userService.getTechStackByUser(userId);
+		List<Headline> headlineList = userService.getHeadlineByUser(user);
+		List<TechResponseDto> techStackResponseDtoList = new ArrayList<>();
+		List<HeadlineResponseDto> headlineResponseDtoList = new ArrayList<>();
+
+		for (TechStack techStack : techStackList) {
+			TechResponseDto techStackResponseDto = TechResponseDto.builder()
+				.id(techStack.getTsId())
+				.name(techStack.getTsName())
+				.build();
+			techStackResponseDtoList.add(techStackResponseDto);
+		}
+
+		for (Headline headline : headlineList) {
+			HeadlineResponseDto headlineResponseDto = HeadlineResponseDto.builder()
+				.id(headline.getHlId())
+				.name(headline.getHlName())
+				.build();
+			headlineResponseDtoList.add(headlineResponseDto);
+		}
+
 		UserInfoDto userInfoDto = UserInfoDto.builder()
+			.id(userId)
 			.email(user.getEmail())
 			.name(user.getName())
 			.birthDate(user.getBirthDate())
+			.tech(techStackResponseDtoList)
+			.headline(headlineResponseDtoList)
 			.build();
 
 		return ResponseEntity.ok(CommonResponseDto.success(200, "success find userInfo", userInfoDto));
@@ -182,6 +206,8 @@ public class UserController {
 		User user = userOp.get();
 		// 비밀번호 틀림
 		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+			log.info(request.getPassword());
+			log.info(user.getPassword());
 			return ResponseEntity.ok(CommonResponseDto.error(400, "wrong password"));
 		}
 

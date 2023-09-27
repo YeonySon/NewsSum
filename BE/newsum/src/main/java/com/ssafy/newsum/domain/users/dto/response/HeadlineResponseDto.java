@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @Builder
 public class HeadlineResponseDto {
-	private Integer hlId;
-	private String hlName;
+	private Integer id;
+	private String name;
 }
