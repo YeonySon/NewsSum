@@ -23,7 +23,7 @@ export const HeaderStyle = styled.div`
   /* 로고 */
   .header-logo {
     height: 60px;
-    padding-left: 60px;
+    /* padding-left: 60px; */
   }
 
   //검색창
@@ -82,6 +82,11 @@ export const HeaderStyle = styled.div`
 
   //700px 보다 클 때
   @media (min-width: 700px) {
+    .header-logo {
+      height: 60px;
+      padding-left: 60px;
+    }
+
     .header-login-button {
       line-height: 41px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
       display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
@@ -182,7 +187,7 @@ function Header() {
     height: window.innerHeight,
   });
 
-  const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom)
+  const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom);
 
   useEffect(() => {
     setWindowSize({
