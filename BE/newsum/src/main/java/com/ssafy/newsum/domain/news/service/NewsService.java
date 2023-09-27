@@ -177,28 +177,31 @@ public class NewsService {
         // 조회수 증가
         newsRepository.updateViewCnt(newsRequestDto.getNewsId());
 
-        // 나의 최근 본 뉴스에 추가
-        Optional<ReadNews> readNews = readListRepository.findByUserId(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
+        // 회원일때만
+        if (newsRequestDto.getUserId() != 0) {
 
-        // 이미 읽은 기사면 날짜 갱신
-        if (readNews.isPresent()) {
-            readNews.get().updateReadDt();
-            readListRepository.save(readNews.get());
-            return;
+            // 나의 최근 본 뉴스에 추가
+            Optional<ReadNews> readNews = readListRepository.findByUserId(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
+
+            // 이미 읽은 기사면 날짜 갱신
+            if (readNews.isPresent()) {
+                readNews.get().updateReadDt();
+                readListRepository.save(readNews.get());
+                return;
+            }
+
+            // user 찾기
+            User userByUserId = userRepository.findUserByUserId(newsRequestDto.getUserId());
+
+
+            // 읽지 않았다면 최근 본 뉴스에 추가
+            ReadNews myReadNews = ReadNews.builder()
+                    .type('n')
+                    .contentId(newsRequestDto.getNewsId())
+                    .user(userByUserId)
+                    .build();
+            readListRepository.save(myReadNews);
         }
-
-        // user 찾기
-        User userByUserId = userRepository.findUserByUserId(newsRequestDto.getUserId());
-
-
-        // 읽지 않았다면 최근 본 뉴스에 추가
-        ReadNews myReadNews = ReadNews.builder()
-                .type('n')
-                .contentId(newsRequestDto.getNewsId())
-                .user(userByUserId)
-                .build();
-        readListRepository.save(myReadNews);
-
     }
 
 

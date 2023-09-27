@@ -24,9 +24,11 @@ import com.ssafy.newsum.domain.users.repository.UserRepository;
 import com.ssafy.newsum.global.jwt.JwtService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserService {
 	private final UserRepository userRepository;
 	private final HeadlineRepository headlineRepository;
@@ -110,6 +112,17 @@ public class UserService {
 		}
 
 		return true;
+	}
+
+	//유저 기술 스택 리스트 조회
+	public List<TechStack> getTechStackByUser(Integer userId) {
+		log.info("techstack : {}", preferredTechStackRepository.findTechStackByUser(userId));
+		return preferredTechStackRepository.findTechStackByUser(userId);
+	}
+
+	//유저 헤드라인 리스트 조회
+	public List<Headline> getHeadlineByUser(User user) {
+		return preferredHeadlineRepository.findHeadlineByUser(user.getUserId());
 	}
 
 	//기술 스택 리스트 조회

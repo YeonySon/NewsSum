@@ -1,13 +1,12 @@
-import { useState } from 'react';
 import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 //Util component import
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
-import Tabbar from '../../components/util/Tabbar';
-
-//news compoent import
-import CardSlot from '../../components/news/CardSlot';
+import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
+import cookie from 'react-cookies';
+import { useState } from 'react';
 
 export const Content = styled.div`
   border-left: 0;
@@ -15,7 +14,7 @@ export const Content = styled.div`
   width: 100%;
   margin: 0;
 
-  .mypage-menu > div {
+  .wrap-vertical {
     margin: 15px 0 0;
     padding: 5px 0 5px 40px;
     overflow-x: scroll;
@@ -23,22 +22,26 @@ export const Content = styled.div`
     overflow: auto;
     white-space: nowrap;
   }
+  .wrap-vertical::-webkit-scrollbar {
+    height: 6px;
+  }
+  .wrap-vertical::-webkit-scrollbar-thumb {
+    width: 50%; /* 스크롤바의 길이 */
+    background: #788ca8; /* 스크롤바의 색상 */
 
-  .mypage-menu > div:nth-child(2) {
-    border-top: 1px solid lightgray;
-    margin: 10px 0 0 0;
-    padding: 10px 0 0 40px;
+    border-radius: 10px;
+  }
+  .wrap-vertical::-webkit-scrollbar-track {
+    background: rgba(43, 49, 57, 0.1); /*스크롤바 뒷 배경 색상*/
   }
 
   .main {
     /* background-color: #788ca8; */
 
     display: flex;
-    flex-direction: column;
-    position: relative;
-    margin: 30px auto 100px auto;
 
-    width: 370px;
+    position: relative;
+    margin: 0 0 0 0;
 
     width: 300;
   }
@@ -53,590 +56,50 @@ export const Content = styled.div`
     max-width: 1600px;
 
     border-left: 1px solid gray;
-    .main {
-      /* background-color: #788ca8; */
-      width: 100%;
-      max-width: 1600px;
-      /* padding: 0 0 0 20px; */
+  }
+  .main {
+    /* background-color: #788ca8; */
+    width: 100%;
+    max-width: 1600px;
+    /* padding: 0 0 0 20px; */
 
-      display: flex;
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-    .main > div {
-      margin: 20px 0px 0px 15px;
-    }
+  .main > div {
+    margin: 20px 0px 0px 15px;
   }
 `;
 
-function News() {
-  const newsInfo = [
-    {
-      id: 1,
-      head: '헤1라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 2,
-      head: '헤드1인1인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 3,
-      head: '헤드3라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 4,
-      head: '헤5인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 5,
-      head: '헤드4인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 1,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 2,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 3,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 4,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 5,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
-    {
-      id: 6,
-      head: '헤드라인헤드라인헤드라인헤드라인헤드라인',
-      main: '메인이야',
-      threeLine: '3줄요약',
-      url: 'https://www.',
-      postedDate: '2023.09.13',
-      mediaName: '중앙일보',
-      mediaImage: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      image: 'https://velog.velcdn.com/images/dailylifecoding/post/96ae60b7-9c5a-4ef8-a379-8a9f85745bf0/image.png',
-      viewCnt: 12,
-      cgName: '모바일',
-      likeCnt: 12,
-      scrapCnt: 22,
-      isScrap: 't',
-      isLike: 'f',
-    },
+function MyNews() {
+  const tab = [
+    ['분석', 'visualization'],
+    ['뉴스', 'mynews'],
+    ['키워드', 'keyword'],
+    ['내정보', 'myinfo'],
   ];
+  const [sort, setSort] = useState(tab[1][0]);
 
   return (
     <div>
       <Header />
       <Navbar nav={'mypage'} />
       <Content>
-        <div className="mypage-menu">
-          <Tabbar type={1} />
-          <Tabbar type={3} />
-        </div>
-        {/* <hr /> */}
-        {/* 여기 안에 페이지 제작 */}
-        <div className="main">
-          {newsInfo.map((news) => (
-            <CardSlot newsInfo={news} />
-          ))}
+        <div className="wrap-vertical">
+          {tab.map((manu) =>
+            manu[0] == sort ? (
+              <Active>{manu[0]}</Active>
+            ) : (
+              <NavLink to={`/mypage/` + manu[1]}>
+                <Deactive>{manu[0]}</Deactive>
+              </NavLink>
+            )
+          )}
         </div>
       </Content>
     </div>
   );
 }
 
-export default News;
+export default MyNews;

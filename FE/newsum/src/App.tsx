@@ -16,10 +16,11 @@ import LoginTest from './page/login/test';
 import News from './page/news/News';
 import Short from './page/short/Short';
 
-// myinfo
-import Clicked from './page/mypage/ClickedNews';
-import PersonalInfo from './page/mypage/PersonalInfo';
+// mypage
+import Visualization from './page/mypage/Visualization';
+import MyInfo from './page/mypage/MyInfo';
 import Keyword from './page/mypage/Keyword';
+import MyNews from './page/mypage/MyNews';
 
 function App() {
   return (
@@ -28,14 +29,17 @@ function App() {
         <Routes>
           <Route path="/news" element={<News />} />
           <Route path="/short" element={<Short />} />
-          <Route path='/signup/1' element={<SignUp1 />}/>
-          <Route path='/signup/2' element={<SignUp2 />}/>
-          <Route path='/signup/3' element={<SignUp3 />}/>
-          <Route path='/logintest' element={<LoginTest />}/>
+          <Route path="/signup/1" element={<SignUp1 />} />
+          <Route path="/signup/2" element={<SignUp2 />} />
+          <Route path="/signup/3" element={<SignUp3 />} />
+          <Route path="/logintest" element={<LoginTest />} />
 
-          <Route path='/mypage' element={<Clicked />}/>
-          <Route path='/mypage/PersonalInfo' element={<PersonalInfo />}/>
-          <Route path='/mypage/keyword' element={<Keyword />}/>
+          <Route path="/mypage" element={<Visualization />} />
+          <Route path="/mypage/visualization" element={<Visualization />} />
+          <Route path="/mypage/mynews" element={<MyNews />} />
+          <Route path="/mypage/keyword" element={<Keyword />} />
+          <Route path="/mypage/myinfo" element={<MyInfo />} />
+
           {/* <Route path='/test' element={<Test />}/> */}
         </Routes>
       </BrowserRouter>
