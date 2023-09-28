@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 //Util component import
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
-import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
+import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
 import cookie from 'react-cookies';
 import { useState } from 'react';
 
@@ -46,17 +46,15 @@ export const Content = styled.div`
     width: 300;
   }
 
-  //700px 보다 클 때
-  @media (min-width: 700px) {
-    position: absolute;
-    top: 60px;
-    left: 17%;
-
-    width: 80%;
-    max-width: 1600px;
-
-    border-left: 1px solid gray;
+  .visual-type {
+    display: block;
+    margin: 10px 0 10px 0;
   }
+
+  .not-selected {
+    display: none;
+  }
+
   .main {
     /* background-color: #788ca8; */
     width: 100%;
@@ -70,6 +68,26 @@ export const Content = styled.div`
   .main > div {
     margin: 20px 0px 0px 15px;
   }
+  //700px 보다 클 때
+  @media (min-width: 700px) {
+    position: absolute;
+    top: 60px;
+    left: 17%;
+
+    width: 80%;
+    max-width: 1600px;
+
+    border-left: 1px solid gray;
+
+    .visual-type {
+      display: none;
+    }
+
+    .not-selected {
+      width: 100%;
+      display: inline-block;
+    }
+  }
 `;
 
 function Visualization() {
@@ -80,6 +98,9 @@ function Visualization() {
     ['내정보', 'myinfo'],
   ];
   const [sort, setSort] = useState(tab[0][0]);
+
+  const types = ['뉴스 키워드 분석', '읽은 뉴스 통계', '스트랩 뉴스 통계'];
+  const [type, setType] = useState(types[0]);
 
   return (
     <div>
@@ -96,7 +117,26 @@ function Visualization() {
               </NavLink>
             )
           )}
-          <hr />
+        </div>
+        <hr />
+        <div className="visual-type">
+          {types.map((t) =>
+            t == type ? <ActiveDark>{t}</ActiveDark> : <Deactive onClick={() => setType(t)}>{t}</Deactive>
+          )}
+        </div>
+        <hr />
+
+        <div className={type == types[0] ? 'selected' : 'not-selected'}>
+          {/* 여기에 뉴스 키워드 내용을 입력하시오  */}
+          뉴스키워드분석
+        </div>
+        <div className={type == types[1] ? 'selected' : 'not-selected'}>
+          {/* 여기에 읽은 뉴스 키워드 내용을 입력하시오  */}
+          읽은 뉴스 통계
+        </div>
+        <div className={type == types[2] ? 'selected' : 'not-selected'}>
+          {/* 여기에 스크랩 뉴스 통계 내용을 입력하시오  */}
+          스크랩뉴스 통계
         </div>
       </Content>
     </div>
