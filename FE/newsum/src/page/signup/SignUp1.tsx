@@ -245,7 +245,7 @@ function SignUp1() {
   }, [])
   return (
     <SignUpPage>
-        <LogoTag><p>NewSum</p></LogoTag>
+      <LogoTag><p>NewSum</p></LogoTag>
       <Container>
 
         <NavButtonBox>
@@ -256,7 +256,10 @@ function SignUp1() {
 
         {/* 이름 */}
         <InputWordTag><p>이름</p></InputWordTag>
-        <InputTag value={ name } onChange={ handleName } placeholder='이름' />
+        <InputBox>
+          <InputTag value={ name } onChange={ handleName } placeholder='이름' />
+        </InputBox>
+
         <WarningMessageTag $isNotActive={ !nameMessageType }  $isSuccess={ false }>
           {nameWarningMessage[nameMessageType]}
         </WarningMessageTag>
@@ -288,19 +291,27 @@ function SignUp1() {
 
         {/* 비밀번호 */}
         <InputWordTag><p>비밀번호</p></InputWordTag>
-        <InputTag type='password' value={password} onChange={(e)=>setPassword(e.target.value)} onBlur={ handlePassword} placeholder='비밀번호 (8 ~ 16자의 영문, 숫자, 특수기호 포함)' />
+        <InputBox>
+          <InputTag type='password' value={password} onChange={(e)=>setPassword(e.target.value)} onBlur={ handlePassword} placeholder='비밀번호 (8 ~ 16자의 영문, 숫자, 특수기호 포함)' />
+        </InputBox>
+
         <WarningMessageTag $isNotActive={ !passwordMessageType } $isSuccess={ passwordMessageType === 1 }>
           {passwordWarningMessage[passwordMessageType]}
         </WarningMessageTag>
 
         <InputWordTag><p>비밀번호 확인</p></InputWordTag>
-        <InputTag type='password' onChange={(e) => setCheckPassword(e.target.value) } placeholder='비밀번호 확인' />
+        <InputBox>
+          <InputTag type='password' onChange={(e) => setCheckPassword(e.target.value) } placeholder='비밀번호 확인' />
+        </InputBox>
+
         <WarningMessageTag $isNotActive = { !password || !checkPassword } $isSuccess={passwordIsCheck}>
           {passwordIsCheck ? checkPasswordWarningMessage[1] : checkPasswordWarningMessage[2] }
         </WarningMessageTag>
 
         <InputWordTag><p>생년월일</p></InputWordTag>
-        <InputTag value={birthDate} onChange={(e) => setBirthDate(e.target.value)} onBlur={ handleBirthDate } placeholder='YYYYMMDD' />
+        <InputBox>
+          <InputTag value={birthDate} onChange={(e) => setBirthDate(e.target.value)} onBlur={ handleBirthDate } placeholder='YYYYMMDD' />
+        </InputBox>
         <WarningMessageTag $isNotActive = { !birthDate || birthDateIsCheck } $isSuccess={birthDateIsCheck}>
           {birthDateIsCheck ? birthDateWarningMessage[1] : birthDateWarningMessage[2] }
         </WarningMessageTag>

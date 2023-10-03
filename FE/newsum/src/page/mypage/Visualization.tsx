@@ -6,7 +6,13 @@ import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
 import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
 import cookie from 'react-cookies';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import RadarChart from '../../components/mypage/visuallization/RadarChart';
+import VerticalChart from '../../components/mypage/visuallization/VerticalChart';
+import { BaseInstance } from '../../hook/AxiosInstance';
+import { useRecoilValue } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 export const Content = styled.div`
   border-left: 0;
@@ -102,6 +108,19 @@ function Visualization() {
   const types = ['뉴스 키워드 분석', '읽은 뉴스 통계', '스트랩 뉴스 통계'];
   const [type, setType] = useState(types[0]);
 
+  const userId = useRecoilValue(MyInfoAtom)
+
+  // useEffect(() => {
+  //   BaseInstance.get(`/mypage/analyze/${userId}`)
+  //     .then((response) => {
+  //       console.log(response)
+  //     })
+  //     .catch((error) => {
+  //       console.log(error)
+  //     })
+
+  // }, [])
+
   return (
     <div>
       <Header />
@@ -133,10 +152,12 @@ function Visualization() {
         <div className={type == types[1] ? 'selected' : 'not-selected'}>
           {/* 여기에 읽은 뉴스 키워드 내용을 입력하시오  */}
           읽은 뉴스 통계
+          <VerticalChart />
         </div>
         <div className={type == types[2] ? 'selected' : 'not-selected'}>
           {/* 여기에 스크랩 뉴스 통계 내용을 입력하시오  */}
           스크랩뉴스 통계
+          <RadarChart />
         </div>
       </Content>
     </div>
