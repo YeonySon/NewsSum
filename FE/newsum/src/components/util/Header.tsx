@@ -1,13 +1,16 @@
-import React from 'react';
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import React from "react";
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 //컴포넌트 import
-import HeaderModal from './HeaderModal';
+import HeaderModal from "./HeaderModal";
 
 //recoil
-import { useSetRecoilState } from 'recoil';
-import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
+import MyInfo from "../../page/mypage/MyInfo";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { SearchAtom } from "../../recoil/atoms/SearchAtom";
 
 export const HeaderStyle = styled.div`
   width: 100%;
@@ -91,6 +94,7 @@ export const HeaderStyle = styled.div`
       line-height: 41px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
       display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
 
+      /* min-width: 50px; */
       width: 85px;
       height: 40px;
       border-radius: 8px;
@@ -180,7 +184,7 @@ function Header() {
   const [profileModal, setProfileModal] = useState(false);
   const [searchClicked, setSearchClicked] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState("");
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -188,6 +192,9 @@ function Header() {
   });
 
   const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom);
+  const MyInfo = useRecoilValue(MyInfoAtom);
+
+  const [Search, setSearch] = useRecoilState(SearchAtom);
 
   useEffect(() => {
     setWindowSize({
@@ -196,8 +203,10 @@ function Header() {
     });
   }, [window.innerWidth]);
 
-  function search() {
-    alert('마이페이지로 이동');
+  function search(value) {
+    setKeyword(value);
+    setSearch(value);
+    console.log(Search);
   }
 
   function login() {
@@ -207,12 +216,12 @@ function Header() {
   }
 
   function ToggleProfileModal() {
-    console.log('토글');
+    console.log("토글");
     setProfileModal(!profileModal);
   }
 
   function ToggleSearchBar() {
-    console.log('토글');
+    console.log("토글");
     setSearchClicked(!searchClicked);
   }
 
@@ -220,17 +229,26 @@ function Header() {
     <div>
       <HeaderStyle>
         {/* 로고 */}
-        {!searchClicked && <img className="header-logo" src={`${process.env.PUBLIC_URL}/newsum.png`} alt="logo" />}
+        {!searchClicked && (
+          <img
+            className="header-logo"
+            src={`${process.env.PUBLIC_URL}/newsum.png`}
+            alt="logo"
+          />
+        )}
         {/* 큰 화면일 때 검색창 */}
         <div className="header-search-big">
           <SearchInput>
             <input
               className="header-input"
-              onChange={(e) => setKeyword(e.target.value)}
-              value={keyword}
+              onChange={(e) => search(e.target.value)}
+              value={Search}
               placeholder="검색어를 입력하시오"
             />
-            <img className="big" src={`${process.env.PUBLIC_URL}/img/util/search.png`} />
+            <img
+              className="big"
+              src={`${process.env.PUBLIC_URL}/img/util/search.png`}
+            />
           </SearchInput>
         </div>
         {/* 작은 화면일 때 검색창 */}
@@ -239,17 +257,21 @@ function Header() {
             <SearchInput>
               <input
                 className="header-input"
-                onChange={(e) => setKeyword(e.target.value)}
-                value={keyword}
+                onChange={(e) => search(e.target.value)}
+                value={Search}
                 placeholder="검색어를 입력하시오"
               />
-              <img className="small" src={`${process.env.PUBLIC_URL}/img/util/x.png`} onClick={ToggleSearchBar} />
+              <img
+                className="small"
+                src={`${process.env.PUBLIC_URL}/img/util/x.png`}
+                onClick={ToggleSearchBar}
+              />
             </SearchInput>
           ) : null}
         </div>
 
         {/* 로그인 버튼 */}
-        {!userInfo && (
+        {MyInfo == 0 && (
           <div className="header-login-button" onClick={login}>
             로그인
           </div>
@@ -285,7 +307,7 @@ function Header() {
 
       {/* 프로필모달  */}
       {/* 로그인을 했는지 안했는지 props로 전달 */}
-      {profileModal && <HeaderModal userInfo={userInfo} setUserInfo={setUserInfo} setProfileModal={setProfileModal} />}
+      {profileModal && <HeaderModal setProfileModal={setProfileModal} />}
 
       <Hr />
     </div>

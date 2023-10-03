@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import styled from "styled-components";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
 
 const Item = styled.div`
   color: #353845;
@@ -10,6 +13,8 @@ const Item = styled.div`
   height: 30px;
   margin: 0;
   padding: 10px 0 0 0;
+
+  cursor: pointer;
 
   a:hover {
     color: darkblue;
@@ -42,28 +47,31 @@ const Hr = styled.hr`
   padding: 0, 10px;
 `;
 
-function HeaderModal({ userInfo, setUserInfo, setProfileModal }) {
+function HeaderModal({ setProfileModal }) {
+  const setMyinfo = useSetRecoilState(MyInfoAtom);
+  const MyInfo = useRecoilValue(MyInfoAtom);
+  const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom);
   //로그인 되었는지 확인
 
   function myPage() {
-    alert('마이페이지로 이동');
+    alert("마이페이지로 이동");
   }
 
   function logout() {
-    alert('로그아웃');
-    setUserInfo(false);
+    // alert("로그아웃");
     setProfileModal(false);
+    setMyinfo(0);
   }
 
   function login() {
-    alert('로그인');
-    setUserInfo(true);
+    // alert("로그인");
     setProfileModal(false);
+    setLoginModalOpen(true);
   }
 
   return (
     <div className="headerModal">
-      {userInfo ? (
+      {MyInfo != 0 ? (
         <Items>
           <Item onClick={myPage}>
             <a>마이페이지</a>
