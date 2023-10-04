@@ -89,7 +89,7 @@ export const HeaderStyle = styled.div`
   @media (min-width: 700px) {
     .header-logo {
       height: 60px;
-      padding-left: 60px;
+      padding-left: 30px;
     }
 
     .header-login-button {

@@ -1,31 +1,21 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 //아이콘 가져오기
-import { AiOutlineClose } from "react-icons/ai";
-import {
-  FaBookmark,
-  FaRegBookmark,
-  FaHeart,
-  FaRegHeart,
-} from "react-icons/fa6";
+import { AiOutlineClose } from 'react-icons/ai';
+import { FaBookmark, FaRegBookmark, FaHeart, FaRegHeart } from 'react-icons/fa6';
 
-import { FaShare } from "react-icons/fa6";
+import { FaShare } from 'react-icons/fa6';
 
 // cookies
-import cookie from "react-cookies";
+import cookie from 'react-cookies';
 
 // //axios
-import { BaseInstance } from "../../hook/AxiosInstance";
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 // recoil
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 const Item = styled.div`
   color: #353845;
@@ -80,30 +70,30 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
 
   function scrap() {
     if (MyInfo == 0) {
-      alert("로그인 후 사용가능한 기능입니다.");
+      alert('로그인 후 사용가능한 기능입니다.');
       return;
     }
-    if (newsInfo.isScrap == "t") {
-      newsInfo.isScrap = "f";
-      deleteAxios("/news/scrap");
+    if (newsInfo.isScrap == 't') {
+      newsInfo.isScrap = 'f';
+      deleteAxios('/news/scrap');
     } else {
-      newsInfo.isScrap = "t";
-      getAxios("/news/scrap");
+      newsInfo.isScrap = 't';
+      getAxios('/news/scrap');
     }
     setRander(!rander);
   }
 
   function like() {
     if (MyInfo == 0) {
-      alert("로그인 후 사용가능한 기능입니다.");
+      alert('로그인 후 사용가능한 기능입니다.');
       return;
     }
-    if (newsInfo.isLike == "t") {
-      newsInfo.isLike = "f";
-      deleteAxios("/news/dibs");
+    if (newsInfo.isLike == 't') {
+      newsInfo.isLike = 'f';
+      deleteAxios('/news/dibs');
     } else {
-      newsInfo.isLike = "t";
-      getAxios("/news/dibs");
+      newsInfo.isLike = 't';
+      getAxios('/news/dibs');
     }
     setRander(!rander);
   }
@@ -111,25 +101,25 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
   async function copyURL() {
     try {
       await navigator.clipboard.writeText(newsInfo.url);
-      alert("복사되었습니다.");
+      alert('복사되었습니다.');
     } catch (err) {
       console.log(err);
     }
   }
 
   function openNews() {
-    window.open(newsInfo.url, "_blank", "noopener, noreferrer");
+    window.open(newsInfo.url, '_blank', 'noopener, noreferrer');
   }
 
   // get
   async function getAxios(url) {
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
 
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Beare ' + token,
     };
-    await BaseInstance.get(`${url}/${newsInfo.id}/${MyInfo}`, { headers })
+    await BaseInstance.get(`/api/${url}/${newsInfo.id}/${MyInfo}`, { headers })
       .then((response) => {
         if (response.data.statusCode === 200) {
         } else if (response.data.statusCode === 400) {
@@ -144,13 +134,13 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
 
   // delete
   async function deleteAxios(url) {
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Beare ' + token,
     };
 
-    await BaseInstance.delete(`${url}/${newsInfo.id}/${MyInfo}`, {
+    await BaseInstance.delete(`/api/${url}/${newsInfo.id}/${MyInfo}`, {
       headers,
     })
       .then((response) => {
@@ -169,11 +159,11 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
     <div className="headerModal">
       <Items>
         <Item onClick={like}>
-          {newsInfo.isLike == "t" ? <FaHeart /> : <FaRegHeart />}
+          {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
           <span className="text">좋아요</span>
         </Item>
         <Item onClick={scrap}>
-          {newsInfo.isScrap == "t" ? <FaBookmark /> : <FaRegBookmark />}
+          {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
           <span className="text">스크랩</span>
         </Item>
         <Item onClick={copyURL}>

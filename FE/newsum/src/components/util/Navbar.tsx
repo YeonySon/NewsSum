@@ -47,7 +47,7 @@ export const NavBar = styled.div`
     /* background-color: aliceblue; */
 
     position: absolute;
-    top: 20px;
+    top: 5px;
     left: 100%;
     transform: translate(-95%, 0%);
     padding: 10px;
