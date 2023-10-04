@@ -11,6 +11,8 @@ import com.ssafy.newsum.domain.headline.entity.Headline;
 import com.ssafy.newsum.domain.headline.entity.PreferredHeadline;
 import com.ssafy.newsum.domain.headline.repository.HeadlineRepository;
 import com.ssafy.newsum.domain.headline.repository.PreferredHeadlineRepository;
+import com.ssafy.newsum.domain.job.Job;
+import com.ssafy.newsum.domain.job.repository.JobRepository;
 import com.ssafy.newsum.domain.techstack.entity.PreferredTechStack;
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
 import com.ssafy.newsum.domain.techstack.repository.PreferredTechStackRepository;
@@ -37,6 +39,7 @@ public class UserService {
 	private final PreferredTechStackRepository preferredTechStackRepository;
 	private final JwtService jwtService;
 	private final PasswordEncoder passwordEncoder;
+	private final JobRepository jobRepository;
 
 	@Transactional
 	public UserLoginResponseDto updateRefreshToken(User user) {
@@ -61,6 +64,11 @@ public class UserService {
 	//헤드라인 리스트 출력
 	public List<Headline> getAllHeadline() {
 		return headlineRepository.findAll();
+	}
+
+	//기술스택 리스트 출력
+	public List<Job> getAllJob() {
+		return jobRepository.findAll();
 	}
 
 	//아이디 중복 확인

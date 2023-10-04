@@ -2,6 +2,7 @@ package com.ssafy.newsum.domain.users.dto.request;
 
 import java.util.List;
 
+import com.ssafy.newsum.domain.job.Job;
 import com.ssafy.newsum.domain.users.entity.User;
 
 import lombok.AllArgsConstructor;
@@ -20,6 +21,7 @@ public class UserRequestDto {
 	private String authenticate;
 	private List<TechRequestDto> tech;
 	private List<HeadlineRequestDto> headline;
+	private Integer job;
 
 	public User toEntity(UserRequestDto userRequestDto) {
 		User user = User.builder()
@@ -29,6 +31,7 @@ public class UserRequestDto {
 			.name(userRequestDto.getName())
 			.birthDate(userRequestDto.getBirthDate())
 			.authenticate(userRequestDto.getAuthenticate())
+			.job(Job.builder().jobId(userRequestDto.getJob()).build())
 			.build();
 		return user;
 	}
