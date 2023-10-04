@@ -66,7 +66,7 @@ function LoginModal() {
       "Content-Type": "application/json",
     };
 
-    await BaseInstance.post("/user/login", requestBodyJSON, { headers })
+    await BaseInstance.post("/api/user/login", requestBodyJSON, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {

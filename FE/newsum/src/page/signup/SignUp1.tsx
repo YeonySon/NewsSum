@@ -90,7 +90,7 @@ function SignUp1() {
     if (emailRegEx.test(email)) {
 
       // 서버에 요청
-      BaseInstance.get(`/user/id?email=${email}`, {headers: {}})
+      BaseInstance.get(`/api/user/id?email=${email}`, {headers: {}})
         .then((response) => {
           if (response.data.statusCode === 400) {
             setEmailMessageType(3);

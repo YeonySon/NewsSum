@@ -64,7 +64,7 @@ function MyInfoComponent() {
     const data = {password: password}
     const requestBodyJSON = JSON.stringify(data);
 
-    await BaseInstance.patch(`/user/${userId}`, requestBodyJSON)
+    await BaseInstance.patch(`/api/user/${userId}`, requestBodyJSON)
       .then((response) => {
         alert('비밀번호가 변경되었습니다.')
       })
@@ -78,7 +78,7 @@ function MyInfoComponent() {
   }
 
   useEffect(() => {
-    BaseInstance.get(`/user/${userId}`)
+    BaseInstance.get(`/api/user/${userId}`)
       .then((response) => {
         const data = {
           email: response.data.data.email,

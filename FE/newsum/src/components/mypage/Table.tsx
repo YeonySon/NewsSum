@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect, useState } from "react";
 
+import { WordCloudTable } from "./visuallization/GraphStyle";
 import styled from "styled-components";
 
 const TableItem = styled.table`
@@ -27,7 +28,8 @@ const TableItem = styled.table`
 
 function Table({ list, keywordList }) {
   return (
-    <div>
+    <WordCloudTable>
+      <p>뉴스키워드분석</p>
       <TableItem>
         {list.map((li, index) =>
           index < 10 ? (
@@ -39,7 +41,7 @@ function Table({ list, keywordList }) {
           ) : null
         )}
       </TableItem>
-    </div>
+    </WordCloudTable>
   );
 }
 
