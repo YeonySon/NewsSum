@@ -1,14 +1,14 @@
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
-import cookie from 'react-cookies';
-import { useState } from 'react';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import Tabbar, { Active, Deactive } from "../../components/util/Tabbar";
+import cookie from "react-cookies";
+import { useState } from "react";
 
-import MyInfoComponent from '../../components/mypage/MyInfoComponent';
+import MyInfoComponent from "../../components/mypage/MyInfoComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -41,7 +41,7 @@ export const Content = styled.div`
     /* background-color: #788ca8; */
 
     display: flex;
-
+    top: 60px;
     position: relative;
     margin: 0 0 0 0;
 
@@ -57,7 +57,7 @@ export const Content = styled.div`
     width: 80%;
     max-width: 1600px;
 
-    border-left: 1px solid gray;
+    /* border-left: 1px solid gray; */
   }
   .main {
     /* background-color: #788ca8; */
@@ -76,17 +76,17 @@ export const Content = styled.div`
 
 function MyInfo() {
   const tab = [
-    ['분석', 'visualization'],
-    ['뉴스', 'mynews'],
-    ['키워드', 'keyword'],
-    ['내정보', 'myinfo'],
+    ["분석", "visualization"],
+    ["뉴스", "mynews"],
+    ["키워드", "keyword"],
+    ["내정보", "myinfo"],
   ];
   const [sort, setSort] = useState(tab[3][0]);
 
   return (
     <div>
       <Header />
-      <Navbar nav={'mypage'} />
+      <Navbar nav={"mypage"} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>

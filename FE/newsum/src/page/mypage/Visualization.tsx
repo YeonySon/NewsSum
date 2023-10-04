@@ -1,27 +1,31 @@
 //react import
-import { useState } from 'react';
+import { useState } from "react";
 
 //라이브러리
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import cookie from 'react-cookies';
-import ReactWordcloud from 'react-wordcloud';
+import styled from "styled-components";
+import { NavLink } from "react-router-dom";
+import cookie from "react-cookies";
+import ReactWordcloud from "react-wordcloud";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import Tabbar, {
+  Active,
+  ActiveDark,
+  Deactive,
+} from "../../components/util/Tabbar";
 
 //MyPage component import
-import Table from '../../components/mypage/Table';
+import Table from "../../components/mypage/Table";
 
-import RadarChart from '../../components/mypage/visuallization/RadarChart';
-import VerticalChart from '../../components/mypage/visuallization/VerticalChart';
-import WordCloud from '../../components/mypage/visuallization/WordCloud';
-import { BaseInstance } from '../../hook/AxiosInstance';
-import { useRecoilValue } from 'recoil';
-import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
-import { DivColLine } from '../../components/mypage/visuallization/GraphStyle';
+import RadarChart from "../../components/mypage/visuallization/RadarChart";
+import VerticalChart from "../../components/mypage/visuallization/VerticalChart";
+import WordCloud from "../../components/mypage/visuallization/WordCloud";
+import { BaseInstance } from "../../hook/AxiosInstance";
+import { useRecoilValue } from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { DivColLine } from "../../components/mypage/visuallization/GraphStyle";
 
 export const Content = styled.div`
   border-left: 0;
@@ -29,7 +33,6 @@ export const Content = styled.div`
   width: 100%;
   margin: 0;
   padding: 0px 10px;
-  
 
   .wrap-vertical {
     margin: 15px 0 0;
@@ -101,7 +104,7 @@ export const Content = styled.div`
     width: 80%;
     max-width: 1600px;
 
-    border-left: 1px solid gray;
+    /* border-left: 1px solid gray; */
 
     .visual-type {
       display: none;
@@ -116,12 +119,12 @@ export const Content = styled.div`
 
 export const VisualizationPage = styled.div`
   /* width: 95%; */
-  margin : 10px 5%;
+  margin: 10px 5%;
   display: flex;
-  flex-direction:column;
+  flex-direction: column;
   align-items: center;
   overflow: auto;
-`
+`;
 
 export const GraphContainer = styled.div`
   width: 100%;
@@ -129,74 +132,73 @@ export const GraphContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-`
+`;
 
 export const DivRowLine = styled.div`
   width: 100%;
   height: 1px;
   margin: 5px 0px;
-  background-color: #D9D9D9;
+  background-color: #d9d9d9;
 
   @media (max-width: 700px) {
     display: none;
   }
-`
-
+`;
 
 function Visualization() {
   const tab = [
-    ['분석', 'visualization'],
-    ['뉴스', 'mynews'],
-    ['키워드', 'keyword'],
-    ['내정보', 'myinfo'],
+    ["분석", "visualization"],
+    ["뉴스", "mynews"],
+    ["키워드", "keyword"],
+    ["내정보", "myinfo"],
   ];
   const [sort, setSort] = useState(tab[0][0]);
 
-  const types = ['뉴스 키워드 분석', '읽은 뉴스 통계', '스트랩 뉴스 통계'];
+  const types = ["뉴스 키워드 분석", "읽은 뉴스 통계", "스트랩 뉴스 통계"];
   const [type, setType] = useState(types[0]);
 
   const data = {
     keywordlist: [
-      { name: 'AI', frequency: 1000 },
-      { name: '11', frequency: 200 },
-      { name: '22', frequency: 300 },
-      { name: '33', frequency: 400 },
-      { name: '44', frequency: 500 },
-      { name: '55', frequency: 600 },
-      { name: 'AI', frequency: 1000 },
-      { name: '11', frequency: 200 },
-      { name: '22', frequency: 300 },
-      { name: '33', frequency: 400 },
-      { name: '44', frequency: 500 },
-      { name: '55', frequency: 600 },
-      { name: 'AI', frequency: 1000 },
-      { name: '11', frequency: 200 },
-      { name: '22', frequency: 300 },
-      { name: '33', frequency: 400 },
-      { name: '44', frequency: 500 },
-      { name: '55', frequency: 600 },
-      { name: 'AI', frequency: 1920 },
-      { name: '11', frequency: 200 },
-      { name: '22', frequency: 300 },
-      { name: '33', frequency: 400 },
-      { name: '44', frequency: 500 },
-      { name: '55', frequency: 600 },
+      { name: "AI", frequency: 1000 },
+      { name: "11", frequency: 200 },
+      { name: "22", frequency: 300 },
+      { name: "33", frequency: 400 },
+      { name: "44", frequency: 500 },
+      { name: "55", frequency: 600 },
+      { name: "AI", frequency: 1000 },
+      { name: "11", frequency: 200 },
+      { name: "22", frequency: 300 },
+      { name: "33", frequency: 400 },
+      { name: "44", frequency: 500 },
+      { name: "55", frequency: 600 },
+      { name: "AI", frequency: 1000 },
+      { name: "11", frequency: 200 },
+      { name: "22", frequency: 300 },
+      { name: "33", frequency: 400 },
+      { name: "44", frequency: 500 },
+      { name: "55", frequency: 600 },
+      { name: "AI", frequency: 1920 },
+      { name: "11", frequency: 200 },
+      { name: "22", frequency: 300 },
+      { name: "33", frequency: 400 },
+      { name: "44", frequency: 500 },
+      { name: "55", frequency: 600 },
     ],
     scrapList: [
-      { cgName: 'AI', cnt: 10 },
-      { cgName: '131', cnt: 20 },
-      { cgName: '141', cnt: 30 },
-      { cgName: '1515', cnt: 40 },
-      { cgName: '414', cnt: 50 },
-      { cgName: '1', cnt: 60 },
+      { cgName: "AI", cnt: 10 },
+      { cgName: "131", cnt: 20 },
+      { cgName: "141", cnt: 30 },
+      { cgName: "1515", cnt: 40 },
+      { cgName: "414", cnt: 50 },
+      { cgName: "1", cnt: 60 },
     ],
     historyList: [
-      { cgName: 'sasdf', cnt: 10 },
-      { cgName: 'sg', cnt: 20 },
-      { cgName: 'ahffg', cnt: 30 },
-      { cgName: 'asdf', cnt: 40 },
-      { cgName: 'sadfgw', cnt: 50 },
-      { cgName: 'sdf', cnt: 60 },
+      { cgName: "sasdf", cnt: 10 },
+      { cgName: "sg", cnt: 20 },
+      { cgName: "ahffg", cnt: 30 },
+      { cgName: "asdf", cnt: 40 },
+      { cgName: "sadfgw", cnt: 50 },
+      { cgName: "sdf", cnt: 60 },
     ],
   };
 
@@ -216,7 +218,7 @@ function Visualization() {
   return (
     <div>
       <Header />
-      <Navbar nav={'mypage'} />
+      <Navbar nav={"mypage"} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>
@@ -232,16 +234,20 @@ function Visualization() {
         <hr />
         <div className="visual-type">
           {types.map((t) =>
-            t == type ? <ActiveDark>{t}</ActiveDark> : <Deactive onClick={() => setType(t)}>{t}</Deactive>
+            t == type ? (
+              <ActiveDark>{t}</ActiveDark>
+            ) : (
+              <Deactive onClick={() => setType(t)}>{t}</Deactive>
+            )
           )}
           <hr />
         </div>
-        <WordCloud data={data} isActive={type == types[0]}/>
+        <WordCloud data={data} isActive={type == types[0]} />
         <DivRowLine />
         <GraphContainer>
           <VerticalChart isActive={type == types[1]} />
           <DivColLine />
-          <RadarChart isActive={type == types[2]}/>
+          <RadarChart isActive={type == types[2]} />
         </GraphContainer>
       </Content>
     </div>

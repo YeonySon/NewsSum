@@ -1,23 +1,31 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 // cookies
-import cookie from 'react-cookies';
+import cookie from "react-cookies";
 
 // recoil
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
 
 // //axios
-import { BaseInstance } from '../../hook/AxiosInstance';
+import { BaseInstance } from "../../hook/AxiosInstance";
+
+//nav
+import { useNavigate } from "react-router-dom";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import Tabbar from '../../components/util/Tabbar';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import Tabbar from "../../components/util/Tabbar";
 
 //Short compoent import
-import ShortComponent from '../../components/short/ShortComponent';
+import ShortComponent from "../../components/short/ShortComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -27,6 +35,7 @@ export const Content = styled.div`
 
   .main {
     /* background-color: #788ca8; */
+    top: 60px;
 
     display: flex;
     flex-direction: column;
@@ -41,14 +50,13 @@ export const Content = styled.div`
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
-    top: 60px;
     left: 17%;
 
     height: calc(100% - 60px);
     width: 80%;
     max-width: 1600px;
 
-    border-left: 1px solid gray;
+    /* border-left: 1px solid gray; */
     .main {
     }
   }
@@ -65,16 +73,20 @@ function News() {
   const setMyinfo = useSetRecoilState(MyInfoAtom);
 
   function scrollToNextPage() {
-    setPages(pages + 1);
+    if (pages >= newsInfo.length - 1) {
+      setPages(0);
+    } else {
+      setPages(pages + 1);
+    }
   }
 
   function scrollToPrevPage() {
-    if (pages >= 0) {
+    if (pages > 0) {
       setPages(pages - 1);
     }
   }
 
-  window.addEventListener('wheel', (event) => {
+  window.addEventListener("wheel", (event) => {
     if (event.deltaY > 0) {
       scrollToNextPage();
     } else {
@@ -86,24 +98,24 @@ function News() {
   async function getShortList() {
     // const requestBodyJSON = JSON.stringify(requestBody);
 
-    const token = cookie.load('accessToken');
+    const token = cookie.load("accessToken");
     // if (token == undefined) {
     //   setMyinfo(0);
     //   return;
     // }
 
     const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      "Content-Type": "application/json",
+      Authorization: "Beare " + token,
     };
-    console.log('myinfo : ');
+    console.log("myinfo : ");
     console.log(MyInfo);
 
     await BaseInstance.get(`/api/news/recommend/${MyInfo}`, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log('200');
+          console.log("200");
           console.log(response.data);
           // newsInfo = response.data.data;
           // newsInfo = dummy;
@@ -111,7 +123,7 @@ function News() {
           setNewsInfo(response.data.data);
           // setNewsInfo(dummy);
         } else if (response.data.statusCode === 400) {
-          console.log('400');
+          console.log("400");
           console.log(response.data);
         }
         return response.data;
@@ -124,25 +136,37 @@ function News() {
 
   //page 갱신
   useEffect(() => {
-    console.log('pages');
+    console.log("pages");
     console.log(pages);
-
-    if (pages >= newsInfo.length - 1) {
-      getShortList();
-      setPages(0);
-    }
   }, [pages]);
 
+  const navigate = useNavigate();
+
+  //page 갱신
+  useEffect(() => {
+    console.log("MyInfo");
+    console.log(MyInfo);
+    if (MyInfo == 0) {
+      // alert("로그인 후 사용가능한 기능입니다.");
+      navigate("/news");
+    } else {
+      getShortList();
+    }
+  }, [MyInfo]);
   return (
     <div>
       <Header />
-      <Navbar nav={'short'} />
+      <Navbar nav={"short"} />
       <Content>
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {/* {MyInfo} */}
-          {newsInfo.length != 0 ? <ShortComponent shortInfo={newsInfo[pages]} /> : <div>비었습니다</div>}
+          {newsInfo.length != 0 ? (
+            <ShortComponent shortInfo={newsInfo[pages]} />
+          ) : (
+            <div>비었습니다</div>
+          )}
         </div>
       </Content>
     </div>

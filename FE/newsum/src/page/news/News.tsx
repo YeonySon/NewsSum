@@ -1,30 +1,37 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // cookies
-import cookie from 'react-cookies';
+import cookie from "react-cookies";
 
 // recoil
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
 
 //axios
-import { BaseInstance } from '../../hook/AxiosInstance';
+import { BaseInstance } from "../../hook/AxiosInstance";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import { Active, ActiveDark, Deactive } from "../../components/util/Tabbar";
 
 //news compoent import
-import CardSlot from '../../components/news/CardSlot';
-import { useEffect, useState } from 'react';
-import { SearchAtom } from '../../recoil/atoms/SearchAtom';
+import CardSlot from "../../components/news/CardSlot";
+import { useEffect, useState } from "react";
+import { SearchAtom } from "../../recoil/atoms/SearchAtom";
 
 export const Content = styled.div`
   border-left: 0;
   /* background-color: lightblue; */
   width: 100%;
   margin: 0;
+  top: 60px;
+  position: absolute;
 
   .wrap-vertical {
     margin: 15px 0 0;
@@ -68,14 +75,14 @@ export const Content = styled.div`
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
-    top: 60px;
     left: 17%;
 
     width: 80%;
 
+    top: 60px;
     max-width: 1600px;
 
-    border-left: 1px solid gray;
+    /* border-left: 1px solid gray; */
     .main {
       /* background-color: #788ca8; */
       width: 100%;
@@ -104,19 +111,19 @@ function News() {
   // const setMyinfo = useSetRecoilState(MyInfoAtom);
 
   const tab = [
-    ['추천', -1],
-    ['전체', 0],
-    ['모바일', 1],
-    ['인터넷/sns', 2],
-    ['IT일반', 3],
-    ['보안/해킹', 4],
-    ['통신/뉴미디어', 5],
-    ['컴퓨터', 6],
-    ['게임/리뷰', 7],
+    ["추천", -1],
+    ["전체", 0],
+    ["모바일", 1],
+    ["인터넷/sns", 2],
+    ["IT일반", 3],
+    ["보안/해킹", 4],
+    ["통신/뉴미디어", 5],
+    ["컴퓨터", 6],
+    ["게임/리뷰", 7],
   ];
   const ali = [
-    ['최신', 2],
-    ['인기', 1],
+    ["최신", 2],
+    ["인기", 1],
   ];
   const [sort, setSort] = useState(tab[0][1]);
   const [sortAli, setSortAli] = useState(ali[0][1]);
@@ -130,22 +137,22 @@ function News() {
 
   // 뉴스 가져오기
   const getNews = async (url) => {
-    const token = cookie.load('accessToken');
+    const token = cookie.load("accessToken");
 
     const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      "Content-Type": "application/json",
+      Authorization: "Beare " + token,
     };
     await BaseInstance.get(url, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log('200');
+          console.log("200");
           console.log(response.data);
           setNewsInfo(response.data.data);
           // setNewsInfo(dummy);
         } else if (response.data.statusCode === 400) {
-          console.log('400');
+          console.log("400");
           console.log(response.data);
         }
         return response.data;
@@ -159,11 +166,11 @@ function News() {
   const [Search, setSearch] = useRecoilState(SearchAtom);
 
   useEffect(() => {
-    console.log('page search changed');
+    console.log("page search changed");
     console.log(Search);
 
     // 서버에 데이터 요청
-    if (Search != '') {
+    if (Search != "") {
       setSort(tab[0][1]);
       setSortAli(ali[0][1]);
       getNews(`/api/news/${MyInfo}/search?keyword=${Search}`);
@@ -171,10 +178,10 @@ function News() {
   }, [Search]);
 
   useEffect(() => {
-    console.log('sort changed');
+    console.log("sort changed");
 
     // 서버에 데이터 요청
-    if (sort == -1 && Search == '') {
+    if (sort == -1 && Search == "") {
       if (MyInfo == 0) {
         setSort(0);
       } else {
@@ -182,7 +189,7 @@ function News() {
       }
     } else if (sort != -1) {
       getNews(`/api/news/${MyInfo}/sort?category=${sort}&option=${sortAli}`);
-      setSearch('');
+      setSearch("");
     }
   }, [sort, sortAli]);
 
@@ -190,7 +197,7 @@ function News() {
     <div>
       <Header />
 
-      <Navbar nav={'news'} />
+      <Navbar nav={"news"} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>
@@ -207,7 +214,9 @@ function News() {
               manu[1] == sortAli ? (
                 <ActiveDark>{manu[0]}</ActiveDark>
               ) : (
-                <Deactive onClick={() => clickedAli(manu[1])}>{manu[0]}</Deactive>
+                <Deactive onClick={() => clickedAli(manu[1])}>
+                  {manu[0]}
+                </Deactive>
               )
             )}
         </div>
@@ -215,7 +224,7 @@ function News() {
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {newsInfo.map((news) => (
-            <CardSlot newsInfo={news} isRecom={sort != -1 ? 't' : 'f'} />
+            <CardSlot newsInfo={news} isRecom={sort != -1 ? "t" : "f"} />
           ))}
         </div>
       </Content>
