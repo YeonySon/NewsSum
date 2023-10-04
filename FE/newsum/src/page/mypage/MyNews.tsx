@@ -16,19 +16,18 @@ import CardSlot from "../../components/news/CardSlot";
 import { useRecoilValue } from "recoil";
 import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
 import { BaseInstance } from "../../hook/AxiosInstance";
-
 export const Content = styled.div`
   border-left: 0;
   /* background-color: lightblue; */
   width: 100%;
+  /* left: 0; */
   margin: 0;
+  top: 60px;
   position: absolute;
 
-  top: 60px;
-
   .wrap-vertical {
-    margin: 15px 0px 0px 0px;
-    padding: 5px 0 5px 20px;
+    margin: 15px 0 0;
+    padding: 5px 0 5px 0px;
     overflow-x: scroll;
     /* 가로 스크롤 */
     overflow: auto;
@@ -47,43 +46,73 @@ export const Content = styled.div`
     background: rgba(43, 49, 57, 0.1); /*스크롤바 뒷 배경 색상*/
   }
 
+  .ali {
+    position: absolute;
+    left: 400px;
+
+    /* transform: translate(-100%, 0); */
+    display: flex;
+    flex-direction: row-reverse;
+  }
+
   .main {
     /* background-color: #788ca8; */
 
     display: flex;
-
+    flex-direction: column;
     position: relative;
-    margin: 30px 0 0 0;
+    margin: 30px 0px 100px 50px;
 
-    width: 300;
+    width: 370px;
   }
 
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
-    left: 17%;
+    left: 100px;
 
-    width: 80%;
-    max-width: 1600px;
+    width: calc(100vw - 117px);
+
+    top: 60px;
+    max-width: 1340px;
 
     /* border-left: 1px solid gray; */
+    .main {
+      /* background-color: #788ca8; */
+      width: 100%;
+      max-width: 1600px;
+      /* padding: 0 0 0 20px; */
 
-    .wrap-vertical {
-      margin-left: 20px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
+
+    .main > div {
+      margin: 20px 0px 0px 0px;
+    }
+
+    .ali {
+      position: absolute;
+      left: 400px;
     }
   }
-  .main {
-    /* background-color: #788ca8; */
-    width: 100%;
-    max-width: 1600px;
-    /* padding: 0 0 0 20px; */
-
-    display: flex;
-    flex-wrap: wrap;
+  @media (min-width: 857px) {
+    .ali {
+      position: absolute;
+      left: 770px;
+    }
   }
-
-  .main > div {
-    margin: 20px 0px 0px 10px;
+  @media (min-width: 1200px) {
+    position: absolute;
+    left: 260px;
+    width: calc(100vw - 287px);
+  }
+  @media (min-width: 1396px) {
+    .ali {
+      position: absolute;
+      left: 1140px;
+    }
   }
 `;
 
@@ -194,9 +223,11 @@ function MyNews() {
           )}
         </div>
         <div className="wrap-vertical">
-          {sort != -1 && (
-            <Dropdown sortAli={sortAli} setSortAli={setSortAli} ali={ali} />
-          )}
+          <div className="ali">
+            {sort != -1 && (
+              <Dropdown sortAli={sortAli} setSortAli={setSortAli} ali={ali} />
+            )}
+          </div>
         </div>
         {/* 여기 안에 페이지 제작 */}
         <div className="main">

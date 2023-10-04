@@ -29,13 +29,14 @@ export const Content = styled.div`
   border-left: 0;
   /* background-color: lightblue; */
   width: 100%;
+  /* left: 0; */
   margin: 0;
   top: 60px;
   position: absolute;
 
   .wrap-vertical {
     margin: 15px 0 0;
-    padding: 5px 0 5px 40px;
+    padding: 5px 0 5px 0px;
     overflow-x: scroll;
     /* 가로 스크롤 */
     overflow: auto;
@@ -55,7 +56,8 @@ export const Content = styled.div`
   }
 
   .ali {
-    width: 100%;
+    width: 420px;
+
     /* transform: translate(-100%, 0); */
     display: flex;
     flex-direction: row-reverse;
@@ -67,7 +69,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    margin: 30px auto 100px auto;
+    margin: 30px 0px 100px 50px;
 
     width: 370px;
   }
@@ -75,12 +77,12 @@ export const Content = styled.div`
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
-    left: 17%;
+    left: 100px;
 
-    width: 80%;
+    width: calc(100vw - 117px);
 
     top: 60px;
-    max-width: 1600px;
+    max-width: 1340px;
 
     /* border-left: 1px solid gray; */
     .main {
@@ -95,11 +97,26 @@ export const Content = styled.div`
     }
 
     .main > div {
-      margin: 20px 0px 0px 15px;
+      margin: 20px 0px 0px 0px;
     }
 
     .ali {
-      width: 90%;
+      width: 420px;
+    }
+  }
+  @media (min-width: 857px) {
+    .ali {
+      width: 790px;
+    }
+  }
+  @media (min-width: 1200px) {
+    position: absolute;
+    left: 260px;
+    width: calc(100vw - 287px);
+  }
+  @media (min-width: 1396px) {
+    .ali {
+      width: 1160px;
     }
   }
 `;
