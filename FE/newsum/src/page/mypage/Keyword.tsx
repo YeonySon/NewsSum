@@ -5,8 +5,9 @@ import { NavLink } from 'react-router-dom';
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
 import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
-import cookie from 'react-cookies';
 import { useState } from 'react';
+
+import KeywordComponent from '../../components/mypage/KeywordComponent';
 
 export const Content = styled.div`
   border-left: 0;
@@ -96,6 +97,7 @@ function Keyword() {
               </NavLink>
             )
           )}
+        <KeywordComponent pageType={1} />
         </div>
       </Content>
     </div>

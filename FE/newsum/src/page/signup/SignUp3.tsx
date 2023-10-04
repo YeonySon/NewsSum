@@ -28,7 +28,7 @@ function SignUp3() {
     const responseData = async () => {
       await BaseInstance.get('/user/headline')
         .then((response) => {
-          setItems(response.data.data.map((item: {hlName: string}) => item.hlName))
+          setItems(response.data.data.map((item: {name: string}) => item.name))
         })
         .catch((error) => [] as string[])
     }
@@ -81,7 +81,7 @@ function SignUp3() {
 
     // formData 초기화
     // 페이지 이동
-    // window.location.href = '/signup/1'
+    window.location.href = '/news'
   }
 
   // formData 체크 시, 필요한 값이 없다면 해당 페이지로 보냄

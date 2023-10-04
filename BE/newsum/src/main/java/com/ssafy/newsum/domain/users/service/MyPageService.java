@@ -35,8 +35,10 @@ public class MyPageService {
     @Transactional
     public List<TechResponseDto> updateTech(Integer userId, List<Integer> techList) {
 
+        System.out.println("여기까지 와?");
         // uesrid에 맞는 선호기술 스택 가져오기
         List<PreferredTechStack> result = preferredTechStackRepository.findByUserId(userId);
+        System.out.println("여기는?");
 
         List<TechResponseDto> resultList = new ArrayList<>();
 

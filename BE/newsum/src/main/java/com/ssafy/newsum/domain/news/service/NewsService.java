@@ -177,28 +177,31 @@ public class NewsService {
         // 조회수 증가
         newsRepository.updateViewCnt(newsRequestDto.getNewsId());
 
-        // 나의 최근 본 뉴스에 추가
-        Optional<ReadNews> readNews = readListRepository.findByUserId(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
+        // 회원일때만
+        if (newsRequestDto.getUserId() != 0) {
 
-        // 이미 읽은 기사면 날짜 갱신
-        if (readNews.isPresent()) {
-            readNews.get().updateReadDt();
-            readListRepository.save(readNews.get());
-            return;
+            // 나의 최근 본 뉴스에 추가
+            Optional<ReadNews> readNews = readListRepository.findByUserId(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
+
+            // 이미 읽은 기사면 날짜 갱신
+            if (readNews.isPresent()) {
+                readNews.get().updateReadDt();
+                readListRepository.save(readNews.get());
+                return;
+            }
+
+            // user 찾기
+            User userByUserId = userRepository.findUserByUserId(newsRequestDto.getUserId());
+
+
+            // 읽지 않았다면 최근 본 뉴스에 추가
+            ReadNews myReadNews = ReadNews.builder()
+                    .type('n')
+                    .contentId(newsRequestDto.getNewsId())
+                    .user(userByUserId)
+                    .build();
+            readListRepository.save(myReadNews);
         }
-
-        // user 찾기
-        User userByUserId = userRepository.findUserByUserId(newsRequestDto.getUserId());
-
-
-        // 읽지 않았다면 최근 본 뉴스에 추가
-        ReadNews myReadNews = ReadNews.builder()
-                .type('n')
-                .contentId(newsRequestDto.getNewsId())
-                .user(userByUserId)
-                .build();
-        readListRepository.save(myReadNews);
-
     }
 
 
@@ -230,12 +233,19 @@ public class NewsService {
             // 카테고리 정보
             Optional<Category> cgInfo = categoryRepository.findById(ns.getCgId().getCategoryId());
 
-            // 해당기사 해당 유저가 좋아요 유무
-            Boolean isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
 
-            // 해당기사 해당 유저가 스크랩 유무
-            Boolean isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
+            Boolean isLiked = false;
+            Boolean isScrap = false;
 
+            // 회원일 때만
+            if (userId != 0) {
+
+                // 해당기사 해당 유저가 좋아요 유무
+                isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
+
+                // 해당기사 해당 유저가 스크랩 유무
+                isScrap = scrapRepository.isScrap(userId, ns.getNewsId());
+            }
 
             NewsResponseDto newsResDto = NewsResponseDto.builder()
                     .id(ns.getNewsId())
