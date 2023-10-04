@@ -1,16 +1,18 @@
-import React from "react";
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import React from 'react';
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
+// navigater
+import { useNavigate } from 'react-router-dom';
 
 //컴포넌트 import
-import HeaderModal from "./HeaderModal";
+import HeaderModal from './HeaderModal';
 
 //recoil
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
-import MyInfo from "../../page/mypage/MyInfo";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
-import { SearchAtom } from "../../recoil/atoms/SearchAtom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+import MyInfo from '../../page/mypage/MyInfo';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { SearchAtom } from '../../recoil/atoms/SearchAtom';
 
 export const HeaderStyle = styled.div`
   width: 100%;
@@ -181,10 +183,12 @@ const Hr = styled.hr`
 `;
 
 function Header() {
+  const navigate = useNavigate();
+
   const [profileModal, setProfileModal] = useState(false);
   const [searchClicked, setSearchClicked] = useState(false);
   const [userInfo, setUserInfo] = useState(false);
-  const [keyword, setKeyword] = useState("");
+  const [keyword, setKeyword] = useState('');
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -203,9 +207,9 @@ function Header() {
     });
   }, [window.innerWidth]);
 
-  function search(value) {
-    setKeyword(value);
-    setSearch(value);
+  function search(e) {
+    // onCheckEnter(e);
+    setSearch(e.target.value);
     console.log(Search);
   }
 
@@ -216,39 +220,39 @@ function Header() {
   }
 
   function ToggleProfileModal() {
-    console.log("토글");
+    console.log('토글');
     setProfileModal(!profileModal);
   }
 
   function ToggleSearchBar() {
-    console.log("토글");
+    console.log('토글');
     setSearchClicked(!searchClicked);
   }
+
+  const onCheckEnter = (e) => {
+    if (e.key === 'Enter') {
+      console.log('Enter');
+      navigate('/news');
+      return;
+    }
+  };
 
   return (
     <div>
       <HeaderStyle>
         {/* 로고 */}
-        {!searchClicked && (
-          <img
-            className="header-logo"
-            src={`${process.env.PUBLIC_URL}/newsum.png`}
-            alt="logo"
-          />
-        )}
+        {!searchClicked && <img className="header-logo" src={`${process.env.PUBLIC_URL}/newsum.png`} alt="logo" />}
         {/* 큰 화면일 때 검색창 */}
         <div className="header-search-big">
           <SearchInput>
             <input
               className="header-input"
-              onChange={(e) => search(e.target.value)}
+              onChange={(e) => search(e)}
+              onKeyDown={(e) => onCheckEnter(e)}
               value={Search}
               placeholder="검색어를 입력하시오"
             />
-            <img
-              className="big"
-              src={`${process.env.PUBLIC_URL}/img/util/search.png`}
-            />
+            <img className="big" src={`${process.env.PUBLIC_URL}/img/util/search.png`} />
           </SearchInput>
         </div>
         {/* 작은 화면일 때 검색창 */}
@@ -257,15 +261,12 @@ function Header() {
             <SearchInput>
               <input
                 className="header-input"
-                onChange={(e) => search(e.target.value)}
+                onChange={(e) => search(e)}
+                onKeyDown={(e) => onCheckEnter(e)}
                 value={Search}
                 placeholder="검색어를 입력하시오"
               />
-              <img
-                className="small"
-                src={`${process.env.PUBLIC_URL}/img/util/x.png`}
-                onClick={ToggleSearchBar}
-              />
+              <img className="small" src={`${process.env.PUBLIC_URL}/img/util/x.png`} onClick={ToggleSearchBar} />
             </SearchInput>
           ) : null}
         </div>

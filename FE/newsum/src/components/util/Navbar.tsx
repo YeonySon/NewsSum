@@ -1,22 +1,23 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useEffect, useState } from 'react';
 
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 //icon import
-import { FaPlayCircle, FaRegPlayCircle } from "react-icons/fa";
-import { RiFilePaperFill, RiFilePaperLine } from "react-icons/ri";
-import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
+import { FaPlayCircle, FaRegPlayCircle } from 'react-icons/fa';
+import { RiFilePaperFill, RiFilePaperLine } from 'react-icons/ri';
+import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa';
 
 // loginModal component import
-import LoginModal from "../../page/login/loginModal";
+import LoginModal from '../../page/login/loginModal';
 
 // recoil
-import { useRecoilState, useRecoilValue } from "recoil";
-import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
-import MyInfo from "../../page/mypage/MyInfo";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+import MyInfo from '../../page/mypage/MyInfo';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { SearchAtom } from '../../recoil/atoms/SearchAtom';
 
 export const NavBar = styled.div`
   padding: 0;
@@ -198,14 +199,15 @@ const Button = styled.div`
 `;
 
 function Navbar({ nav }) {
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
 
   // login
-  const [loginModalOpen, setLoginModalOpen] =
-    useRecoilState(LoginModalIsOpenAtom);
+  const [loginModalOpen, setLoginModalOpen] = useRecoilState(LoginModalIsOpenAtom);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const MyInfo = useRecoilValue(MyInfoAtom);
+
+  const setSearch = useSetRecoilState(SearchAtom);
 
   // modal FadeIn, FadeOut를 위한 시간 지연
   useEffect(() => {
@@ -226,21 +228,21 @@ function Navbar({ nav }) {
     <div>
       <NavBar>
         <ul className="nav">
-          <li className={nav == "short" ? "active" : "deactive"}>
+          <li className={nav == 'short' ? 'active' : 'deactive'}>
             <NavLink to="/short">
-              {nav == "short" ? <FaPlayCircle /> : <FaRegPlayCircle />}
+              {nav == 'short' ? <FaPlayCircle /> : <FaRegPlayCircle />}
               <strong>short</strong>
             </NavLink>
           </li>
-          <li className={nav == "news" ? "active" : "deactive"}>
+          <li className={nav == 'news' ? 'active' : 'deactive'}>
             <NavLink to="/news">
-              {nav == "news" ? <RiFilePaperFill /> : <RiFilePaperLine />}
+              {nav == 'news' ? <RiFilePaperFill /> : <RiFilePaperLine />}
               <strong>news</strong>
             </NavLink>
           </li>
-          <li className={nav == "mypage" ? "active" : "deactive"}>
+          <li className={nav == 'mypage' ? 'active' : 'deactive'}>
             <NavLink to="/mypage">
-              {nav == "mypage" ? <FaUserCircle /> : <FaRegUserCircle />}
+              {nav == 'mypage' ? <FaUserCircle /> : <FaRegUserCircle />}
               <strong>my page</strong>
             </NavLink>
           </li>

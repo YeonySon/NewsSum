@@ -126,22 +126,12 @@ function News() {
 
   // 뉴스 가져오기
   const getNews = async (url) => {
-    // const requestBodyJSON = JSON.stringify(requestBody);
-
     const token = cookie.load('accessToken');
-    // if (token == undefined) {
-    //   alert("token not found");
-    //   setMyinfo(0);
-    //   return;
-    // }
 
     const headers = {
       'Content-Type': 'application/json',
       Authorization: 'Beare ' + token,
     };
-    console.log('myinfo : ');
-    console.log(MyInfo);
-
     await BaseInstance.get(url, { headers })
       .then((response) => {
         console.log(response.data);
@@ -726,7 +716,8 @@ function News() {
   const [Search, setSearch] = useRecoilState(SearchAtom);
 
   useEffect(() => {
-    console.log('page changed');
+    console.log('page search changed');
+    console.log(Search);
 
     // 서버에 데이터 요청
     if (Search != '') {
@@ -740,9 +731,9 @@ function News() {
     console.log('sort changed');
 
     // 서버에 데이터 요청
-    if (sort == -1) {
+    if (sort == -1 && Search == '') {
       getNews(`/news/recommend/${MyInfo}`);
-    } else {
+    } else if (sort != -1) {
       getNews(`/news/${MyInfo}/sort?category=${sort}&option=${sortAli}`);
       setSearch('');
     }
