@@ -1,36 +1,25 @@
 //react import
-import { useState } from "react";
+import { useState } from 'react';
 
 //라이브러리
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
-import cookie from "react-cookies";
-import ReactWordcloud from "react-wordcloud";
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
+import cookie from 'react-cookies';
+import ReactWordcloud from 'react-wordcloud';
 
 //Util component import
-import Header from "../../components/util/Header";
-import Navbar from "../../components/util/Navbar";
-import Tabbar, {
-  Active,
-  ActiveDark,
-  Deactive,
-} from "../../components/util/Tabbar";
-
-//MyPage component import
-import Table from "../../components/mypage/Table";
-
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
 import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
-import cookie from 'react-cookies';
-import { useEffect, useState } from 'react';
+
+//MyPage component import
+import Table from '../../components/mypage/Table';
 
 import RadarChart from '../../components/mypage/visuallization/RadarChart';
 import VerticalChart from '../../components/mypage/visuallization/VerticalChart';
 import { BaseInstance } from '../../hook/AxiosInstance';
 import { useRecoilValue } from 'recoil';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
-
 
 export const Content = styled.div`
   border-left: 0;
@@ -116,51 +105,50 @@ export const Content = styled.div`
 
 function Visualization() {
   const tab = [
-    ["분석", "visualization"],
-    ["뉴스", "mynews"],
-    ["키워드", "keyword"],
-    ["내정보", "myinfo"],
+    ['분석', 'visualization'],
+    ['뉴스', 'mynews'],
+    ['키워드', 'keyword'],
+    ['내정보', 'myinfo'],
   ];
   const [sort, setSort] = useState(tab[0][0]);
 
-  const types = ["뉴스 키워드 분석", "읽은 뉴스 통계", "스트랩 뉴스 통계"];
+  const types = ['뉴스 키워드 분석', '읽은 뉴스 통계', '스트랩 뉴스 통계'];
   const [type, setType] = useState(types[0]);
-
 
   const data = {
     keywordlist: [
-      { name: "AI", frequency: 1000 },
-      { name: "11", frequency: 200 },
-      { name: "22", frequency: 300 },
-      { name: "33", frequency: 400 },
-      { name: "44", frequency: 500 },
-      { name: "55", frequency: 600 },
-      { name: "AI", frequency: 1000 },
-      { name: "11", frequency: 200 },
-      { name: "22", frequency: 300 },
-      { name: "33", frequency: 400 },
-      { name: "44", frequency: 500 },
-      { name: "55", frequency: 600 },
+      { name: 'AI', frequency: 1000 },
+      { name: '11', frequency: 200 },
+      { name: '22', frequency: 300 },
+      { name: '33', frequency: 400 },
+      { name: '44', frequency: 500 },
+      { name: '55', frequency: 600 },
+      { name: 'AI', frequency: 1000 },
+      { name: '11', frequency: 200 },
+      { name: '22', frequency: 300 },
+      { name: '33', frequency: 400 },
+      { name: '44', frequency: 500 },
+      { name: '55', frequency: 600 },
     ],
     scrapList: [
-      { cgName: "AI", cnt: 10 },
-      { cgName: "131", cnt: 20 },
-      { cgName: "141", cnt: 30 },
-      { cgName: "1515", cnt: 40 },
-      { cgName: "414", cnt: 50 },
-      { cgName: "1", cnt: 60 },
+      { cgName: 'AI', cnt: 10 },
+      { cgName: '131', cnt: 20 },
+      { cgName: '141', cnt: 30 },
+      { cgName: '1515', cnt: 40 },
+      { cgName: '414', cnt: 50 },
+      { cgName: '1', cnt: 60 },
     ],
     historyList: [
-      { cgName: "sasdf", cnt: 10 },
-      { cgName: "sg", cnt: 20 },
-      { cgName: "ahffg", cnt: 30 },
-      { cgName: "asdf", cnt: 40 },
-      { cgName: "sadfgw", cnt: 50 },
-      { cgName: "sdf", cnt: 60 },
+      { cgName: 'sasdf', cnt: 10 },
+      { cgName: 'sg', cnt: 20 },
+      { cgName: 'ahffg', cnt: 30 },
+      { cgName: 'asdf', cnt: 40 },
+      { cgName: 'sadfgw', cnt: 50 },
+      { cgName: 'sdf', cnt: 60 },
     ],
   };
 
-  const userId = useRecoilValue(MyInfoAtom)
+  const userId = useRecoilValue(MyInfoAtom);
 
   // useEffect(() => {
   //   BaseInstance.get(`/mypage/analyze/${userId}`)
@@ -173,11 +161,10 @@ function Visualization() {
 
   // }, [])
 
-
   return (
     <div>
       <Header />
-      <Navbar nav={"mypage"} />
+      <Navbar nav={'mypage'} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>
@@ -193,16 +180,12 @@ function Visualization() {
         <hr />
         <div className="visual-type">
           {types.map((t) =>
-            t == type ? (
-              <ActiveDark>{t}</ActiveDark>
-            ) : (
-              <Deactive onClick={() => setType(t)}>{t}</Deactive>
-            )
+            t == type ? <ActiveDark>{t}</ActiveDark> : <Deactive onClick={() => setType(t)}>{t}</Deactive>
           )}
           <hr />
         </div>
 
-        <div className={type == types[0] ? "selected" : "not-selected"}>
+        <div className={type == types[0] ? 'selected' : 'not-selected'}>
           {/* 여기에 뉴스 키워드 내용을 입력하시오  */}
           <h2>뉴스키워드분석</h2>
           <ReactWordcloud
@@ -213,25 +196,19 @@ function Visualization() {
           />
           <Table list={data.keywordlist} keywordList={true} />
         </div>
-        <div className={type == types[1] ? "selected" : "not-selected"}>
+        <div className={type == types[1] ? 'selected' : 'not-selected'}>
           {/* 여기에 읽은 뉴스 키워드 내용을 입력하시오  */}
-
           <h2>읽은 뉴스 통계</h2>
           <Table list={data.historyList} keywordList={false} />
-
           읽은 뉴스 통계
           <VerticalChart />
-
         </div>
-        <div className={type == types[2] ? "selected" : "not-selected"}>
+        <div className={type == types[2] ? 'selected' : 'not-selected'}>
           {/* 여기에 스크랩 뉴스 통계 내용을 입력하시오  */}
-
           <h2>스크랩뉴스 통계</h2>
           <Table list={data.scrapList} keywordList={false} />
-
           스크랩뉴스 통계
           <RadarChart />
-
         </div>
       </Content>
     </div>
