@@ -40,6 +40,10 @@ dependencies {
     //SMTP
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+    //Jython
+    //https://mvnrepository.com/artifact/org.python/jython
+//    implementation group: 'org.python', name: 'jython', version: '2.7.3'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
