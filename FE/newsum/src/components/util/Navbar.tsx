@@ -160,7 +160,7 @@ const Footer = styled.div`
   top: 100%;
   left: 100%;
   transform: translate(-105%, -105%);
-  @media (max-width: 1300px) {
+  @media (max-width: 1200px) {
     display: none;
   }
   @media (max-height: 730px) {
@@ -195,7 +195,7 @@ const Button = styled.div`
   &:hover {
     cursor: pointer;
   }
-  @media (max-width: 1300px) {
+  @media (max-width: 1200px) {
     display: none;
   }
 `;

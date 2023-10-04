@@ -55,9 +55,22 @@ export const Content = styled.div`
     position: relative;
     margin: 30px 0 0 0;
 
-    width: 300;
+    /* background-color: #788ca8; */
+    width: 100%;
+    max-width: 1600px;
+    /* padding: 0 0 0 20px; */
+
+    display: flex;
+    flex-wrap: wrap;
   }
 
+  .main > div {
+    margin: 20px 0px 0px 10px;
+  }
+
+  div.ali {
+    width: 200px;
+  }
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
@@ -71,19 +84,6 @@ export const Content = styled.div`
     .wrap-vertical {
       margin-left: 20px;
     }
-  }
-  .main {
-    /* background-color: #788ca8; */
-    width: 100%;
-    max-width: 1600px;
-    /* padding: 0 0 0 20px; */
-
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .main > div {
-    margin: 20px 0px 0px 10px;
   }
 `;
 
@@ -193,7 +193,7 @@ function MyNews() {
             )
           )}
         </div>
-        <div className="wrap-vertical">
+        <div className="wrap-vertical ali">
           {sort != -1 && (
             <Dropdown sortAli={sortAli} setSortAli={setSortAli} ali={ali} />
           )}
