@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Chart as ChartJS,
   RadialLinearScale,
@@ -12,11 +11,10 @@ import { Radar } from 'react-chartjs-2';
 
 import { 
   GraphPage,
+  GraphBox,
   TableBox, 
 } from './GraphStyle';
 import Table from './Table';
-
-
 
 ChartJS.register(
   RadialLinearScale,
@@ -27,7 +25,7 @@ ChartJS.register(
   Legend
 );
 
-function RadarChart() {
+function RadarChart({isActive}) {
   const dummyData = [
     {"cgName": "보안", "cnt": 10},
     {"cgName": "모바일", "cnt": 5},
@@ -57,9 +55,12 @@ function RadarChart() {
 
 
   return (
-    <GraphPage>
-      <Radar options={options}  data={GraphData} />
-
+    <GraphPage $isActive={ isActive }>
+      <GraphBox>
+        <p>나랑 같은 뉴스를 읽은 사람들은</p>
+        <p>어떤 직업에 관심이 있을까?</p>
+        <Radar options={options}  data={GraphData} />
+      </GraphBox>
 
       <TableBox>
         <Table title='Top 3'  data={ sortedKeysList } />
@@ -74,7 +75,7 @@ export const options = {
   responsive: true,
   plugins: {
     title: {
-      display: true,
+      display: false,
       position: 'top',
       align: 'start',
 

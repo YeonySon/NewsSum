@@ -26,7 +26,7 @@ function SignUp3() {
   useEffect(() => {
     // 서버에 데이터 요청
     const responseData = async () => {
-      await BaseInstance.get('/user/headline')
+      await BaseInstance.get('/api/user/headline')
         .then((response) => {
           setItems(response.data.data.map((item: {name: string}) => item.name))
         })
@@ -71,7 +71,7 @@ function SignUp3() {
     // 서버로 요청 (회원가입)
     const requestBodyJSON = JSON.stringify(formData);
 
-    await BaseInstance.post('/user', requestBodyJSON)
+    await BaseInstance.post('/api/user', requestBodyJSON)
       .then((resposne) => {
         console.log(resposne)
       })

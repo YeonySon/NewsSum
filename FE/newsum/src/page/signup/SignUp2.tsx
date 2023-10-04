@@ -35,7 +35,7 @@ function SignUp2() {
   useEffect(() => {
     // 서버에 데이터 요청
     const responseData = async () => {
-      await BaseInstance.get('/user/techstack')
+      await BaseInstance.get('/api/user/techstack')
         .then((response) => {
           setItems(response.data.data.map((item: {tsName: string}) => item.tsName))
         })

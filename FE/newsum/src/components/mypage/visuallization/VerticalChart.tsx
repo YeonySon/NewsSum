@@ -13,6 +13,7 @@ import { Bar } from 'react-chartjs-2';  // 막대 그래프
 
 import {
   GraphPage,
+  GraphBox,
   TableBox,
 } from './GraphStyle';
 import Table from './Table';
@@ -26,7 +27,7 @@ ChartJS.register(
   Legend
 );
 
-function VerticalChart() {
+function VerticalChart({ isActive }) {
 
   // 서버에서 응답받은 데이터를 사용하여 label 리스트 생성
   const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
@@ -50,9 +51,11 @@ function VerticalChart() {
 
 
   return (
-    <GraphPage>
-      <Bar options={options} data={data} />
-
+    <GraphPage $isActive={ isActive }>
+      <GraphBox>
+        <p>읽은 뉴스 통계</p>
+        <Bar options={options} data={data} />
+      </GraphBox>
       <TableBox>
         <Table title='Top 3'  data={ labels.slice(0, 3) } />
       </TableBox>
@@ -71,7 +74,7 @@ export const options = {
       position: 'top' as const,
     },
     title: {
-      display: true,
+      display: false,
       position: 'top',
       align: 'start',
       text: ' 읽은 뉴스 통계',

@@ -17,15 +17,19 @@ import Table from '../../components/mypage/Table';
 
 import RadarChart from '../../components/mypage/visuallization/RadarChart';
 import VerticalChart from '../../components/mypage/visuallization/VerticalChart';
+import WordCloud from '../../components/mypage/visuallization/WordCloud';
 import { BaseInstance } from '../../hook/AxiosInstance';
 import { useRecoilValue } from 'recoil';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { DivColLine } from '../../components/mypage/visuallization/GraphStyle';
 
 export const Content = styled.div`
   border-left: 0;
   /* background-color: lightblue; */
   width: 100%;
   margin: 0;
+  padding: 0px 10px;
+  
 
   .wrap-vertical {
     margin: 15px 0 0;
@@ -64,8 +68,15 @@ export const Content = styled.div`
     margin: 10px 0 10px 0;
   }
 
+  .selected {
+    position: relative;
+    visibility: visible;
+  }
+
   .not-selected {
-    display: none;
+    /* display: none; */
+    position: absolute;
+    visibility: hidden;
   }
 
   .main {
@@ -98,10 +109,39 @@ export const Content = styled.div`
 
     .not-selected {
       width: 100%;
-      display: inline-block;
+      /* display: inline-block; */
     }
   }
 `;
+
+export const VisualizationPage = styled.div`
+  /* width: 95%; */
+  margin : 10px 5%;
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  overflow: auto;
+`
+
+export const GraphContainer = styled.div`
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+`
+
+export const DivRowLine = styled.div`
+  width: 100%;
+  height: 1px;
+  margin: 5px 0px;
+  background-color: #D9D9D9;
+
+  @media (max-width: 700px) {
+    display: none;
+  }
+`
+
 
 function Visualization() {
   const tab = [
@@ -184,32 +224,13 @@ function Visualization() {
           )}
           <hr />
         </div>
-
-        <div className={type == types[0] ? 'selected' : 'not-selected'}>
-          {/* 여기에 뉴스 키워드 내용을 입력하시오  */}
-          <h2>뉴스키워드분석</h2>
-          <ReactWordcloud
-            words={data.keywordlist.map((li) => ({
-              text: li.name,
-              value: li.frequency,
-            }))}
-          />
-          <Table list={data.keywordlist} keywordList={true} />
-        </div>
-        <div className={type == types[1] ? 'selected' : 'not-selected'}>
-          {/* 여기에 읽은 뉴스 키워드 내용을 입력하시오  */}
-          <h2>읽은 뉴스 통계</h2>
-          <Table list={data.historyList} keywordList={false} />
-          읽은 뉴스 통계
-          <VerticalChart />
-        </div>
-        <div className={type == types[2] ? 'selected' : 'not-selected'}>
-          {/* 여기에 스크랩 뉴스 통계 내용을 입력하시오  */}
-          <h2>스크랩뉴스 통계</h2>
-          <Table list={data.scrapList} keywordList={false} />
-          스크랩뉴스 통계
-          <RadarChart />
-        </div>
+        <WordCloud data={data} isActive={type == types[0]}/>
+        <DivRowLine />
+        <GraphContainer>
+          <VerticalChart isActive={type == types[1]} />
+          <DivColLine />
+          <RadarChart isActive={type == types[2]}/>
+        </GraphContainer>
       </Content>
     </div>
   );
