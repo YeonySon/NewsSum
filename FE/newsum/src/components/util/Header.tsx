@@ -15,6 +15,12 @@ import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 import { SearchAtom } from '../../recoil/atoms/SearchAtom';
 
 export const HeaderStyle = styled.div`
+  position: fixed;
+
+  top: 0;
+  left: 0;
+  z-index: 100;
+
   width: 100%;
   height: 60px;
   background-color: #ffffff;
@@ -24,6 +30,8 @@ export const HeaderStyle = styled.div`
   justify-content: space-between;
 
   text-align: center;
+
+  border-bottom: 1px solid gray;
 
   /* 로고 */
   .header-logo {
@@ -88,7 +96,8 @@ export const HeaderStyle = styled.div`
   //700px 보다 클 때
   @media (min-width: 700px) {
     .header-logo {
-      height: 60px;
+      width: 200px;
+
       padding-left: 30px;
     }
 
@@ -309,8 +318,6 @@ function Header() {
       {/* 프로필모달  */}
       {/* 로그인을 했는지 안했는지 props로 전달 */}
       {profileModal && <HeaderModal setProfileModal={setProfileModal} />}
-
-      <Hr />
     </div>
   );
 }

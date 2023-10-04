@@ -23,6 +23,7 @@ export const NavBar = styled.div`
   padding: 0;
   margin: 0;
   height: calc(100vh - 62px);
+  top: 65px;
   width: 17%;
   /* background-color: gray; */
 
@@ -49,7 +50,7 @@ export const NavBar = styled.div`
     position: absolute;
     top: 5px;
     left: 100%;
-    transform: translate(-95%, 0%);
+    transform: translate(-90%, 0%);
     padding: 10px;
     margin: 5px;
     width: 250px;
@@ -170,7 +171,7 @@ const Button = styled.div`
   line-height: 45px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
   display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
 
-  width: 200px;
+  width: 185px;
   height: 50px;
   border-radius: 12px;
 

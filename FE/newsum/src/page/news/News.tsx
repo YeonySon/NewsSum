@@ -189,6 +189,7 @@ function News() {
   return (
     <div>
       <Header />
+
       <Navbar nav={'news'} />
       <Content>
         <div className="wrap-vertical">
