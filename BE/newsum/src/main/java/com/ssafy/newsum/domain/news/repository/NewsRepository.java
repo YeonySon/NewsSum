@@ -84,7 +84,7 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
 		+ "order by c.categoryId")
 	List<String[]> selectCategoryByReadNews(@Param("userId") Integer userId);
 
-	// 읽은 뉴스 카테고리 조회
+	// 스크랩 뉴스 카테고리 조회
 	@Query("select c.categoryId, c.name, count(c) from Category c, News n, Scrap s "
 		+ "where s.user.userId=:userId and n.newsId=s.contentId and c.categoryId=n.cgId.categoryId "
 		+ "group by c.categoryId "

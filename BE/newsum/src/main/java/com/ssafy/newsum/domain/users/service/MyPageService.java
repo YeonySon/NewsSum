@@ -9,6 +9,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.newsum.domain.job.repository.JobRepository;
 import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
 import com.ssafy.newsum.domain.news.entity.Category;
 import com.ssafy.newsum.domain.news.entity.News;
@@ -41,6 +42,7 @@ public class MyPageService {
 	private ReadNewsRepository readNewsRepository;
 	private final NewsService newsService;
 	private final CategoryRepository categoryRepository;
+	private final JobRepository jobRepository;
 
 	// 기술스택 수정
 	@Transactional
@@ -251,4 +253,25 @@ public class MyPageService {
 		return categoryDtos;
 	}
 
+	// 나와 같은 뉴스 기사를 읽은 직업군 조회
+	// public List<Job> selectJobsByReadNews(Integer userId) {
+	// 	//1. 읽은 뉴스 기사 목록 조회(userId)
+	// 	List<News> readNews = newsRepository.selectAllMyReadNews(userId);
+	//
+	// 	//2. 뉴스 아이디에 해당하는 유저의 직업군 조회(newsId)
+	// 	Map<Integer, Integer> jobs = new HashMap<>();
+	//
+	// 	//3. 직업군 조회
+	// 	List<Job> jobList = jobRepository.findAll();
+	//
+	// 	for (News news : readNews) {
+	// 		Job job = jobRepository.selectJobByUser(news.getNewsId());
+	// 		if(jobs.get(job.getJobName()) != null){
+	// 			jobs.put
+	// 		}
+	// 	}
+	//
+	// 	//3. 직업군 count
+	// 	//4. count한 리스트 출력
+	// }
 }

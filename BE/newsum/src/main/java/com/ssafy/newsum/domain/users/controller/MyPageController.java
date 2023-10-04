@@ -96,7 +96,9 @@ public class MyPageController {
 			.scrap(scrapCategoryList)
 			.build();
 
-		//3.
+		//3. 비슷한 직업 유형 출력
+
+		//4. 응답 dto 생성
 		AnalyzeResultResponseDto analyzeResultResponseDto = AnalyzeResultResponseDto.builder()
 			.keywordlist(keywordsList)
 			.readList(categoryListDto)
