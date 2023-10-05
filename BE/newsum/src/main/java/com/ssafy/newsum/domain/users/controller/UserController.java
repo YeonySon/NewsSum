@@ -167,43 +167,6 @@ public class UserController {
 		return ResponseEntity.ok(CommonResponseDto.success(200, "success signup", userInfoDto));
 	}
 
-	// 회원 정보 조회
-	@GetMapping("/{userId}")
-	public ResponseEntity<CommonResponseDto<?>> getUserInfo(@PathVariable Integer userId) {
-		User user = userService.getUserById(userId);
-		List<TechStack> techStackList = userService.getTechStackByUser(userId);
-		List<Headline> headlineList = userService.getHeadlineByUser(user);
-		List<TechResponseDto> techStackResponseDtoList = new ArrayList<>();
-		List<HeadlineResponseDto> headlineResponseDtoList = new ArrayList<>();
-
-		for (TechStack techStack : techStackList) {
-			TechResponseDto techStackResponseDto = TechResponseDto.builder()
-				.id(techStack.getTsId())
-				.name(techStack.getTsName())
-				.build();
-			techStackResponseDtoList.add(techStackResponseDto);
-		}
-
-		for (Headline headline : headlineList) {
-			HeadlineResponseDto headlineResponseDto = HeadlineResponseDto.builder()
-				.id(headline.getHlId())
-				.name(headline.getHlName())
-				.build();
-			headlineResponseDtoList.add(headlineResponseDto);
-		}
-
-		UserInfoDto userInfoDto = UserInfoDto.builder()
-			.id(userId)
-			.email(user.getEmail())
-			.name(user.getName())
-			.birthDate(user.getBirthDate())
-			.tech(techStackResponseDtoList)
-			.headline(headlineResponseDtoList)
-			.build();
-
-		return ResponseEntity.ok(CommonResponseDto.success(200, "success find userInfo", userInfoDto));
-	}
-
 	// 비밀번호 수정
 	@PatchMapping("/{userId}")
 	public ResponseEntity<CommonResponseDto<?>> updatePassword(@PathVariable Integer userId,

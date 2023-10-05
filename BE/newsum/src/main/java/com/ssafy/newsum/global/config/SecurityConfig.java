@@ -2,6 +2,7 @@ package com.ssafy.newsum.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -62,9 +63,12 @@ public class SecurityConfig {
 			//요청에 대한 권한 설정
 			.authorizeRequests()
 			//모든 권한 허용
+			.antMatchers("/mypage/**").hasRole("UA01")
+			.antMatchers(HttpMethod.PATCH).hasRole("UA01")
+			.antMatchers(HttpMethod.DELETE).hasRole("UA01")
+			.antMatchers("/news/recommend/**", "/news/scrap/**", "/news/dibs/**").hasRole("UA01")
 			.antMatchers("/**").permitAll()
-		// .antMatchers("/user/headline", "/user/techstack", "/user", "/user/login", "/user/id")
-		// .permitAll()
+
 		// .antMatchers("/**").permitAll()
 		//1. 회원가입 모두 허용
 		// .antMatchers("/user/**", "/api/v1/user")
