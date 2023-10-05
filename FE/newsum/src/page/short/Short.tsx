@@ -26,6 +26,7 @@ import Tabbar from "../../components/util/Tabbar";
 
 //Short compoent import
 import ShortComponent from "../../components/short/ShortComponent";
+import EmptyComponent from "../../components/mypage/EmptyComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -46,7 +47,12 @@ export const Content = styled.div`
 
     /* width: 300; */
   }
-
+  .empty {
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
@@ -212,6 +218,9 @@ function News() {
           ) : (
             <div>비었습니다</div>
           )} */}
+        </div>
+        <div className="empty">
+          {newsInfo.length === 0 && <EmptyComponent type={2} />}
         </div>
       </Content>
     </div>

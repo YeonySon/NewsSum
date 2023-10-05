@@ -26,6 +26,7 @@ import CardSlot from "../../components/news/CardSlot";
 import { useEffect, useState } from "react";
 import { SearchAtom } from "../../recoil/atoms/SearchAtom";
 import Pagination from "../../components/util/Page";
+import EmptyComponent from "../../components/mypage/EmptyComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -289,7 +290,8 @@ function News() {
             <CardSlot newsInfo={news} isRecom={sort != -1 ? "t" : "f"} />
           ))}
         </div>
-        {sort != -1 && (
+        {newsInfo.length === 0 && <EmptyComponent type={2} />}
+        {sort != -1 && newsInfo.length != 0 && (
           <Pagination total={total} limit={10} page={page} setPage={setPage} />
         )}
       </Content>
