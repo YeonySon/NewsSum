@@ -1,26 +1,32 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 // cookies
-import cookie from 'react-cookies';
+import cookie from "react-cookies";
 
 // recoil
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
-import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
 
 //axios
-import { BaseInstance } from '../../hook/AxiosInstance';
+import { BaseInstance } from "../../hook/AxiosInstance";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import { Active, ActiveDark, Deactive } from "../../components/util/Tabbar";
 
 //news compoent import
-import CardSlot from '../../components/news/CardSlot';
-import { useEffect, useState } from 'react';
-import { SearchAtom } from '../../recoil/atoms/SearchAtom';
-import Pagination from '../../components/util/Page';
+import CardSlot from "../../components/news/CardSlot";
+import { useEffect, useState } from "react";
+import { SearchAtom } from "../../recoil/atoms/SearchAtom";
+import Pagination from "../../components/util/Page";
+import EmptyComponent from "../../components/mypage/EmptyComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -133,19 +139,19 @@ function News() {
   // const setMyinfo = useSetRecoilState(MyInfoAtom);
 
   const tab = [
-    ['추천', -1],
-    ['전체', 0],
-    ['모바일', 1],
-    ['인터넷/sns', 2],
-    ['IT일반', 3],
-    ['보안/해킹', 4],
-    ['통신/뉴미디어', 5],
-    ['컴퓨터', 6],
-    ['게임/리뷰', 7],
+    ["추천", -1],
+    ["전체", 0],
+    ["모바일", 1],
+    ["인터넷/sns", 2],
+    ["IT일반", 3],
+    ["보안/해킹", 4],
+    ["통신/뉴미디어", 5],
+    ["컴퓨터", 6],
+    ["게임/리뷰", 7],
   ];
   const ali = [
-    ['최신', 2],
-    ['인기', 1],
+    ["최신", 2],
+    ["인기", 1],
   ];
   const [sort, setSort] = useState(tab[1][1]);
   const [sortAli, setSortAli] = useState(ali[0][1]);
@@ -161,23 +167,29 @@ function News() {
 
   // 뉴스 가져오기
   const getNews = async (url) => {
-    const token = cookie.load('accessToken');
+    let headers;
+    if (MyInfo !== 0) {
+      const token = cookie.load("accessToken");
+      headers = {
+        Authorization: "Bearer " + token,
+      };
+    } else {
+      headers = {
+        "Content-Type": "application/json",
+      };
+    }
 
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    };
     await BaseInstance.get(url, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log('200');
+          console.log("200");
           console.log(response.data);
           setNewsInfo(response.data.data);
           setTotal(response.data.data[0].totalPages);
           // setNewsInfo(dummy);
         } else if (response.data.statusCode === 400) {
-          console.log('400');
+          console.log("400");
           console.log(response.data);
         }
         return response.data;
@@ -191,11 +203,12 @@ function News() {
   const [Search, setSearch] = useRecoilState(SearchAtom);
 
   useEffect(() => {
-    console.log('page search changed');
+    console.log("page search changed");
     console.log(Search);
 
     // 서버에 데이터 요청
-    if (Search != '') {
+    if (Search != "") {
+      setPage(0);
       setSort(tab[0][1]);
       setSortAli(ali[0][1]);
       getNews(`/api/news/${MyInfo}/search?keyword=${Search}&page=${page}`);
@@ -203,28 +216,51 @@ function News() {
   }, [Search]);
 
   useEffect(() => {
-    console.log('sort changed');
+    console.log("sort changed");
 
     // 서버에 데이터 요청
-    if (sort == -1 && Search == '') {
+    if (sort == -1 && Search == "") {
       if (MyInfo == 0) {
         setSort(0);
-        alert('로그인이 필요한 서비스입니다.');
+        alert("로그인이 필요한 서비스입니다.");
         setLoginModalOpen(true);
       } else {
         getNews(`/api/news/recommend/${MyInfo}`);
       }
     } else if (sort != -1) {
-      getNews(`/api/news/${MyInfo}/sort?category=${sort}&option=${sortAli}&page=${page}`);
-      setSearch('');
+      getNews(
+        `/api/news/${MyInfo}/sort?category=${sort}&option=${sortAli}&page=${page}`
+      );
+      setSearch("");
     }
-  }, [MyInfo, sort, sortAli, page]);
+  }, [page]);
+
+  useEffect(() => {
+    console.log("sort changed");
+
+    // 서버에 데이터 요청
+    if (sort == -1 && Search == "") {
+      if (MyInfo == 0) {
+        setSort(0);
+        alert("로그인이 필요한 서비스입니다.");
+        setLoginModalOpen(true);
+      } else {
+        getNews(`/api/news/recommend/${MyInfo}`);
+      }
+    } else if (sort != -1) {
+      getNews(
+        `/api/news/${MyInfo}/sort?category=${sort}&option=${sortAli}&page=${page}`
+      );
+      setSearch("");
+      setPage(0);
+    }
+  }, [MyInfo, sort, sortAli]);
 
   return (
     <div>
       <Header />
 
-      <Navbar nav={'news'} />
+      <Navbar nav={"news"} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>
@@ -241,7 +277,9 @@ function News() {
               manu[1] == sortAli ? (
                 <ActiveDark>{manu[0]}</ActiveDark>
               ) : (
-                <Deactive onClick={() => clickedAli(manu[1])}>{manu[0]}</Deactive>
+                <Deactive onClick={() => clickedAli(manu[1])}>
+                  {manu[0]}
+                </Deactive>
               )
             )}
         </div>
@@ -249,10 +287,13 @@ function News() {
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {newsInfo.map((news) => (
-            <CardSlot newsInfo={news} isRecom={sort != -1 ? 't' : 'f'} />
+            <CardSlot newsInfo={news} isRecom={sort != -1 ? "t" : "f"} />
           ))}
         </div>
-        {sort != -1 && <Pagination total={total} limit={10} page={page} setPage={setPage} />}
+        {newsInfo.length === 0 && <EmptyComponent type={2} />}
+        {sort != -1 && newsInfo.length != 0 && (
+          <Pagination total={total} limit={10} page={page} setPage={setPage} />
+        )}
       </Content>
     </div>
   );
