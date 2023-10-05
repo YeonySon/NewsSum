@@ -204,11 +204,14 @@ function News() {
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {/* {MyInfo} */}
-          {newsInfo.length != 0 ? (
+          {newsInfo.length != 0 && (
+            <ShortComponent shortInfo={newsInfo[pages]} />
+          )}
+          {/* {newsInfo.length != 0 ? (
             <ShortComponent shortInfo={newsInfo[pages]} />
           ) : (
             <div>비었습니다</div>
-          )}
+          )} */}
         </div>
       </Content>
     </div>
