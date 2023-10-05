@@ -209,7 +209,7 @@ function Visualization() {
           <hr />
         </div>
         {
-          data !== undefined &&
+          data !== undefined ?
           (<>
             <WordCloud data={data} isActive={type == types[0]} />
             <DivRowLine />
@@ -218,7 +218,13 @@ function Visualization() {
               <DivColLine />
               <RadarChart responseData={data.jobList} isActive={type == types[2]} />
             </GraphContainer>
-          </>)
+          </>) :
+          (
+            <>
+              <img style={{ width: '30%', height: 'auto' }} src={`${process.env.PUBLIC_URL}/img/page/noData.jpg`} alt="logo" />
+              <p>수집된 정보가 부족하여 데이터를 분석할 수 없습니다.</p>
+            </>
+          )
         }
       </Content>
     </div>

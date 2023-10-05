@@ -55,7 +55,8 @@ function HeaderModal({ setProfileModal }) {
   //로그인 되었는지 확인
 
   function myPage() {
-    alert('마이페이지로 이동');
+    window.location.href = '/mypage'
+    // alert('마이페이지로 이동');
   }
 
   function logout() {
