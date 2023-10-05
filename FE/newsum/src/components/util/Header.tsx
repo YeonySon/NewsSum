@@ -35,7 +35,8 @@ export const HeaderStyle = styled.div`
 
   /* 로고 */
   .header-logo {
-    height: 60px;
+    width: 250px;
+    /* height: 60px; */
     /* padding-left: 60px; */
   }
 
