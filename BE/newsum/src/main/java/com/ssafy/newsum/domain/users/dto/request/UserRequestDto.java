@@ -22,6 +22,7 @@ public class UserRequestDto {
 	private List<TechRequestDto> tech;
 	private List<HeadlineRequestDto> headline;
 	private Integer job;
+	private String state;
 
 	public User toEntity(UserRequestDto userRequestDto) {
 		User user = User.builder()
@@ -32,6 +33,7 @@ public class UserRequestDto {
 			.birthDate(userRequestDto.getBirthDate())
 			.authenticate(userRequestDto.getAuthenticate())
 			.job(Job.builder().jobId(userRequestDto.getJob()).build())
+			.state(userRequestDto.getState())
 			.build();
 		return user;
 	}

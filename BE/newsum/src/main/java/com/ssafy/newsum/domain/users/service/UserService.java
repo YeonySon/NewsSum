@@ -86,6 +86,7 @@ public class UserService {
 	public User signup(UserRequestDto userRequestDto) {
 		if (userRequestDto.getAuthenticate() == null)
 			userRequestDto.setAuthenticate("UA01");
+		userRequestDto.setState("정상");
 		User user = userRequestDto.toEntity(userRequestDto);
 		//1. 비밀번호 암호화
 		user.passwordEncode(passwordEncoder);
@@ -166,7 +167,7 @@ public class UserService {
 		user.passwordEncode(passwordEncoder);
 
 		//2. 저장
-		userRepository.updatePassword(user.getEmail(), user.getPassword());
+		userRepository.updatePassword(id, user.getPassword());
 		return user;
 	}
 

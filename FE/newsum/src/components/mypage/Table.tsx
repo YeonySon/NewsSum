@@ -36,7 +36,7 @@ function Table({ list, keywordList }) {
             <tr>
               <td className="index">{index + 1}</td>
               <td>{keywordList ? li.name : li.cgName}</td>
-              <td>{keywordList ? li.frequency : li.cnt}</td>
+              <td>{keywordList ? li.cnt : li.cnt}</td>
             </tr>
           ) : null
         )}

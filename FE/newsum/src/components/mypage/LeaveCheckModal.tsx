@@ -1,8 +1,14 @@
+// 라이브러리
+import cookie from "react-cookies";
 import styled, { css, keyframes } from "styled-components";
+
+// recoil import
 import { useRecoilState } from "recoil";
 import { LeaveModalIsOpenAtom } from "../../recoil/atoms/LeaveModalAtom";
+
+// axios instance
 import { BaseInstance } from "../../hook/AxiosInstance";
-import cookie from "react-cookies";
+
 
 function LeaveCheckModal() {
   const [leaveModalOpen, setLeaveModalOpen] = useRecoilState(LeaveModalIsOpenAtom);
@@ -12,7 +18,11 @@ function LeaveCheckModal() {
   }
 
   const handleLeave = () => {
-    BaseInstance.delete('/api/user')
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+    BaseInstance.delete('/api/user', { headers: headers })
       .then(async (response) => {
         await cookie.remove('accessToken', {path : '/'})
         alert('회원탈퇴가 완료되었습니다')

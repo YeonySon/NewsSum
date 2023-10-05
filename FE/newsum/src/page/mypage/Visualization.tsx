@@ -1,11 +1,18 @@
-//react import
-import { useState } from "react";
-
-//라이브러리
-import styled from "styled-components";
+// 라이브러리
+import { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import cookie from "react-cookies";
-import ReactWordcloud from "react-wordcloud";
+import styled from "styled-components";
+
+// recoil import
+import { useRecoilValue } from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+
+// axios instance
+import { BaseInstance } from "../../hook/AxiosInstance";
+
+// 페이지 입장 권한 확인
+import { CheckCookie } from '../../hook/token';
 
 //Util component import
 import Header from "../../components/util/Header";
@@ -17,14 +24,9 @@ import Tabbar, {
 } from "../../components/util/Tabbar";
 
 //MyPage component import
-import Table from "../../components/mypage/Table";
-
-import RadarChart from "../../components/mypage/visuallization/RadarChart";
-import VerticalChart from "../../components/mypage/visuallization/VerticalChart";
 import WordCloud from "../../components/mypage/visuallization/WordCloud";
-import { BaseInstance } from "../../hook/AxiosInstance";
-import { useRecoilValue } from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import VerticalChart from "../../components/mypage/visuallization/VerticalChart";
+import RadarChart from "../../components/mypage/visuallization/RadarChart";
 import { DivColLine } from "../../components/mypage/visuallization/GraphStyle";
 
 export const Content = styled.div`
@@ -157,63 +159,27 @@ function Visualization() {
   const types = ["뉴스 키워드 분석", "읽은 뉴스 통계", "스트랩 뉴스 통계"];
   const [type, setType] = useState(types[0]);
 
-  const data = {
-    keywordlist: [
-      { name: "AI", frequency: 1000 },
-      { name: "11", frequency: 200 },
-      { name: "22", frequency: 300 },
-      { name: "33", frequency: 400 },
-      { name: "44", frequency: 500 },
-      { name: "55", frequency: 600 },
-      { name: "AI", frequency: 1000 },
-      { name: "11", frequency: 200 },
-      { name: "22", frequency: 300 },
-      { name: "33", frequency: 400 },
-      { name: "44", frequency: 500 },
-      { name: "55", frequency: 600 },
-      { name: "AI", frequency: 1000 },
-      { name: "11", frequency: 200 },
-      { name: "22", frequency: 300 },
-      { name: "33", frequency: 400 },
-      { name: "44", frequency: 500 },
-      { name: "55", frequency: 600 },
-      { name: "AI", frequency: 1920 },
-      { name: "11", frequency: 200 },
-      { name: "22", frequency: 300 },
-      { name: "33", frequency: 400 },
-      { name: "44", frequency: 500 },
-      { name: "55", frequency: 600 },
-    ],
-    scrapList: [
-      { cgName: "AI", cnt: 10 },
-      { cgName: "131", cnt: 20 },
-      { cgName: "141", cnt: 30 },
-      { cgName: "1515", cnt: 40 },
-      { cgName: "414", cnt: 50 },
-      { cgName: "1", cnt: 60 },
-    ],
-    historyList: [
-      { cgName: "sasdf", cnt: 10 },
-      { cgName: "sg", cnt: 20 },
-      { cgName: "ahffg", cnt: 30 },
-      { cgName: "asdf", cnt: 40 },
-      { cgName: "sadfgw", cnt: 50 },
-      { cgName: "sdf", cnt: 60 },
-    ],
-  };
-
   const userId = useRecoilValue(MyInfoAtom);
+  const [data, setData] = useState<never[] | undefined>(undefined);
 
-  // useEffect(() => {
-  //   BaseInstance.get(`/mypage/analyze/${userId}`)
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
+  useEffect(() => {
+    // 로그인 여부 확인
+    CheckCookie();
 
-  // }, [])
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+    BaseInstance.get(`/api/mypage/analyze/${userId}`, { headers: headers })
+      .then((response) => {
+        setData(response.data.data)
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  }, [])
 
   return (
     <div>
@@ -242,13 +208,18 @@ function Visualization() {
           )}
           <hr />
         </div>
-        <WordCloud data={data} isActive={type == types[0]} />
-        <DivRowLine />
-        <GraphContainer>
-          <VerticalChart isActive={type == types[1]} />
-          <DivColLine />
-          <RadarChart isActive={type == types[2]} />
-        </GraphContainer>
+        {
+          data !== undefined &&
+          (<>
+            <WordCloud data={data} isActive={type == types[0]} />
+            <DivRowLine />
+            <GraphContainer>
+              <VerticalChart responseData={data.readList} isActive={type == types[1]} />
+              <DivColLine />
+              <RadarChart responseData={data.jobList} isActive={type == types[2]} />
+            </GraphContainer>
+          </>)
+        }
       </Content>
     </div>
   );

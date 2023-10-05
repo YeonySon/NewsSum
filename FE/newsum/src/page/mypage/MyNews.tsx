@@ -1,5 +1,15 @@
-import styled from "styled-components";
+// 라이브러리
+import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
+import cookie from "react-cookies";
+import styled from "styled-components";
+
+// recoil import
+import { useRecoilValue } from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+
+// axios instance
+import { BaseInstance } from "../../hook/AxiosInstance";
 
 //Util component import
 import Header from "../../components/util/Header";
@@ -9,13 +19,9 @@ import Tabbar, {
   ActiveDark,
   Deactive,
 } from "../../components/util/Tabbar";
-import cookie from "react-cookies";
-import { useEffect, useState } from "react";
 import Dropdown from "../../components/mypage/Dropdown";
 import CardSlot from "../../components/news/CardSlot";
-import { useRecoilValue } from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
-import { BaseInstance } from "../../hook/AxiosInstance";
+
 export const Content = styled.div`
   border-left: 0;
   /* background-color: lightblue; */

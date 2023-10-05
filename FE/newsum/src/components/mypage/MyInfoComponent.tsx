@@ -1,14 +1,20 @@
+// 라이브러리
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import cookie from 'react-cookies';
 
-// state, recoil import
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+// recoil import
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 import { LeaveModalIsOpenAtom } from '../../recoil/atoms/LeaveModalAtom';
 
-// axios 요청
+// axios instance
 import { BaseInstance } from '../../hook/AxiosInstance';
+
+// 페이지 입장 권한 확인
+import { CheckCookie } from '../../hook/token';
+
 
 import { 
   SignUpPage, 
@@ -69,7 +75,12 @@ function MyInfoComponent() {
     const data = {password: password}
     const requestBodyJSON = JSON.stringify(data);
 
-    await BaseInstance.patch(`/api/user/${userId}`, requestBodyJSON)
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+
+    await BaseInstance.patch(`/api/user/${userId}`, requestBodyJSON, { headers: headers })
       .then((response) => {
         alert('비밀번호가 변경되었습니다.')
       })
@@ -79,12 +90,18 @@ function MyInfoComponent() {
   }
 
   const leaveCheck = () => {
-    console.log('탈퇴 기능')
     setLeaveModalOpen(true);
   }
 
   useEffect(() => {
-    BaseInstance.get(`/api/user/${userId}`)
+    // 로그인 여부 확인
+    CheckCookie();
+
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+    BaseInstance.get(`/api/mypage/${userId}`, { headers : headers })
       .then((response) => {
         const data = {
           email: response.data.data.email,

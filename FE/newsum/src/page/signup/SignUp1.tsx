@@ -1,11 +1,12 @@
+// 라이브러리
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// state, recoil import
+// recoil import
 import { useRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
 
-// axios 요청
+// axios instance
 import { BaseInstance } from '../../hook/AxiosInstance';
 
 import { 
