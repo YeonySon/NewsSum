@@ -324,9 +324,10 @@ export const HeadlineContainer = styled.div`
 export const HeadlineBox = styled.button<IsActive>`
   width: 350px;
   height: 40px;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   border: 1px solid #000;
   border-radius: 10px;
+  font-size: 10px;
   ${({ $isActive }) => ($isActive ? type1 : type2)}
 `
 

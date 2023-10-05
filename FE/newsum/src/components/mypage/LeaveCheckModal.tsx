@@ -3,8 +3,9 @@ import cookie from "react-cookies";
 import styled, { css, keyframes } from "styled-components";
 
 // recoil import
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { LeaveModalIsOpenAtom } from "../../recoil/atoms/LeaveModalAtom";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
 
 // axios instance
 import { BaseInstance } from "../../hook/AxiosInstance";
@@ -12,6 +13,7 @@ import { BaseInstance } from "../../hook/AxiosInstance";
 
 function LeaveCheckModal() {
   const [leaveModalOpen, setLeaveModalOpen] = useRecoilState(LeaveModalIsOpenAtom);
+  const setMyinfo = useSetRecoilState(MyInfoAtom);
 
   const closeLeaveModal = () => {
     setLeaveModalOpen(false)
@@ -25,6 +27,7 @@ function LeaveCheckModal() {
     BaseInstance.delete('/api/user', { headers: headers })
       .then(async (response) => {
         await cookie.remove('accessToken', {path : '/'})
+        setMyinfo(0)
         alert('회원탈퇴가 완료되었습니다')
         window.location.href = '/news'
       })
