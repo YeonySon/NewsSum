@@ -58,5 +58,8 @@ public class News {
     @Column(name = "view_cnt")
     private Integer viewCnt;
 
+    @Column(name = "nouns")
+    private String nouns;
+
 
 }

@@ -2,6 +2,8 @@ package com.ssafy.newsum.domain.news.repository;
 
 import com.ssafy.newsum.domain.news.entity.News;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -21,58 +23,63 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
             "a.newsId = b.newsId " +
             "and a.usrId = :userId " +
             "and b.mediaId.mediaId = m.mediaId " +
-            "and b.cgId.categoryId = c.categoryId")
-    List<Tuple> selectRecommend(@Param("userId") Integer userId);
+            "and b.cgId.categoryId = c.categoryId " +
+            "and a.isRead =0 " +
+            "order by a.createdTime desc")
+    List<Tuple> selectRecommend(@Param("userId") Integer userId, Pageable pageable);
 
 
     // 카테고리별 리스트 조회
     @Query("select n from News n where n.cgId.categoryId =:categoryId order by n.postedDate desc")
-    List<News> selectByCategory(@Param("categoryId") Integer categoryId);
+    Page<News> selectByCategory(@Param("categoryId") Integer categoryId, Pageable pageable);
 
 
     // 뉴스 전체 조회 최신순으로
     @Query("select n from News n order by n.postedDate desc")
-    List<News> selectAllByRecent();
+    Page<News> selectAllByRecent(Pageable pageable);
 
     // 뉴스 전체 인기도순으로 조회
     @Query("select n from News n order by (n.viewCnt + n.totalLike + n.totalScrap) desc, n.postedDate desc")
-    List<News> selectAllPopular();
+    Page<News> selectAllPopular(Pageable pageable);
 
 
     // 분야별 인기도순으로 가져오기
     @Query("select n from News n " +
             "where n.cgId.categoryId =:categoryId " +
             "order by (n.viewCnt + n.totalLike + n.totalScrap) desc, n.postedDate desc")
-    List<News> selectPopularByCategory(@Param("categoryId") Integer categoryId);
+    Page<News> selectPopularByCategory(@Param("categoryId") Integer categoryId, Pageable pageable);
 
 
     // 해당 검색어 헤드라인에 있으면 가져오기
     @Query("select n from News n where n.head like %:keyword% order by n.postedDate desc")
-    List<News> searchNews(@Param("keyword") String keyword);
+    Page<News> searchNews(@Param("keyword") String keyword, Pageable pageable);
 
     // 내가 읽은 뉴스 최신순으로 조회
     @Query("select n from News n, ReadNews r where r.user.userId =:userId and r.type='n' " +
             "and r.contentId = n.newsId order by  r.readDt desc")
-    List<News> selectAllMyReadNews(@Param("userId") Integer userId);
+    Page<News> selectAllMyReadNews(@Param("userId") Integer userId, Pageable pageable);
 
     // 내가 스크랩한 뉴스 전체 최신순으로 조회
     @Query("select n from News n, Scrap s where s.user.userId =:userId and s.contentId = n.newsId " +
             "order by s.createdAt desc")
-    List<News> selectAllMyScrapNews(@Param("userId") Integer userId);
+    Page<News> selectAllMyScrapNews(@Param("userId") Integer userId, Pageable pageable);
 
     // 내가 스크랩한 뉴스 카테고리별 조회 스크랩한 순
     @Query("select n from News n, Scrap s where s.user.userId =:userId and s.contentId = n.newsId " +
             "and n.cgId.categoryId =:categoryId order by s.createdAt desc")
-    List<News> selectMyScrapNewsByCategory(@Param("userId") Integer userId, @Param("categoryId") Integer categoryId);
+    Page<News> selectMyScrapNewsByCategory(@Param("userId") Integer userId, @Param("categoryId") Integer categoryId,
+                                           Pageable pageable);
 
     // 내가 스크랩 뉴스 전체 인기도순으로 조회
     @Query("select n from News n, Scrap s where s.user.userId =:userId and s.contentId = n.newsId " +
             "order by (n.viewCnt + n.totalLike + n.totalScrap) desc, s.createdAt desc")
-    List<News> selectAllScrapPopular(@Param("userId") Integer userId);
+    Page<News> selectAllScrapPopular(@Param("userId") Integer userId, Pageable pageable);
 
     // 내가 스크랩 뉴스 분야별 인기도순을 조회
     @Query("select n from News n, Scrap s where s.user.userId =:userId and s.contentId = n.newsId " +
             "and n.cgId.categoryId =:categoryId " +
             "order by (n.viewCnt + n.totalLike + n.totalScrap) desc, s.createdAt desc")
-    List<News> selectScrapCategoryByOption(@Param("userId") Integer userId, @Param("categoryId") Integer categoryId);
+    Page<News> selectScrapCategoryByOption(@Param("userId") Integer userId, @Param("categoryId") Integer categoryId,
+                                           Pageable pageable);
+
 }

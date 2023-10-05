@@ -13,11 +13,15 @@ import com.ssafy.newsum.domain.news.repository.MediaRepository;
 import com.ssafy.newsum.domain.news.repository.NewsRepository;
 import com.ssafy.newsum.domain.readnews.entity.ReadNews;
 import com.ssafy.newsum.domain.readnews.repository.ReadNewsRepository;
+import com.ssafy.newsum.domain.recommendnews.repository.RecommendnewsRepository;
 import com.ssafy.newsum.domain.scrap.entity.Scrap;
 import com.ssafy.newsum.domain.scrap.repository.ScrapRepository;
 import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,6 +42,7 @@ public class NewsService {
     private final MediaRepository mediaRepository;
     private final CategoryRepository categoryRepository;
     private final UserRepository userRepository;
+    private final RecommendnewsRepository recommendnewsRepository;
 
 
     //숏츠 : 뉴스 조회수 증가 + 읽은 목록 추가
@@ -66,7 +71,10 @@ public class NewsService {
     @Transactional
     public List<NewsResponseDto> selectRecommend(Integer userId) {
 
-        List<Tuple> resultList = newsRepository.selectRecommend(userId);
+        // 100개만 가져오기
+        Pageable pageable = PageRequest.of(0, 100);
+
+        List<Tuple> resultList = newsRepository.selectRecommend(userId, pageable);
 
         List<NewsResponseDto> list = new ArrayList<>();
 
@@ -109,45 +117,60 @@ public class NewsService {
 
     // 뉴스 카테코리별 리스트
     @Transactional
-    public List<NewsResponseDto> selectByCategory(Integer userId, Integer categoryId) {
+    public List<NewsResponseDto> selectByCategory(Integer userId, Integer categoryId, Pageable pageable) {
 
-        List<News> newsList = new ArrayList<>();
-
+        Page<News> newsList = null;
         // 전체 뉴스기사
         if (categoryId == 0) {
-            newsList = newsRepository.selectAllByRecent();
+            newsList = newsRepository.selectAllByRecent(pageable);
         } else {
             // 카테고리별 뉴스기사
-            newsList = newsRepository.selectByCategory(categoryId);
+            newsList = newsRepository.selectByCategory(categoryId, pageable);
         }
 
         List<NewsResponseDto> resultList = new ArrayList<>();
 
-        List<NewsResponseDto> result = makeNewsResponseDto(newsList, resultList, userId);
+        int currentPage = newsList.getNumber();
+
+        int totalPages = newsList.getTotalPages();
+
+
+        // 요청하는 페이지가 마지막 페이지보다 높을 경우
+        if (currentPage >= totalPages) {
+            // 마지막 페이지의 내용을 반환
+            Page<News> lastPage;
+            if (categoryId == 0) {
+                lastPage = newsRepository.selectAllByRecent(PageRequest.of(totalPages - 1, pageable.getPageSize()));
+            } else {
+                lastPage = newsRepository.selectByCategory(categoryId, PageRequest.of(totalPages - 1, pageable.getPageSize()));
+            }
+            newsList = lastPage;
+        }
+
+        List<NewsResponseDto> result = makeNewsResponseDto(newsList.getContent(), resultList, userId, totalPages);
 
         return result;
 
     }
 
-
     // 조건 정렬
     // 인기도순 최신순
     @Transactional
-    public List<NewsResponseDto> selectCategoryByOption(Integer userId, Integer categoryId, Integer optionId) {
+    public List<NewsResponseDto> selectCategoryByOption(Integer userId, Integer categoryId, Integer optionId, Pageable pageable) {
 
         List<NewsResponseDto> resultList = new ArrayList<>();
-        List<News> newsList = new ArrayList<>();
+        Page<News> newsList = null;
 
         // 전체분야
         if (categoryId == 0) {
 
             // 인기도 ttttttttaaafffffaa순
             if (optionId == 1) {
-                newsList = newsRepository.selectAllPopular();
+                newsList = newsRepository.selectAllPopular(pageable);
             }
             // 최신 순
             else {
-                newsList = newsRepository.selectAllByRecent();
+                newsList = newsRepository.selectAllByRecent(pageable);
             }
         }
         // 해당 분야별
@@ -155,15 +178,49 @@ public class NewsService {
 
             // 인기도순
             if (optionId == 1) {
-                newsList = newsRepository.selectPopularByCategory(categoryId);
+                newsList = newsRepository.selectPopularByCategory(categoryId, pageable);
             }
             // 최신순
             else {
-                newsList = newsRepository.selectByCategory(categoryId);
+                newsList = newsRepository.selectByCategory(categoryId, pageable);
             }
         }
 
-        List<NewsResponseDto> result = makeNewsResponseDto(newsList, resultList, userId);
+        int currentPage = newsList.getNumber();
+        int totalPages = newsList.getTotalPages();
+
+        if (currentPage >= totalPages) {
+
+            Page<News> lastPage;
+            // 전체분야
+            if (categoryId == 0) {
+
+                // 인기도순
+                if (optionId == 1) {
+                    lastPage = newsRepository.selectAllPopular(PageRequest.of(totalPages - 1, pageable.getPageSize()));
+                }
+                // 최신 순
+                else {
+                    lastPage = newsRepository.selectAllByRecent(PageRequest.of(totalPages - 1, pageable.getPageSize()));
+                }
+            }
+            // 해당 분야별
+            else {
+
+                // 인기도순
+                if (optionId == 1) {
+                    lastPage = newsRepository.selectPopularByCategory(categoryId, PageRequest.of(totalPages - 1, pageable.getPageSize()));
+                }
+                // 최신순
+                else {
+                    lastPage = newsRepository.selectByCategory(categoryId, PageRequest.of(totalPages - 1, pageable.getPageSize()));
+                }
+            }
+            newsList = lastPage;
+        }
+
+
+        List<NewsResponseDto> result = makeNewsResponseDto(newsList.getContent(), resultList, userId, totalPages);
 
         return result;
     }
@@ -179,6 +236,12 @@ public class NewsService {
 
         // 회원일때만
         if (newsRequestDto.getUserId() != 0) {
+
+            // 추천탭에서 상세보기를 눌렀을 때
+            // 추천 테이블에서 해당 뉴스기사 읽음 처리
+            if (newsRequestDto.getIsRecom().equals("t")) {
+                recommendnewsRepository.updateRecommendIsRead(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
+            }
 
             // 나의 최근 본 뉴스에 추가
             Optional<ReadNews> readNews = readListRepository.findByUserId(newsRequestDto.getNewsId(), newsRequestDto.getUserId());
@@ -207,13 +270,23 @@ public class NewsService {
 
     // 검색하기
     @Transactional
-    public List<NewsResponseDto> searchNews(String keyword, Integer userId) {
+    public List<NewsResponseDto> searchNews(String keyword, Integer userId, Pageable pageable) {
 
-        List<News> newsList = newsRepository.searchNews(keyword);
+        Page<News> newsList = newsRepository.searchNews(keyword, pageable);
+
+        int currentPage = newsList.getNumber();
+        int totalPages = newsList.getTotalPages();
+
+        if (currentPage >= totalPages) {
+            Page<News> lastPage;
+            lastPage = newsRepository.searchNews(keyword, PageRequest.of(totalPages - 1, pageable.getPageSize()));
+
+            newsList = lastPage;
+        }
 
         List<NewsResponseDto> resultList = new ArrayList<>();
 
-        List<NewsResponseDto> result = makeNewsResponseDto(newsList, resultList, userId);
+        List<NewsResponseDto> result = makeNewsResponseDto(newsList.getContent(), resultList, userId, totalPages);
 
         return result;
     }
@@ -221,7 +294,7 @@ public class NewsService {
 
     // newsresponsedto 만드는 메소드
     public List<NewsResponseDto> makeNewsResponseDto(List<News> newsList, List<NewsResponseDto> resultList,
-                                                     Integer userId) {
+                                                     Integer userId, Integer totalPages) {
         // 해당 카테고리에 맞는 뉴스기사 전체 가져와서
         // 각 뉴스에 있는 카테고리 id 값이랑 media id 값 가지고
         // CategoryRepository와 MediaRepository를 활용하여 responsedto맞는 타입 맞춰서 넣어준다
@@ -263,6 +336,7 @@ public class NewsService {
                     .scrapCnt(ns.getTotalScrap())
                     .isScrap(isScrap ? "t" : "f")
                     .isLike(isLiked ? "t" : "f")
+                    .totalPages(totalPages)
                     .build();
 
             resultList.add(newsResDto);

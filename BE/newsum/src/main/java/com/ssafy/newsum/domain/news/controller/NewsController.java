@@ -6,6 +6,8 @@ import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
 import com.ssafy.newsum.domain.news.service.NewsService;
 import com.ssafy.newsum.global.common.CommonResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +34,12 @@ public class NewsController {
 
     // 분야별 조회
     @GetMapping("/{userId}/{categoryId}")
-    public ResponseEntity selectByCategory(@PathVariable Integer userId, @PathVariable Integer categoryId) {
+    public ResponseEntity selectByCategory(@PathVariable Integer userId, @PathVariable Integer categoryId,
+                                           @RequestParam(defaultValue = "0") Integer page) {
 
-        List<NewsResponseDto> resultList = newsService.selectByCategory(userId, categoryId);
+        Pageable pageable = PageRequest.of(page, 30);
+
+        List<NewsResponseDto> resultList = newsService.selectByCategory(userId, categoryId, pageable);
 
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(500, "categoryList error"));
@@ -46,9 +51,12 @@ public class NewsController {
     @GetMapping("/{userId}/sort")
     public ResponseEntity selectCategoryByOption(@PathVariable Integer userId,
                                                  @RequestParam(name = "category") Integer categoryId,
-                                                 @RequestParam(name = "option") Integer optionId) {
+                                                 @RequestParam(name = "option") Integer optionId,
+                                                 @RequestParam(defaultValue = "0") Integer page) {
 
-        List<NewsResponseDto> resultList = newsService.selectCategoryByOption(userId, categoryId, optionId);
+        Pageable pageable = PageRequest.of(page, 30);
+
+        List<NewsResponseDto> resultList = newsService.selectCategoryByOption(userId, categoryId, optionId, pageable);
 
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(500, "sortList error"));
@@ -67,9 +75,12 @@ public class NewsController {
 
     // 뉴스 검색하기
     @GetMapping("/{userId}/search")
-    public ResponseEntity searchNews(@PathVariable Integer userId, @RequestParam String keyword) {
+    public ResponseEntity searchNews(@PathVariable Integer userId, @RequestParam String keyword,
+                                     @RequestParam(defaultValue = "0") Integer page) {
 
-        List<NewsResponseDto> resultList = newsService.searchNews(keyword, userId);
+        Pageable pageable = PageRequest.of(page, 30);
+
+        List<NewsResponseDto> resultList = newsService.searchNews(keyword, userId, pageable);
 
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(500, "search error"));

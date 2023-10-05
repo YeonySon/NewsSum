@@ -13,6 +13,7 @@ public class NewsRequestDto {
 
     Integer userId;
     Integer newsId;
+    String isRecom;
 
 
 }

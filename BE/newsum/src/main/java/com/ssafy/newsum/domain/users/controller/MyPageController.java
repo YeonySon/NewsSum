@@ -5,6 +5,8 @@ import com.ssafy.newsum.domain.users.dto.response.TechResponseDto;
 import com.ssafy.newsum.domain.users.service.MyPageService;
 import com.ssafy.newsum.global.common.CommonResponseDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,9 +34,11 @@ public class MyPageController {
 
     // 최근 본 뉴스 조회 읽은뉴스 순
     @GetMapping("/mynews/{userId}")
-    public ResponseEntity selectByMyNews(@PathVariable Integer userId) {
+    public ResponseEntity selectByMyNews(@PathVariable Integer userId, @RequestParam Integer page) {
 
-        List<NewsResponseDto> resultList = myPageService.selectByMyNews(userId);
+        Pageable pageable = PageRequest.of(page, 30);
+
+        List<NewsResponseDto> resultList = myPageService.selectByMyNews(userId, pageable);
 
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(400, "news list fail"));
@@ -44,9 +48,12 @@ public class MyPageController {
 
     // 스크랩 카테고리별 뉴스 스크랩순
     @GetMapping("/myscrapnews/{userId}/{categoryId}")
-    public ResponseEntity selectMyScrapByCategoryId(@PathVariable Integer userId, @PathVariable Integer categoryId) {
+    public ResponseEntity selectMyScrapByCategoryId(@PathVariable Integer userId, @PathVariable Integer categoryId,
+                                                    @RequestParam Integer page) {
 
-        List<NewsResponseDto> resultList = myPageService.selectMyScrapByCategoryId(userId, categoryId);
+        Pageable pageable = PageRequest.of(page, 30);
+
+        List<NewsResponseDto> resultList = myPageService.selectMyScrapByCategoryId(userId, categoryId, pageable);
 
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(400, "scrap category fail"));
@@ -59,8 +66,12 @@ public class MyPageController {
     @GetMapping("/myscrap/{userId}/sort")
     public ResponseEntity selectScrapNewsSortByOption(@PathVariable Integer userId,
                                                       @RequestParam(name = "categoryId") Integer categoryId,
-                                                      @RequestParam(name = "optionId") Integer optionId) {
-        List<NewsResponseDto> resultList = myPageService.selectScrapNewsSortByOption(userId, categoryId, optionId);
+                                                      @RequestParam(name = "optionId") Integer optionId,
+                                                      @RequestParam Integer page) {
+
+        Pageable pageable = PageRequest.of(page, 30);
+
+        List<NewsResponseDto> resultList = myPageService.selectScrapNewsSortByOption(userId, categoryId, optionId, pageable);
 
         if (resultList == null)
             return ResponseEntity.ok(CommonResponseDto.error(400, "scrap option fail"));
