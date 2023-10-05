@@ -21,10 +21,12 @@ import com.ssafy.newsum.domain.users.service.UserService;
 import com.ssafy.newsum.global.common.CommonResponseDto;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/news")
 @RequiredArgsConstructor
+@Slf4j
 public class NewsController {
 	private final UserService userService;
 	private final NewsService newsService;
