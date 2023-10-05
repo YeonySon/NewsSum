@@ -55,6 +55,8 @@ public class User {
 	@ManyToOne
 	@JoinColumn(name = "job")
 	private Job job;
+	@Column(name = "state")
+	private String state;
 
 	public void updateRefreshToken(String updateRefreshToken) {
 		this.refreshToken = updateRefreshToken;

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.newsum.domain.job.dto.response.JobCntDto;
 import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
 import com.ssafy.newsum.domain.users.dto.response.AnalyzeResultResponseDto;
 import com.ssafy.newsum.domain.users.dto.response.CategoryDto;
@@ -91,17 +92,19 @@ public class MyPageController {
 		List<CategoryDto> readCategoryList = myPageService.selectCategoryByReadNews(userId);
 		//2-2. 스크랩 목록 카테고리 조회
 		List<CategoryDto> scrapCategoryList = myPageService.selectCategoryByScrap(userId);
-		CategoryListDto categoryListDto = CategoryListDto.builder()
+		CategoryListDto categoryList = CategoryListDto.builder()
 			.read(readCategoryList)
 			.scrap(scrapCategoryList)
 			.build();
 
 		//3. 비슷한 직업 유형 출력
+		List<JobCntDto> jobList = myPageService.selectJobsByReadNews(userId);
 
 		//4. 응답 dto 생성
 		AnalyzeResultResponseDto analyzeResultResponseDto = AnalyzeResultResponseDto.builder()
 			.keywordlist(keywordsList)
-			.readList(categoryListDto)
+			.readList(categoryList)
+			.jobList(jobList)
 			.build();
 
 		return ResponseEntity.ok(

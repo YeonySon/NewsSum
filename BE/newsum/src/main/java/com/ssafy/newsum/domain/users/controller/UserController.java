@@ -143,13 +143,13 @@ public class UserController {
 		List<TechRequestDto> techRequestDtoList = userRequestDto.getTech();
 		List<HeadlineRequestDto> headlineRequestDtoList = userRequestDto.getHeadline();
 		if (!userService.getTechStack(techRequestDtoList)) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "does not exist techStack"));
+			return ResponseEntity.ok(CommonResponseDto.error(400, "do not exist techStack"));
 		}
 		if (!userService.getHeadline(headlineRequestDtoList)) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "does not exist headline"));
+			return ResponseEntity.ok(CommonResponseDto.error(400, "do not exist headline"));
 		}
 		if (!jobService.getJobById(userRequestDto.getJob())) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "does not exist job"));
+			return ResponseEntity.ok(CommonResponseDto.error(400, "do not exist job"));
 		}
 
 		//유저정보 저장
@@ -215,6 +215,12 @@ public class UserController {
 	//회원 탈퇴
 	@DeleteMapping
 	public ResponseEntity<CommonResponseDto<?>> withdrawl(Authentication authentication) {
+		String email = authentication.getName();
+		log.info(email);
+		Boolean isDelete = userService.withdrawal(email);
+		if (!isDelete) {
+			return ResponseEntity.ok(CommonResponseDto.error(400, "do not exist email"));
+		}
 		return ResponseEntity.ok(CommonResponseDto.success(200, "success delete user", null));
 	}
 
@@ -226,14 +232,16 @@ public class UserController {
 
 		// 아이디 존재하지 않음
 		if (userOp.isEmpty()) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "does not exist email"));
+			return ResponseEntity.ok(CommonResponseDto.error(400, "do not exist email"));
 		}
 
 		User user = userOp.get();
+
+		if (user.getState().equals("정지")) {
+			return ResponseEntity.ok(CommonResponseDto.error(400, "withdrawl user"));
+		}
 		// 비밀번호 틀림
 		if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-			log.info(request.getPassword());
-			log.info(user.getPassword());
 			return ResponseEntity.ok(CommonResponseDto.error(400, "wrong password"));
 		}
 
