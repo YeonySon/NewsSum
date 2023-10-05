@@ -22,7 +22,7 @@ export const Short = styled.div`
 
   align-items: center;
   width: 400px;
-  min-height: 600px;
+  height: 500px;
 
   border-radius: 10px;
   margin: 0 0 10px 0;
@@ -42,31 +42,38 @@ export const Short = styled.div`
   }
 
   .short-head {
-    font-size: 2rem;
+    font-size: 1.3rem;
     font-weight: bold;
 
     margin: 20px 20px 15px 20px;
 
-    /* overflow: auto; */
-    word-break: break-all;
+    width: 300px;
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .short-threeLine {
-    background-color: #ebf3f8;
-    word-break: break-all;
-    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 15px;
 
-    width: 340px;
+    position: absolute;
+    top: 280px;
 
-    margin: 0 30px 100px 30px;
+    max-height: 200px;
+    margin: 0 30px 50px 30px;
     border-radius: 10px;
   }
+
   @media (max-width: 700px) {
-    min-height: 520px;
+    /* background-color: black; */
+    height: calc(100vh - 220px);
+    /* min-height: 520px; */
     margin: 0 0 0 0;
-    .short-img {
-      display: none;
-    }
   }
 `;
 
@@ -164,7 +171,7 @@ function ShortComponent({ shortInfo }) {
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
     await BaseInstance.get(`/api/${url}/${shortInfo.id}/${MyInfo}`, { headers })
       .then((response) => {
@@ -184,7 +191,7 @@ function ShortComponent({ shortInfo }) {
     const token = cookie.load('accessToken');
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
 
     await BaseInstance.delete(`/api/${url}/${shortInfo.id}/${MyInfo}`, {
@@ -205,9 +212,10 @@ function ShortComponent({ shortInfo }) {
   return (
     <Short>
       <img className="short-img" src={shortInfo.image} alt={shortInfo.head} />
-
-      <div className="short-head">{shortInfo.head}</div>
-      <div className="short-threeLine">{shortInfo.threeLine}</div>
+      <div className="article">
+        <div className="short-head">{shortInfo.head}</div>
+        <div className="short-threeLine">{shortInfo.threeLine}</div>
+      </div>
       <ShortMenu>
         <div onClick={like}>
           {shortInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}

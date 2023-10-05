@@ -119,7 +119,7 @@ function CardSlot({ newsInfo, isRecom }) {
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
     await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {

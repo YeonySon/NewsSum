@@ -159,7 +159,7 @@ function News() {
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
     await BaseInstance.get(url, { headers })
       .then((response) => {
