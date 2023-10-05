@@ -24,6 +24,7 @@ import WordCloud from '../../components/mypage/visuallization/WordCloud';
 import VerticalChart from '../../components/mypage/visuallization/VerticalChart';
 import RadarChart from '../../components/mypage/visuallization/RadarChart';
 import { DivColLine } from '../../components/mypage/visuallization/GraphStyle';
+import EmptyComponent from '../../components/mypage/EmptyComponent';
 
 export const Content = styled.div`
   border-left: 0;
@@ -207,7 +208,7 @@ function Visualization() {
             t == type ? <ActiveDark>{t}</ActiveDark> : <Deactive onClick={() => setType(t)}>{t}</Deactive>
           )}
         </div>
-        {data !== undefined ? (
+        {data !== undefined && (
           <>
             <WordCloud data={data} isActive={type == types[0]} />
             <DivRowLine />
@@ -217,16 +218,8 @@ function Visualization() {
               <RadarChart responseData={data.jobList} isActive={type == types[2]} />
             </GraphContainer>
           </>
-        ) : (
-          <>
-            <img
-              style={{ width: '30%', height: 'auto' }}
-              src={`${process.env.PUBLIC_URL}/img/page/noData.jpg`}
-              alt="logo"
-            />
-            <p>수집된 정보가 부족하여 데이터를 분석할 수 없습니다.</p>
-          </>
-        )}
+        )} 
+        {data === undefined && <EmptyComponent type={1} />}
       </Content>
     </div>
   );
