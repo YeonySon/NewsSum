@@ -197,7 +197,7 @@ function MyNews() {
     } else if (sort != -1) {
       getNews(`/api/mypage/myscrap/${MyInfo}/sort?categoryId=${sort}&optionId=${sortAli}&page=${page}`);
     }
-  }, [sort, sortAli]);
+  }, [sort, sortAli, page]);
 
   return (
     <div>

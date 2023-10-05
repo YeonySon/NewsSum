@@ -20,6 +20,7 @@ import { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
 import CardSlot from '../../components/news/CardSlot';
 import { useEffect, useState } from 'react';
 import { SearchAtom } from '../../recoil/atoms/SearchAtom';
+import Pagination from '../../components/util/Page';
 
 export const Content = styled.div`
   border-left: 0;
@@ -148,7 +149,8 @@ function News() {
   ];
   const [sort, setSort] = useState(tab[1][1]);
   const [sortAli, setSortAli] = useState(ali[0][1]);
-  const [page, setPageAli] = useState(0);
+  const [page, setPage] = useState(0);
+  const [total, setTotal] = useState(0);
 
   function clickedTab(info) {
     setSort(info);
@@ -172,6 +174,7 @@ function News() {
           console.log('200');
           console.log(response.data);
           setNewsInfo(response.data.data);
+          setTotal(response.data.data[0].totalPages);
           // setNewsInfo(dummy);
         } else if (response.data.statusCode === 400) {
           console.log('400');
@@ -215,7 +218,7 @@ function News() {
       getNews(`/api/news/${MyInfo}/sort?category=${sort}&option=${sortAli}&page=${page}`);
       setSearch('');
     }
-  }, [sort, sortAli]);
+  }, [MyInfo, sort, sortAli, page]);
 
   return (
     <div>
@@ -249,6 +252,7 @@ function News() {
             <CardSlot newsInfo={news} isRecom={sort != -1 ? 't' : 'f'} />
           ))}
         </div>
+        {sort != -1 && <Pagination total={total} limit={10} page={page} setPage={setPage} />}
       </Content>
     </div>
   );

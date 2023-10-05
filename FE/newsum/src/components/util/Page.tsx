@@ -5,10 +5,10 @@ import React, { useEffect, useState } from 'react';
 
 function Pagination({ total, limit, page, setPage }) {
   useEffect(() => {
-    //회원 follow목록 가져오기
+    console.log(page);
   }, [page]);
 
-  const numPages = Math.ceil(total);
+  const numPages = Math.ceil(total / limit);
 
   return (
     <>
@@ -59,28 +59,33 @@ const Nav = styled.nav`
 const Button = styled.button`
   width: 40px;
   height: 40px;
-  border: none;
+  border: 1px solid #9aa3aa;
+
   border-radius: 8px;
   padding: 8px;
   margin: 0;
-  background: black;
-  color: white;
+  background-color: white;
+  color: #394867;
+  font-weight: bold;
   font-size: 1rem;
 
   &:hover {
-    background: tomato;
+    background-color: #7487ae;
+    color: white;
     cursor: pointer;
     transform: translateY(-2px);
   }
 
   &[disabled] {
-    background: grey;
+    background-color: white;
+    color: #9aa3aa;
     cursor: revert;
     transform: revert;
   }
 
   &[aria-current] {
-    background: #eaa595;
+    background: #394867;
+    color: white;
     font-weight: bold;
     cursor: revert;
     transform: revert;
