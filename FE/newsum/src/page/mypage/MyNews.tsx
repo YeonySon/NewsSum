@@ -1,26 +1,22 @@
 // 라이브러리
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import cookie from "react-cookies";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import cookie from 'react-cookies';
+import styled from 'styled-components';
 
 // recoil import
-import { useRecoilValue } from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilValue } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 // axios instance
-import { BaseInstance } from "../../hook/AxiosInstance";
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 //Util component import
-import Header from "../../components/util/Header";
-import Navbar from "../../components/util/Navbar";
-import Tabbar, {
-  Active,
-  ActiveDark,
-  Deactive,
-} from "../../components/util/Tabbar";
-import Dropdown from "../../components/mypage/Dropdown";
-import CardSlot from "../../components/news/CardSlot";
+import Header from '../../components/util/Header';
+import Navbar from '../../components/util/Navbar';
+import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
+import Dropdown from '../../components/mypage/Dropdown';
+import CardSlot from '../../components/news/CardSlot';
 
 export const Content = styled.div`
   border-left: 0;
@@ -126,30 +122,30 @@ function MyNews() {
   const [newsInfo, setNewsInfo] = useState([]);
   const MyInfo = useRecoilValue(MyInfoAtom);
   const nav = [
-    ["분석", "visualization"],
-    ["뉴스", "mynews"],
-    ["키워드", "keyword"],
-    ["내정보", "myinfo"],
+    ['분석', 'visualization'],
+    ['뉴스', 'mynews'],
+    ['키워드', 'keyword'],
+    ['내정보', 'myinfo'],
   ];
 
   // 뉴스 가져오기
   const getNews = async (url) => {
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
 
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
     };
     await BaseInstance.get(url, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log("200");
+          console.log('200');
           console.log(response.data);
           setNewsInfo(response.data.data);
           // setNewsInfo(dummy);
         } else if (response.data.statusCode === 400) {
-          console.log("400");
+          console.log('400');
           console.log(response.data);
         }
         return response.data;
@@ -161,20 +157,20 @@ function MyNews() {
   };
 
   const tab = [
-    ["최근 본 뉴스", -1],
-    ["스크랩 전체", 0],
-    ["모바일", 1],
-    ["인터넷/sns", 2],
-    ["IT일반", 3],
-    ["보안/해킹", 4],
-    ["통신/뉴미디어", 5],
-    ["컴퓨터", 6],
-    ["게임/리뷰", 7],
+    ['최근 본 뉴스', -1],
+    ['스크랩 전체', 0],
+    ['모바일', 1],
+    ['인터넷/sns', 2],
+    ['IT일반', 3],
+    ['보안/해킹', 4],
+    ['통신/뉴미디어', 5],
+    ['컴퓨터', 6],
+    ['게임/리뷰', 7],
   ];
 
   const ali = [
-    ["최신", 2],
-    ["인기", 1],
+    ['최신', 2],
+    ['인기', 1],
   ];
   const [navlist, setNavlist] = useState(nav[1][0]);
   const [sort, setSort] = useState(tab[0][1]);
@@ -189,22 +185,20 @@ function MyNews() {
   }
 
   useEffect(() => {
-    console.log("sort changed");
+    console.log('sort changed');
 
     // 서버에 데이터 요청
     if (sort == -1) {
       getNews(`/api/mypage/mynews/${MyInfo}`);
     } else if (sort != -1) {
-      getNews(
-        `/api/mypage/myscrap/${MyInfo}/sort?categoryId=${sort}&optionId=${sortAli}`
-      );
+      getNews(`/api/mypage/myscrap/${MyInfo}/sort?categoryId=${sort}&optionId=${sortAli}`);
     }
   }, [sort, sortAli]);
 
   return (
     <div>
       <Header />
-      <Navbar nav={"mypage"} />
+      <Navbar nav={'mypage'} />
       <Content>
         <div className="wrap-vertical">
           {nav.map((manu) =>
@@ -222,23 +216,17 @@ function MyNews() {
             manu[1] == sort ? (
               <ActiveDark>{manu[0]}</ActiveDark>
             ) : (
-              <Deactive onClick={() => clickedSort(manu[1])}>
-                {manu[0]}
-              </Deactive>
+              <Deactive onClick={() => clickedSort(manu[1])}>{manu[0]}</Deactive>
             )
           )}
         </div>
         <div className="wrap-vertical">
-          <div className="ali">
-            {sort != -1 && (
-              <Dropdown sortAli={sortAli} setSortAli={setSortAli} ali={ali} />
-            )}
-          </div>
+          <div className="ali">{sort != -1 && <Dropdown sortAli={sortAli} setSortAli={setSortAli} ali={ali} />}</div>
         </div>
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {newsInfo.map((news) => (
-            <CardSlot newsInfo={news} isRecom={"f"} />
+            <CardSlot newsInfo={news} isRecom={'f'} />
           ))}
         </div>
       </Content>
