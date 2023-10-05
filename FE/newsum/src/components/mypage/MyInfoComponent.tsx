@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // state, recoil import
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { LeaveModalIsOpenAtom } from '../../recoil/atoms/LeaveModalAtom';
 
 // axios 요청
 import { BaseInstance } from '../../hook/AxiosInstance';
@@ -22,11 +23,15 @@ import {
   MyInfoButton,
   
 } from '../signup/signUp';
+import LeaveCheckModal from './LeaveCheckModal';
 
 
 function MyInfoComponent() {
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom); // recoil data
+  const [leaveModalOpen, setLeaveModalOpen] = useRecoilState(LeaveModalIsOpenAtom);
+  const [isAnimating, setIsAnimating] = useState(false);
+
   const userId = useRecoilValue(MyInfoAtom);  // user Id
 
   // 비밀번호 및 비밀번호 확인
@@ -75,6 +80,7 @@ function MyInfoComponent() {
 
   const leaveCheck = () => {
     console.log('탈퇴 기능')
+    setLeaveModalOpen(true);
   }
 
   useEffect(() => {
@@ -91,6 +97,17 @@ function MyInfoComponent() {
         console.log(error)
       })
   }, [])
+
+  // modal FadeIn, FadeOut를 위한 시간 지연
+  useEffect(() => {
+    if (leaveModalOpen) {
+      setIsAnimating(true);
+    } else {
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 300);
+    }
+  }, [leaveModalOpen]);
 
   return (
     <SignUpPage>
@@ -139,6 +156,8 @@ function MyInfoComponent() {
           <MyInfoButton $isLeft={false} onClick={ leaveCheck }>탈퇴</MyInfoButton>
         </MyInfoBox>
       </Container>
+
+      {(leaveModalOpen || isAnimating) && <LeaveCheckModal />}
     </SignUpPage>
   );
 };

@@ -15,7 +15,7 @@ export const ModalWindow = styled.div<modalProps>`
   right: 0;
   bottom: 0;
   left: 0;
-  z-index: 10;
+  z-index: 110;
   animation: ${({$isActive}) => $isActive ? modalIn : modalOut} 0.3s linear;
 `
 
