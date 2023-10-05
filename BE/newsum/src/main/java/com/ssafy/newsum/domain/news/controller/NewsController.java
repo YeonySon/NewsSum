@@ -35,13 +35,13 @@ public class NewsController {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "recommendList error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "recommendList error"));
 		}
 
 		List<NewsResponseDto> resultList = newsService.selectRecommend(userId);
 
 		if (resultList == null)
-			return ResponseEntity.ok(CommonResponseDto.error(500, "recommendList error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "recommendList error"));
 
 		return ResponseEntity.ok(CommonResponseDto.success(200, "recommendList success", resultList));
 	}
@@ -53,7 +53,7 @@ public class NewsController {
 		List<NewsResponseDto> resultList = newsService.selectByCategory(userId, categoryId);
 
 		if (resultList == null)
-			return ResponseEntity.ok(CommonResponseDto.error(500, "categoryList error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "categoryList error"));
 
 		return ResponseEntity.ok(CommonResponseDto.success(200, "categoryList success", resultList));
 	}
@@ -67,7 +67,7 @@ public class NewsController {
 		List<NewsResponseDto> resultList = newsService.selectCategoryByOption(userId, categoryId, optionId);
 
 		if (resultList == null)
-			return ResponseEntity.ok(CommonResponseDto.error(500, "sortList error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "sortList error"));
 
 		return ResponseEntity.ok(CommonResponseDto.success(200, "sortList success", resultList));
 	}
@@ -88,7 +88,7 @@ public class NewsController {
 		List<NewsResponseDto> resultList = newsService.searchNews(keyword, userId);
 
 		if (resultList == null)
-			return ResponseEntity.ok(CommonResponseDto.error(500, "search error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "search error"));
 
 		return ResponseEntity.ok(CommonResponseDto.success(200, "search success", resultList));
 
@@ -101,7 +101,7 @@ public class NewsController {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "like error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "like error"));
 		}
 
 		newsService.likeNews(newsId, userId);
@@ -117,7 +117,7 @@ public class NewsController {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "like cancel error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "like cancel error"));
 		}
 
 		newsService.likeNewsCancel(newsId, userId);
@@ -132,7 +132,7 @@ public class NewsController {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "scrap success"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "scrap success"));
 		}
 
 		newsService.scrapNews(newsId, userId);
@@ -147,7 +147,7 @@ public class NewsController {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "crap cancel error"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "crap cancel error"));
 		}
 
 		newsService.scrapNewsCancel(newsId, userId);
