@@ -2,6 +2,8 @@ package com.ssafy.newsum.domain.users.dto.response;
 
 import java.util.List;
 
+import com.ssafy.newsum.domain.job.dto.response.JobCntDto;
+
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,5 +12,5 @@ import lombok.Data;
 public class AnalyzeResultResponseDto {
 	private List<Keywords> keywordlist;
 	private CategoryListDto readList;
-	// private List<Histo> historyList;
+	private List<JobCntDto> jobList;
 }

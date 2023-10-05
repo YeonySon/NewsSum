@@ -180,7 +180,8 @@ public class UserService {
 		}
 
 		User user = userObject.get();
-		userRepository.deleteById(user.getUserId());
+		userRepository.deleteUser(user.getUserId());
+		log.info("user : {}", userRepository.findByEmail(userEmail));
 		return true;
 	}
 

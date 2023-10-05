@@ -9,6 +9,8 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ssafy.newsum.domain.job.Job;
+import com.ssafy.newsum.domain.job.dto.response.JobCntDto;
 import com.ssafy.newsum.domain.job.repository.JobRepository;
 import com.ssafy.newsum.domain.news.dto.response.NewsResponseDto;
 import com.ssafy.newsum.domain.news.entity.Category;
@@ -254,24 +256,61 @@ public class MyPageService {
 	}
 
 	// 나와 같은 뉴스 기사를 읽은 직업군 조회
-	// public List<Job> selectJobsByReadNews(Integer userId) {
-	// 	//1. 읽은 뉴스 기사 목록 조회(userId)
-	// 	List<News> readNews = newsRepository.selectAllMyReadNews(userId);
-	//
-	// 	//2. 뉴스 아이디에 해당하는 유저의 직업군 조회(newsId)
-	// 	Map<Integer, Integer> jobs = new HashMap<>();
-	//
-	// 	//3. 직업군 조회
-	// 	List<Job> jobList = jobRepository.findAll();
-	//
-	// 	for (News news : readNews) {
-	// 		Job job = jobRepository.selectJobByUser(news.getNewsId());
-	// 		if(jobs.get(job.getJobName()) != null){
-	// 			jobs.put
-	// 		}
-	// 	}
-	//
-	// 	//3. 직업군 count
-	// 	//4. count한 리스트 출력
-	// }
+	public List<JobCntDto> selectJobsByReadNews(Integer userId) {
+		//1. 읽은 뉴스 기사 목록 조회(userId)
+		List<News> readNews = newsRepository.selectAllMyReadNews(userId);
+
+		//2. 직업군 조회
+		List<Job> jobList = jobRepository.findAll();
+		int jobSize = jobList.size();
+
+		//3. 뉴스 아이디에 해당하는 유저의 직업군 조회(newsId)
+		int[] jobCntArray = new int[jobSize];
+
+		Map<Integer, Integer> userMap = new HashMap<>();
+
+		for (News news : readNews) {
+			//유저조회 -> map
+			List<User> userList = jobRepository.selectUserByNews(news.getNewsId(), userId);
+			int ulSize = userList.size();
+
+			//리스트에 유저 값 저장
+			for (int i = 0; i < ulSize; i++) {
+				User user = userList.get(i);
+				if (userMap.get(user.getUserId()) == null)
+					userMap.put(user.getUserId(), user.getJob().getJobId());
+			}
+
+			// List<Job> userJobs = jobRepository.selectUserJobByNews(news.getNewsId(), userId);
+			// int ujSize = userJobs.size();
+			// log.info("userSize : {}", ujSize);
+			//
+			// //3. 직업군 count
+			// for (int i = 0; i < ujSize; i++) {
+			// 	jobCntArray[(userJobs.get(i).getJobId()) - 1] += 1;
+			// }
+		}
+
+		int mapSize = userMap.size();
+
+		//3. 직업군 count
+		for (Integer usId : userMap.keySet()) {
+			jobCntArray[userMap.get(usId) - 1] += 1;
+		}
+
+		//4. count한 리스트 출력
+		List<JobCntDto> jobCntDtos = new ArrayList<>();
+		for (int i = 0; i < jobSize; i++) {
+			Job job = jobList.get(i);
+			JobCntDto jobCntDto = JobCntDto.builder()
+				.id(job.getJobId())
+				.name(job.getJobName())
+				.cnt(jobCntArray[i])
+				.build();
+
+			jobCntDtos.add(jobCntDto);
+		}
+
+		return jobCntDtos;
+	}
 }

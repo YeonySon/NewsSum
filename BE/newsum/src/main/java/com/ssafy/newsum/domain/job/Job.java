@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "job")
 @Builder
 @Getter
+@ToString
 public class Job {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

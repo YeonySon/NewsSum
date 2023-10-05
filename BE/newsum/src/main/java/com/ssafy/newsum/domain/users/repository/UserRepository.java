@@ -12,6 +12,11 @@ import org.springframework.data.repository.query.Param;
 import com.ssafy.newsum.domain.users.entity.User;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
+	//회원 탈퇴(상태 변경)
+	@Modifying
+	@Query("update User u set u.state='정지' where u.userId=:userId")
+	void deleteUser(@Param("userId") Integer userId);
+
 	//email로 회원 정보 찾기
 	@Query("select u from User u where u.email=:userEmail")
 	Optional<User> findByEmail(@Param("userEmail") String userEmail);
@@ -30,6 +35,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Query("update User u set u.refreshToken = :refreshToken where u.email = :userEmail")
 	int updateRefreshToken(@Param("refreshToken") String refreshToken, @Param("userEmail") String userEmail);
 
+	//password 수정
 	@Modifying(clearAutomatically = true)
 	@Query("update User u set u.password = :password where u.email = :userEmail")
 	void updatePassword(@Param("userEmail") String userEmail, @Param("password") String newPassword);
