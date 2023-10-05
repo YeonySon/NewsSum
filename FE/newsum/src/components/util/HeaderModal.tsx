@@ -1,10 +1,11 @@
-import { useEffect, useState } from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import styled from "styled-components";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
-import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
+import { useEffect, useState } from 'react';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import styled from 'styled-components';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+import cookie from "react-cookies";
 
-const Item = styled.div`
+export const Item = styled.div`
   color: #353845;
   text-align: center;
   font-size: 1rem;
@@ -21,7 +22,7 @@ const Item = styled.div`
   }
 `;
 
-const Items = styled.div`
+export const Items = styled.div`
   border: 2px solid #9aa3aa;
   background-color: #ffffff;
   border-radius: 8px;
@@ -29,7 +30,7 @@ const Items = styled.div`
   margin: 0;
   padding: 0;
 
-  box-shadow: 2px 2px 5px 5px #f8f8f8;
+  box-shadow: 2px 2px 1px 2px #f8f8f8;
 
   /* 프로필 아이콘 밑으로 이동 */
   position: absolute;
@@ -40,7 +41,7 @@ const Items = styled.div`
   z-index: 10;
 `;
 
-const Hr = styled.hr`
+export const Hr = styled.hr`
   color: gray;
 
   margin: 0;
@@ -54,13 +55,17 @@ function HeaderModal({ setProfileModal }) {
   //로그인 되었는지 확인
 
   function myPage() {
-    alert("마이페이지로 이동");
+    alert('마이페이지로 이동');
   }
 
   function logout() {
     // alert("로그아웃");
+    if (cookie.load('accessToken')) {
+      cookie.remove('accessToken', {path : '/'})
+    }
     setProfileModal(false);
     setMyinfo(0);
+    window.location.href = '/news'
   }
 
   function login() {

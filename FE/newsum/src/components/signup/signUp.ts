@@ -295,6 +295,11 @@ export const DeleteButton = styled.button`
   border: 1px solid #f00;
   border-radius: 50%;
   color: #f00;
+  cursor: pointer;
+  transition: transform 0.5s;
+  &:hover {
+    transform: rotate(180deg); 
+  }
 `
 
 export const DivLine = styled.div`
@@ -371,6 +376,7 @@ export const MyInfoButton = styled(NextButton)<PositionProps>`
   position: absolute;
   width: 50px;
   bottom: 40%;
+  cursor: pointer;
   ${({ $isLeft }) => ($isLeft ? `right: 70px;` : 
     css`
       right: 10px;

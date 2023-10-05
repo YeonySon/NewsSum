@@ -8,12 +8,16 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import com.ssafy.newsum.domain.job.Job;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -48,6 +52,11 @@ public class User {
 	@CreatedDate
 	@Column(name = "created_at")
 	private LocalDateTime createdAt;
+	@ManyToOne
+	@JoinColumn(name = "job")
+	private Job job;
+	@Column(name = "state")
+	private String state;
 
 	public void updateRefreshToken(String updateRefreshToken) {
 		this.refreshToken = updateRefreshToken;

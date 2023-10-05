@@ -1,9 +1,13 @@
+// 라이브러리
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BaseInstance } from '../../hook/AxiosInstance';
 
+// recoil import
 import { useRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
+
+// axios instance
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 import { 
   NavButtonBox,
@@ -23,10 +27,11 @@ function SignUp3() {
   const page = 3
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom);
+
   useEffect(() => {
     // 서버에 데이터 요청
     const responseData = async () => {
-      await BaseInstance.get('/user/headline')
+      await BaseInstance.get('/api/user/headline')
         .then((response) => {
           setItems(response.data.data.map((item: {name: string}) => item.name))
         })
@@ -38,7 +43,7 @@ function SignUp3() {
   const [items, setItems] = useState<string[]>([])
   const [checkedList, setCheckedList] = useState<number[]>([]);
   const [itemStates, setItemStates] = useState<boolean[]>(new Array(items.length).fill(false))
-  console.log('headline 데이터', formData.headline)
+
   const handleCheckedList = (index: number, isChecked: boolean) => {
     if (isChecked) {
       setFormData((prev) => ({...prev, headline: [...formData.headline, index + 1]}))
@@ -71,9 +76,10 @@ function SignUp3() {
     // 서버로 요청 (회원가입)
     const requestBodyJSON = JSON.stringify(formData);
 
-    await BaseInstance.post('/user', requestBodyJSON)
+    await BaseInstance.post('/api/user', requestBodyJSON)
       .then((resposne) => {
         console.log(resposne)
+        alert('회원가입을 완료하였습니다')
       })
       .catch((error) => {
         console.log(error)
@@ -90,9 +96,12 @@ function SignUp3() {
       alert('회원정보를 확인해주세요.')
       navigate('/signup/1')
     } else if ( formData.tech.length === 0 ) {
-      alert('관심기술 직무를 선택해주세요.')
+      alert('관심기술스택을 선택해주세요.')
       navigate('/signup/2')
-    } 
+    } else if ( formData.job === 0) {
+      alert('관심직무를 선택해주세요.')
+      navigate('/signup/22')
+    }
   }, [formData])
 
   return (
@@ -103,6 +112,7 @@ function SignUp3() {
         <NavButtonBox>
           <NavButton $isActive={page === 1} />
           <NavButton $isActive={page === 2} />
+          <NavButton $isActive={page === 22} />
           <NavButton $isActive={page === 3} />
         </NavButtonBox>
         

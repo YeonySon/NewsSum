@@ -1,13 +1,14 @@
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
+// 라이브러리
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
+import styled from "styled-components";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
-import { useState } from 'react';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import Tabbar, { Active, Deactive } from "../../components/util/Tabbar";
 
-import KeywordComponent from '../../components/mypage/KeywordComponent';
+import KeywordComponent from "../../components/mypage/KeywordComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -39,6 +40,8 @@ export const Content = styled.div`
   .main {
     /* background-color: #788ca8; */
 
+    top: 60px;
+
     display: flex;
 
     position: relative;
@@ -50,13 +53,13 @@ export const Content = styled.div`
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
-    top: 60px;
     left: 17%;
+    top: 60px;
 
     width: 80%;
     max-width: 1600px;
 
-    border-left: 1px solid gray;
+    /* border-left: 1px solid gray; */
   }
   .main {
     /* background-color: #788ca8; */
@@ -75,17 +78,17 @@ export const Content = styled.div`
 
 function Keyword() {
   const tab = [
-    ['분석', 'visualization'],
-    ['뉴스', 'mynews'],
-    ['키워드', 'keyword'],
-    ['내정보', 'myinfo'],
+    ["분석", "visualization"],
+    ["뉴스", "mynews"],
+    ["키워드", "keyword"],
+    ["내정보", "myinfo"],
   ];
   const [sort, setSort] = useState(tab[2][0]);
 
   return (
     <div>
       <Header />
-      <Navbar nav={'mypage'} />
+      <Navbar nav={"mypage"} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>
@@ -97,7 +100,7 @@ function Keyword() {
               </NavLink>
             )
           )}
-        <KeywordComponent pageType={1} />
+          <KeywordComponent pageType={1} />
         </div>
       </Content>
     </div>

@@ -11,6 +11,8 @@ import com.ssafy.newsum.domain.headline.entity.Headline;
 import com.ssafy.newsum.domain.headline.entity.PreferredHeadline;
 import com.ssafy.newsum.domain.headline.repository.HeadlineRepository;
 import com.ssafy.newsum.domain.headline.repository.PreferredHeadlineRepository;
+import com.ssafy.newsum.domain.job.Job;
+import com.ssafy.newsum.domain.job.repository.JobRepository;
 import com.ssafy.newsum.domain.techstack.entity.PreferredTechStack;
 import com.ssafy.newsum.domain.techstack.entity.TechStack;
 import com.ssafy.newsum.domain.techstack.repository.PreferredTechStackRepository;
@@ -37,6 +39,7 @@ public class UserService {
 	private final PreferredTechStackRepository preferredTechStackRepository;
 	private final JwtService jwtService;
 	private final PasswordEncoder passwordEncoder;
+	private final JobRepository jobRepository;
 
 	@Transactional
 	public UserLoginResponseDto updateRefreshToken(User user) {
@@ -63,6 +66,11 @@ public class UserService {
 		return headlineRepository.findAll();
 	}
 
+	//기술스택 리스트 출력
+	public List<Job> getAllJob() {
+		return jobRepository.findAll();
+	}
+
 	//아이디 중복 확인
 	public Boolean validateId(String email) {
 		Optional<User> findUser = userRepository.findByEmail(email);
@@ -78,6 +86,7 @@ public class UserService {
 	public User signup(UserRequestDto userRequestDto) {
 		if (userRequestDto.getAuthenticate() == null)
 			userRequestDto.setAuthenticate("UA01");
+		userRequestDto.setState("정상");
 		User user = userRequestDto.toEntity(userRequestDto);
 		//1. 비밀번호 암호화
 		user.passwordEncode(passwordEncoder);
@@ -158,7 +167,7 @@ public class UserService {
 		user.passwordEncode(passwordEncoder);
 
 		//2. 저장
-		userRepository.updatePassword(user.getEmail(), user.getPassword());
+		userRepository.updatePassword(id, user.getPassword());
 		return user;
 	}
 
@@ -172,7 +181,8 @@ public class UserService {
 		}
 
 		User user = userObject.get();
-		userRepository.deleteById(user.getUserId());
+		userRepository.deleteUser(user.getUserId());
+		log.info("user : {}", userRepository.findByEmail(userEmail));
 		return true;
 	}
 

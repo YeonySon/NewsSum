@@ -1,38 +1,28 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
 //아이콘 가져오기
-import { IoDocumentTextOutline } from "react-icons/io5";
-import { AiOutlineClose } from "react-icons/ai";
-import {
-  FaBookmark,
-  FaRegBookmark,
-  FaHeart,
-  FaRegHeart,
-} from "react-icons/fa6";
-import { FaShare } from "react-icons/fa6";
+import { IoDocumentTextOutline } from 'react-icons/io5';
+import { AiOutlineClose } from 'react-icons/ai';
+import { FaBookmark, FaRegBookmark, FaHeart, FaRegHeart } from 'react-icons/fa6';
+import { FaShare } from 'react-icons/fa6';
 
 // cookies
-import cookie from "react-cookies";
+import cookie from 'react-cookies';
 
 // //axios
-import { BaseInstance } from "../../hook/AxiosInstance";
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 // recoil
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 export const Short = styled.div`
   background-color: #ebf3f8;
 
   align-items: center;
   width: 400px;
-  min-height: 600px;
+  height: 600px;
 
   border-radius: 10px;
   margin: 0 0 10px 0;
@@ -52,65 +42,81 @@ export const Short = styled.div`
   }
 
   .short-head {
-    font-size: 2rem;
+    font-size: 1.3rem;
     font-weight: bold;
 
     margin: 20px 20px 15px 20px;
 
-    /* overflow: auto; */
-    word-break: break-all;
+    width: 300px;
+    display: -webkit-box;
+    word-wrap: break-word;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    overflow: hidden;
   }
 
   .short-threeLine {
-    background-color: #ebf3f8;
-    word-break: break-all;
-    white-space: pre-wrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 18px;
 
-    width: 340px;
+    position: absolute;
+    top: 300px;
 
-    margin: 0 30px 100px 30px;
+    max-height: 300px;
+    margin: 0 30px 50px 30px;
     border-radius: 10px;
   }
+  //700보다 작을 때
   @media (max-width: 700px) {
-    min-height: 520px;
+    /* background-color: black; */
+    height: calc(100vh - 220px);
+    /* min-height: 520px; */
     margin: 0 0 0 0;
-    .short-img {
-      display: none;
+
+    height: 520px;
+    .short-threeLine {
+      font-size: 13px;
     }
   }
 `;
 
 export const ShortMenu = styled.div`
   position: absolute;
+  position: relative;
   display: flex;
 
   color: #394867;
 
   height: 300px;
 
+  left: 108%;
   top: 50%;
-  left: 105%;
   flex-direction: column;
   justify-content: space-between;
 
   font-size: 2.2rem;
+
+  transform: translate(0%, -100%);
   .text {
-    font-size: 1.1rem;
+    color: gray;
+    font-size: 0.8rem;
     position: absolute;
     white-space: nowrap;
 
     overflow: visible;
-    transform: translate(-70%, 170%);
+    transform: translate(-85%, 230%);
 
     font-weight: bold;
 
     /* left: -0%; */
   }
   @media (max-width: 700px) {
-    top: 100%;
-    left: 10%;
+    top: 50%;
+    left: 9%;
 
-    transform: translate(0, -80px);
+    transform: translate(0, -75%);
 
     width: 330px;
     height: 100px;
@@ -127,30 +133,30 @@ function ShortComponent({ shortInfo }) {
 
   function scrap() {
     if (MyInfo == 0) {
-      alert("로그인 후 사용가능한 기능입니다.");
+      alert('로그인 후 사용가능한 기능입니다.');
       return;
     }
-    if (shortInfo.isScrap == "t") {
-      shortInfo.isScrap = "f";
-      deleteAxios("/news/scrap");
+    if (shortInfo.isScrap == 't') {
+      shortInfo.isScrap = 'f';
+      deleteAxios('/news/scrap');
     } else {
-      shortInfo.isScrap = "t";
-      getAxios("/news/scrap");
+      shortInfo.isScrap = 't';
+      getAxios('/news/scrap');
     }
     setRander(!rander);
   }
 
   function like() {
     if (MyInfo == 0) {
-      alert("로그인 후 사용가능한 기능입니다.");
+      alert('로그인 후 사용가능한 기능입니다.');
       return;
     }
-    if (shortInfo.isLike == "t") {
-      shortInfo.isLike = "f";
-      deleteAxios("/news/dibs");
+    if (shortInfo.isLike == 't') {
+      shortInfo.isLike = 'f';
+      deleteAxios('/news/dibs');
     } else {
-      shortInfo.isLike = "t";
-      getAxios("/news/dibs");
+      shortInfo.isLike = 't';
+      getAxios('/news/dibs');
     }
     setRander(!rander);
   }
@@ -158,26 +164,25 @@ function ShortComponent({ shortInfo }) {
   async function copyURL() {
     try {
       await navigator.clipboard.writeText(shortInfo.url);
-      alert("복사되었습니다.");
+      alert('복사되었습니다.');
     } catch (err) {
       console.log(err);
     }
   }
 
   function openNews() {
-    details();
-    window.open(shortInfo.url, "_blank", "noopener, noreferrer");
+    window.open(shortInfo.url, '_blank', 'noopener, noreferrer');
   }
 
   // 좋아요 / 스크랩
   async function getAxios(url) {
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
 
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
     };
-    await BaseInstance.get(`${url}/${shortInfo.id}/${MyInfo}`, { headers })
+    await BaseInstance.get(`/api/${url}/${shortInfo.id}/${MyInfo}`, { headers })
       .then((response) => {
         if (response.data.statusCode === 200) {
         } else if (response.data.statusCode === 400) {
@@ -192,13 +197,13 @@ function ShortComponent({ shortInfo }) {
 
   // delete
   async function deleteAxios(url) {
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
     };
 
-    await BaseInstance.delete(`${url}/${shortInfo.id}/${MyInfo}`, {
+    await BaseInstance.delete(`/api/${url}/${shortInfo.id}/${MyInfo}`, {
       headers,
     })
       .then((response) => {
@@ -213,62 +218,29 @@ function ShortComponent({ shortInfo }) {
       });
   }
 
-  // 로그인 버튼 클릭
-  const details = async () => {
-    const requestBodyJSON = JSON.stringify({
-      userId: MyInfo,
-      newsId: shortInfo.id,
-    });
-
-    const token = cookie.load("accessToken");
-    // if (token == undefined) {
-    //   alert("token not found");
-    //   setMyinfo(0);
-    //   return;
-    // }
-
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
-    };
-    await BaseInstance.post(`/news/detail`, requestBodyJSON, { headers })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.statusCode === 200) {
-          console.log("200");
-        } else if (response.data.statusCode === 400) {
-          console.log("400");
-        }
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
-  };
-
   return (
     <Short>
       <img className="short-img" src={shortInfo.image} alt={shortInfo.head} />
-
-      <div className="short-head">{shortInfo.head}</div>
-      <div className="short-threeLine">{shortInfo.threeLine}</div>
+      <div className="article">
+        <div className="short-head">{shortInfo.head}</div>
+        <div className="short-threeLine">{shortInfo.threeLine}</div>
+      </div>
       <ShortMenu>
         <div onClick={like}>
-          {shortInfo.isLike == "t" ? <FaHeart /> : <FaRegHeart />}
-          <span className="text">좋아요</span>
+          {shortInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
+          <span className="text"> 좋 아 요 </span>
         </div>
         <div onClick={scrap}>
-          {shortInfo.isScrap == "t" ? <FaBookmark /> : <FaRegBookmark />}
-          <span className="text">스크랩</span>
+          {shortInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
+          <span className="text"> 스 크 랩 </span>
         </div>
         <div onClick={openNews}>
           <IoDocumentTextOutline className="close" />
-          <span className="text">원문 보기</span>
+          <span className="text">원문보기</span>
         </div>
         <div onClick={copyURL}>
           <FaShare className="share" />
-          <span className="text">URL 복사</span>
+          <span className="text">URL복사</span>
         </div>
       </ShortMenu>
     </Short>

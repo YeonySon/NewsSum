@@ -1,31 +1,40 @@
-//react import
-import { useState } from 'react';
+// 라이브러리
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import cookie from "react-cookies";
+import styled from "styled-components";
 
-//라이브러리
-import styled from 'styled-components';
-import { NavLink } from 'react-router-dom';
-import cookie from 'react-cookies';
-import ReactWordcloud from 'react-wordcloud';
+// recoil import
+import { useRecoilValue } from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+
+// axios instance
+import { BaseInstance } from "../../hook/AxiosInstance";
+
+// 페이지 입장 권한 확인
+import { CheckCookie } from '../../hook/token';
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import Tabbar, {
+  Active,
+  ActiveDark,
+  Deactive,
+} from "../../components/util/Tabbar";
 
 //MyPage component import
-import Table from '../../components/mypage/Table';
-
-import RadarChart from '../../components/mypage/visuallization/RadarChart';
-import VerticalChart from '../../components/mypage/visuallization/VerticalChart';
-import { BaseInstance } from '../../hook/AxiosInstance';
-import { useRecoilValue } from 'recoil';
-import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import WordCloud from "../../components/mypage/visuallization/WordCloud";
+import VerticalChart from "../../components/mypage/visuallization/VerticalChart";
+import RadarChart from "../../components/mypage/visuallization/RadarChart";
+import { DivColLine } from "../../components/mypage/visuallization/GraphStyle";
 
 export const Content = styled.div`
   border-left: 0;
   /* background-color: lightblue; */
   width: 100%;
   margin: 0;
+  padding: 0px 10px;
 
   .wrap-vertical {
     margin: 15px 0 0;
@@ -64,8 +73,15 @@ export const Content = styled.div`
     margin: 10px 0 10px 0;
   }
 
+  .selected {
+    position: relative;
+    visibility: visible;
+  }
+
   .not-selected {
-    display: none;
+    /* display: none; */
+    position: absolute;
+    visibility: hidden;
   }
 
   .main {
@@ -90,7 +106,7 @@ export const Content = styled.div`
     width: 80%;
     max-width: 1600px;
 
-    border-left: 1px solid gray;
+    /* border-left: 1px solid gray; */
 
     .visual-type {
       display: none;
@@ -98,73 +114,77 @@ export const Content = styled.div`
 
     .not-selected {
       width: 100%;
-      display: inline-block;
+      /* display: inline-block; */
     }
+  }
+`;
+
+export const VisualizationPage = styled.div`
+  /* width: 95%; */
+  margin: 10px 5%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: auto;
+`;
+
+export const GraphContainer = styled.div`
+  width: 100%;
+  height: 300px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+`;
+
+export const DivRowLine = styled.div`
+  width: 100%;
+  height: 1px;
+  margin: 5px 0px;
+  background-color: #d9d9d9;
+
+  @media (max-width: 700px) {
+    display: none;
   }
 `;
 
 function Visualization() {
   const tab = [
-    ['분석', 'visualization'],
-    ['뉴스', 'mynews'],
-    ['키워드', 'keyword'],
-    ['내정보', 'myinfo'],
+    ["분석", "visualization"],
+    ["뉴스", "mynews"],
+    ["키워드", "keyword"],
+    ["내정보", "myinfo"],
   ];
   const [sort, setSort] = useState(tab[0][0]);
 
-  const types = ['뉴스 키워드 분석', '읽은 뉴스 통계', '스트랩 뉴스 통계'];
+  const types = ["뉴스 키워드 분석", "읽은 뉴스 통계", "스트랩 뉴스 통계"];
   const [type, setType] = useState(types[0]);
 
-  const data = {
-    keywordlist: [
-      { name: 'AI', frequency: 1000 },
-      { name: '11', frequency: 200 },
-      { name: '22', frequency: 300 },
-      { name: '33', frequency: 400 },
-      { name: '44', frequency: 500 },
-      { name: '55', frequency: 600 },
-      { name: 'AI', frequency: 1000 },
-      { name: '11', frequency: 200 },
-      { name: '22', frequency: 300 },
-      { name: '33', frequency: 400 },
-      { name: '44', frequency: 500 },
-      { name: '55', frequency: 600 },
-    ],
-    scrapList: [
-      { cgName: 'AI', cnt: 10 },
-      { cgName: '131', cnt: 20 },
-      { cgName: '141', cnt: 30 },
-      { cgName: '1515', cnt: 40 },
-      { cgName: '414', cnt: 50 },
-      { cgName: '1', cnt: 60 },
-    ],
-    historyList: [
-      { cgName: 'sasdf', cnt: 10 },
-      { cgName: 'sg', cnt: 20 },
-      { cgName: 'ahffg', cnt: 30 },
-      { cgName: 'asdf', cnt: 40 },
-      { cgName: 'sadfgw', cnt: 50 },
-      { cgName: 'sdf', cnt: 60 },
-    ],
-  };
-
   const userId = useRecoilValue(MyInfoAtom);
+  const [data, setData] = useState<never[] | undefined>(undefined);
 
-  // useEffect(() => {
-  //   BaseInstance.get(`/mypage/analyze/${userId}`)
-  //     .then((response) => {
-  //       console.log(response)
-  //     })
-  //     .catch((error) => {
-  //       console.log(error)
-  //     })
+  useEffect(() => {
+    // 로그인 여부 확인
+    CheckCookie();
 
-  // }, [])
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+    BaseInstance.get(`/api/mypage/analyze/${userId}`, { headers: headers })
+      .then((response) => {
+        setData(response.data.data)
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+  }, [])
 
   return (
     <div>
       <Header />
-      <Navbar nav={'mypage'} />
+      <Navbar nav={"mypage"} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>
@@ -180,36 +200,26 @@ function Visualization() {
         <hr />
         <div className="visual-type">
           {types.map((t) =>
-            t == type ? <ActiveDark>{t}</ActiveDark> : <Deactive onClick={() => setType(t)}>{t}</Deactive>
+            t == type ? (
+              <ActiveDark>{t}</ActiveDark>
+            ) : (
+              <Deactive onClick={() => setType(t)}>{t}</Deactive>
+            )
           )}
           <hr />
         </div>
-
-        <div className={type == types[0] ? 'selected' : 'not-selected'}>
-          {/* 여기에 뉴스 키워드 내용을 입력하시오  */}
-          <h2>뉴스키워드분석</h2>
-          <ReactWordcloud
-            words={data.keywordlist.map((li) => ({
-              text: li.name,
-              value: li.frequency,
-            }))}
-          />
-          <Table list={data.keywordlist} keywordList={true} />
-        </div>
-        <div className={type == types[1] ? 'selected' : 'not-selected'}>
-          {/* 여기에 읽은 뉴스 키워드 내용을 입력하시오  */}
-          <h2>읽은 뉴스 통계</h2>
-          <Table list={data.historyList} keywordList={false} />
-          읽은 뉴스 통계
-          <VerticalChart />
-        </div>
-        <div className={type == types[2] ? 'selected' : 'not-selected'}>
-          {/* 여기에 스크랩 뉴스 통계 내용을 입력하시오  */}
-          <h2>스크랩뉴스 통계</h2>
-          <Table list={data.scrapList} keywordList={false} />
-          스크랩뉴스 통계
-          <RadarChart />
-        </div>
+        {
+          data !== undefined &&
+          (<>
+            <WordCloud data={data} isActive={type == types[0]} />
+            <DivRowLine />
+            <GraphContainer>
+              <VerticalChart responseData={data.readList} isActive={type == types[1]} />
+              <DivColLine />
+              <RadarChart responseData={data.jobList} isActive={type == types[2]} />
+            </GraphContainer>
+          </>)
+        }
       </Content>
     </div>
   );

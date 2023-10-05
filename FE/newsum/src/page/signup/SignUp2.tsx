@@ -1,10 +1,13 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+// 라이브러리
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BaseInstance } from '../../hook/AxiosInstance';
 
+// recoil import
 import { useRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
+
+// axios instance
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 import { 
   NavButtonBox,
@@ -35,7 +38,7 @@ function SignUp2() {
   useEffect(() => {
     // 서버에 데이터 요청
     const responseData = async () => {
-      await BaseInstance.get('/user/techstack')
+      await BaseInstance.get('/api/user/techstack')
         .then((response) => {
           setItems(response.data.data.map((item: {tsName: string}) => item.tsName))
         })
@@ -71,7 +74,7 @@ function SignUp2() {
 
   const finalCheck = () => {
     if (checkedList.length === 0) {
-      alert('하나 이상의 직무를 선택해주세요')
+      alert('하나 이상의 기술스택을 선택해주세요')
       return;
     }
 
@@ -81,7 +84,7 @@ function SignUp2() {
     setFormData((prev) => ({...prev, ...data}))
     
     // page 이동
-    navigate('/signup/3')
+    navigate('/signup/22')
   }
 
   return (
@@ -92,6 +95,7 @@ function SignUp2() {
         <NavButtonBox>
           <NavButton $isActive={page === 1} />
           <NavButton $isActive={page === 2} />
+          <NavButton $isActive={page === 22} />
           <NavButton $isActive={page === 3} />
         </NavButtonBox>
         

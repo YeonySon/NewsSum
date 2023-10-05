@@ -1,44 +1,35 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { useState } from 'react';
+import styled from 'styled-components';
 //아이콘 가져오기
-import { CiMenuKebab } from "react-icons/ci";
-import {
-  FaBookmark,
-  FaRegBookmark,
-  FaEye,
-  FaHeart,
-  FaRegHeart,
-} from "react-icons/fa6";
+import { CiMenuKebab } from 'react-icons/ci';
+import { FaBookmark, FaRegBookmark, FaEye, FaHeart, FaRegHeart } from 'react-icons/fa6';
 
 //modal import
-import CardModal from "./CardModal";
+import CardModal from './CardModal';
 
 // cookies
-import cookie from "react-cookies";
+import cookie from 'react-cookies';
 
 // //axios
-import { BaseInstance } from "../../hook/AxiosInstance";
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 // recoil
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 const Card = styled.div`
   /* background-color: gray; */
   position: relative;
 
-  width: 370px;
-  height: 340px;
+  width: 330px;
+  height: 350px;
+  margin: 0 0 0 40px;
 
   .card-img {
     border-radius: 10px;
-    width: 370px;
-    height: 210px;
+    width: 330px;
+    height: 230px;
+    object-fit: cover;
 
     cursor: pointer;
   }
@@ -46,7 +37,7 @@ const Card = styled.div`
   .card-head {
     display: flex;
     justify-content: space-between;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
   }
   .card-head .text {
     display: block;
@@ -63,11 +54,14 @@ const Card = styled.div`
     font-size: 1rem;
     display: flex;
     justify-content: end;
-    margin: 15px 20px 5px;
+    margin: 15px 0px 5px;
+  }
+  .info svg {
+    margin: 0 0 0 10px;
   }
   .num {
     transform: translate(0, -20%);
-    margin: 0 10px 0 5px;
+    margin: 0 0px 0 5px;
   }
 
   .data {
@@ -83,20 +77,24 @@ const Card = styled.div`
     margin: 0 0 3px 10px;
   }
   .media img {
-    height: 3rem;
+    height: 1.7rem;
   }
   .date {
     text-align: right;
     margin: 0 0 0 0;
   }
+
+  hr {
+    margin-top: 10px;
+  }
 `;
 
 const Deactive = styled.div``;
 
-function CardSlot({ newsInfo }) {
+function CardSlot({ newsInfo, isRecom }) {
   //무슨 페이지인지 확인
   const [type, setType] = useState(0);
-  const [title, setTitle] = useState("추천");
+  const [title, setTitle] = useState('추천');
 
   const [scrap, setScrap] = useState(false);
   const [like, setLike] = useState(false);
@@ -106,7 +104,7 @@ function CardSlot({ newsInfo }) {
 
   function openNews() {
     details();
-    window.open(newsInfo.url, "_blank", "noopener, noreferrer");
+    window.open(newsInfo.url, '_blank', 'noopener, noreferrer');
   }
 
   // 원문보기
@@ -114,21 +112,22 @@ function CardSlot({ newsInfo }) {
     const requestBodyJSON = JSON.stringify({
       userId: MyInfo,
       newsId: newsInfo.id,
+      isRecom: isRecom,
     });
 
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
 
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
     };
-    await BaseInstance.post(`/news/detail`, requestBodyJSON, { headers })
+    await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log("200");
+          console.log('200');
         } else if (response.data.statusCode === 400) {
-          console.log("400");
+          console.log('400');
         }
         return response.data;
       })
@@ -160,9 +159,9 @@ function CardSlot({ newsInfo }) {
           <div>
             {/* 조회수 등 */}
             <div className="info">
-              {newsInfo.isLike == "t" ? <FaHeart /> : <FaRegHeart />}
+              {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
               <span className="num">{newsInfo.likeCnt}</span>
-              {newsInfo.isScrap == "t" ? <FaBookmark /> : <FaRegBookmark />}
+              {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
               <span className="num">{newsInfo.scrapCnt}</span>
               <FaEye />
               <span className="num">{newsInfo.viewCnt}</span>
@@ -173,12 +172,7 @@ function CardSlot({ newsInfo }) {
         </div>
 
         {cardModal && (
-          <CardModal
-            newsInfo={newsInfo}
-            setLike={setLike}
-            setScrap={setScrap}
-            setCardModal={setCardModal}
-          />
+          <CardModal newsInfo={newsInfo} setLike={setLike} setScrap={setScrap} setCardModal={setCardModal} />
         )}
         <hr />
       </Card>

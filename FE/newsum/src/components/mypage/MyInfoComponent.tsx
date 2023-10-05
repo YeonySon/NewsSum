@@ -1,13 +1,20 @@
+// 라이브러리
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import cookie from 'react-cookies';
 
-// state, recoil import
+// recoil import
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { LeaveModalIsOpenAtom } from '../../recoil/atoms/LeaveModalAtom';
 
-// axios 요청
+// axios instance
 import { BaseInstance } from '../../hook/AxiosInstance';
+
+// 페이지 입장 권한 확인
+import { CheckCookie } from '../../hook/token';
+
 
 import { 
   SignUpPage, 
@@ -22,11 +29,15 @@ import {
   MyInfoButton,
   
 } from '../signup/signUp';
+import LeaveCheckModal from './LeaveCheckModal';
 
 
 function MyInfoComponent() {
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom); // recoil data
+  const [leaveModalOpen, setLeaveModalOpen] = useRecoilState(LeaveModalIsOpenAtom);
+  const [isAnimating, setIsAnimating] = useState(false);
+
   const userId = useRecoilValue(MyInfoAtom);  // user Id
 
   // 비밀번호 및 비밀번호 확인
@@ -64,7 +75,12 @@ function MyInfoComponent() {
     const data = {password: password}
     const requestBodyJSON = JSON.stringify(data);
 
-    await BaseInstance.patch(`/user/${userId}`, requestBodyJSON)
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+
+    await BaseInstance.patch(`/api/user/${userId}`, requestBodyJSON, { headers: headers })
       .then((response) => {
         alert('비밀번호가 변경되었습니다.')
       })
@@ -74,11 +90,18 @@ function MyInfoComponent() {
   }
 
   const leaveCheck = () => {
-    console.log('탈퇴 기능')
+    setLeaveModalOpen(true);
   }
 
   useEffect(() => {
-    BaseInstance.get(`/user/${userId}`)
+    // 로그인 여부 확인
+    CheckCookie();
+
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
+    }
+    BaseInstance.get(`/api/mypage/${userId}`, { headers : headers })
       .then((response) => {
         const data = {
           email: response.data.data.email,
@@ -91,6 +114,17 @@ function MyInfoComponent() {
         console.log(error)
       })
   }, [])
+
+  // modal FadeIn, FadeOut를 위한 시간 지연
+  useEffect(() => {
+    if (leaveModalOpen) {
+      setIsAnimating(true);
+    } else {
+      setTimeout(() => {
+        setIsAnimating(false);
+      }, 300);
+    }
+  }, [leaveModalOpen]);
 
   return (
     <SignUpPage>
@@ -139,6 +173,8 @@ function MyInfoComponent() {
           <MyInfoButton $isLeft={false} onClick={ leaveCheck }>탈퇴</MyInfoButton>
         </MyInfoBox>
       </Container>
+
+      {(leaveModalOpen || isAnimating) && <LeaveCheckModal />}
     </SignUpPage>
   );
 };

@@ -1,11 +1,12 @@
+// 라이브러리
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// state, recoil import
+// recoil import
 import { useRecoilState } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
 
-// axios 요청
+// axios instance
 import { BaseInstance } from '../../hook/AxiosInstance';
 
 import { 
@@ -90,7 +91,7 @@ function SignUp1() {
     if (emailRegEx.test(email)) {
 
       // 서버에 요청
-      BaseInstance.get(`/user/id?email=${email}`, {headers: {}})
+      BaseInstance.get(`/api/user/id?email=${email}`, {headers: {}})
         .then((response) => {
           if (response.data.statusCode === 400) {
             setEmailMessageType(3);
@@ -251,6 +252,7 @@ function SignUp1() {
         <NavButtonBox>
           <NavButton $isActive={page === 1} />
           <NavButton $isActive={page === 2} />
+          <NavButton $isActive={page === 22} />
           <NavButton $isActive={page === 3} />
         </NavButtonBox>
 
