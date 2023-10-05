@@ -145,6 +145,7 @@ function News() {
   ];
   const [sort, setSort] = useState(tab[0][1]);
   const [sortAli, setSortAli] = useState(ali[0][1]);
+  const [page, setPageAli] = useState(0);
 
   function clickedTab(info) {
     setSort(info);
@@ -191,7 +192,7 @@ function News() {
     if (Search != '') {
       setSort(tab[0][1]);
       setSortAli(ali[0][1]);
-      getNews(`/api/news/${MyInfo}/search?keyword=${Search}`);
+      getNews(`/api/news/${MyInfo}/search?keyword=${Search}&page=${page}`);
     }
   }, [Search]);
 
@@ -206,7 +207,7 @@ function News() {
         getNews(`/api/news/recommend/${MyInfo}`);
       }
     } else if (sort != -1) {
-      getNews(`/api/news/${MyInfo}/sort?category=${sort}&option=${sortAli}`);
+      getNews(`/api/news/${MyInfo}/sort?category=${sort}&option=${sortAli}&page=${page}`);
       setSearch('');
     }
   }, [sort, sortAli]);

@@ -1,19 +1,22 @@
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 //Util component import
-import Header from "../../components/util/Header";
-import Navbar from "../../components/util/Navbar";
-import Tabbar, { Active, Deactive } from "../../components/util/Tabbar";
-import { useState } from "react";
+import Header from '../../components/util/Header';
+import Navbar from '../../components/util/Navbar';
+import Tabbar, { Active, Deactive } from '../../components/util/Tabbar';
+import { useState } from 'react';
 
-import MyInfoComponent from "../../components/mypage/MyInfoComponent";
+import MyInfoComponent from '../../components/mypage/MyInfoComponent';
 
 export const Content = styled.div`
   border-left: 0;
   /* background-color: lightblue; */
   width: 100%;
+  /* left: 0; */
   margin: 0;
+  top: 60px;
+  position: absolute;
 
   .wrap-vertical {
     margin: 15px 0 0;
@@ -44,48 +47,60 @@ export const Content = styled.div`
     position: relative;
     margin: 0 0 0 0;
 
-    width: 300;
+    width: 370px;
   }
 
   //700px 보다 클 때
+  //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
-    top: 60px;
-    left: 17%;
+    left: 100px;
 
-    width: 80%;
-    max-width: 1600px;
+    width: calc(100vw - 117px);
+
+    top: 60px;
+    max-width: 1340px;
 
     /* border-left: 1px solid gray; */
-  }
-  .main {
-    /* background-color: #788ca8; */
-    width: 100%;
-    max-width: 1600px;
-    /* padding: 0 0 0 20px; */
+    .main {
+      /* background-color: #788ca8; */
+      width: 100%;
+      max-width: 1600px;
+      /* padding: 0 0 0 20px; */
 
-    display: flex;
-    flex-wrap: wrap;
-  }
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+    }
 
-  .main > div {
-    margin: 20px 0px 0px 15px;
+    .main > div {
+      margin: 20px 0px 0px 0px;
+    }
+
+    .main > div {
+      margin: 20px 0px 0px 0px;
+    }
+    @media (min-width: 1200px) {
+      position: absolute;
+      left: 260px;
+      width: calc(100vw - 287px);
+    }
   }
 `;
 
 function MyInfo() {
   const tab = [
-    ["분석", "visualization"],
-    ["뉴스", "mynews"],
-    ["키워드", "keyword"],
-    ["내정보", "myinfo"],
+    ['분석', 'visualization'],
+    ['뉴스', 'mynews'],
+    ['키워드', 'keyword'],
+    ['내정보', 'myinfo'],
   ];
   const [sort, setSort] = useState(tab[3][0]);
 
   return (
     <div>
       <Header />
-      <Navbar nav={"mypage"} />
+      <Navbar nav={'mypage'} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>

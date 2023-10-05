@@ -29,7 +29,7 @@ export const Content = styled.div`
 
   .wrap-vertical {
     margin: 15px 0 0;
-    padding: 5px 0 5px 0px;
+    padding: 5px 0 5px 40px;
     overflow-x: scroll;
     /* 가로 스크롤 */
     overflow: auto;
@@ -59,11 +59,10 @@ export const Content = styled.div`
 
   .main {
     /* background-color: #788ca8; */
-
     display: flex;
-    flex-direction: column;
+    top: 60px;
     position: relative;
-    margin: 30px 0px 100px 50px;
+    margin: 0 0 0 0;
 
     width: 370px;
   }
@@ -158,7 +157,11 @@ function MyNews() {
 
   const tab = [
     ['최근 본 뉴스', -1],
-    ['스크랩 전체', 0],
+    ['스크랩', 0],
+  ];
+
+  const scrap = [
+    ['전체', 0],
     ['모바일', 1],
     ['인터넷/sns', 2],
     ['IT일반', 3],
@@ -167,7 +170,6 @@ function MyNews() {
     ['컴퓨터', 6],
     ['게임/리뷰', 7],
   ];
-
   const ali = [
     ['최신', 2],
     ['인기', 1],
