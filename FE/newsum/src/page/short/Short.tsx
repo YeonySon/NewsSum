@@ -110,7 +110,7 @@ function News() {
     let url;
 
     if (MyInfo == 0) {
-      url = `/api/news/0/0`;
+      url = `/api/news/0/sort?category=0&option=0&page=0`;
     } else {
       url = `/api/news/recommend/${MyInfo}`;
     }
