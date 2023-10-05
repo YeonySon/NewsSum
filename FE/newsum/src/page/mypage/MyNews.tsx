@@ -59,10 +59,11 @@ export const Content = styled.div`
 
   .main {
     /* background-color: #788ca8; */
+
     display: flex;
-    top: 60px;
+    flex-direction: column;
     position: relative;
-    margin: 0 0 0 0;
+    margin: 30px 0px 100px 50px;
 
     width: 370px;
   }

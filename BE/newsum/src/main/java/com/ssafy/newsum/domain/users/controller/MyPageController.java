@@ -3,6 +3,8 @@ package com.ssafy.newsum.domain.users.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -85,18 +87,12 @@ public class MyPageController {
 
 	// 기술 스택 수정
 	@PatchMapping("/tech/{userId}")
-	public ResponseEntity updateTech(Authentication authentication, @PathVariable Integer userId,
-		@RequestBody List<Integer> techList) {
-		User authUser = userService.getUserByEmail(authentication.getName()).get();
-
-		if (authUser.getUserId() != userId) {
-			return ResponseEntity.ok(CommonResponseDto.error(400, "fail update tech"));
-		}
+	public ResponseEntity updateTech(@PathVariable Integer userId, @RequestBody List<Integer> techList) {
 
 		List<TechResponseDto> resultList = myPageService.updateTech(userId, techList);
 
 		if (resultList == null)
-			return ResponseEntity.ok(CommonResponseDto.error(400, "fail update tech"));
+			return ResponseEntity.ok(CommonResponseDto.error(400, "update tech fail"));
 
 		return ResponseEntity.ok(CommonResponseDto.success(200, "update tech success", null));
 
@@ -104,14 +100,18 @@ public class MyPageController {
 
 	// 최근 본 뉴스 조회 읽은뉴스 순
 	@GetMapping("/mynews/{userId}")
-	public ResponseEntity selectByMyNews(Authentication authentication, @PathVariable Integer userId) {
+	public ResponseEntity selectByMyNews(Authentication authentication, @PathVariable Integer userId,
+		@RequestParam Integer page) {
+
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
 			return ResponseEntity.ok(CommonResponseDto.error(400, "fail select news list"));
 		}
 
-		List<NewsResponseDto> resultList = myPageService.selectByMyNews(userId);
+		Pageable pageable = PageRequest.of(page, 30);
+
+		List<NewsResponseDto> resultList = myPageService.selectByMyNews(userId, pageable);
 
 		if (resultList == null)
 			return ResponseEntity.ok(CommonResponseDto.error(400, "fail select news list"));
@@ -122,14 +122,18 @@ public class MyPageController {
 	// 스크랩 카테고리별 뉴스 스크랩순
 	@GetMapping("/myscrapnews/{userId}/{categoryId}")
 	public ResponseEntity selectMyScrapByCategoryId(Authentication authentication, @PathVariable Integer userId,
-		@PathVariable Integer categoryId) {
+		@PathVariable Integer categoryId,
+		@RequestParam Integer page) {
+
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
 			return ResponseEntity.ok(CommonResponseDto.error(400, "fail scrap category"));
 		}
 
-		List<NewsResponseDto> resultList = myPageService.selectMyScrapByCategoryId(userId, categoryId);
+		Pageable pageable = PageRequest.of(page, 30);
+
+		List<NewsResponseDto> resultList = myPageService.selectMyScrapByCategoryId(userId, categoryId, pageable);
 
 		if (resultList == null)
 			return ResponseEntity.ok(CommonResponseDto.error(400, "fail scrap category"));
@@ -142,14 +146,18 @@ public class MyPageController {
 	@GetMapping("/myscrap/{userId}/sort")
 	public ResponseEntity selectScrapNewsSortByOption(Authentication authentication, @PathVariable Integer userId,
 		@RequestParam(name = "categoryId") Integer categoryId,
-		@RequestParam(name = "optionId") Integer optionId) {
+		@RequestParam(name = "optionId") Integer optionId,
+		@RequestParam Integer page) {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
 			return ResponseEntity.ok(CommonResponseDto.error(400, "fail scrap option"));
 		}
 
-		List<NewsResponseDto> resultList = myPageService.selectScrapNewsSortByOption(userId, categoryId, optionId);
+		Pageable pageable = PageRequest.of(page, 30);
+
+		List<NewsResponseDto> resultList = myPageService.selectScrapNewsSortByOption(userId, categoryId, optionId,
+			pageable);
 
 		if (resultList == null)
 			return ResponseEntity.ok(CommonResponseDto.error(400, "fail scrap option"));
