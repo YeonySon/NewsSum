@@ -46,7 +46,7 @@ export const Content = styled.div`
   @media (min-width: 700px) {
     position: absolute;
     left: 17%;
-    top : 61px
+    top: 10px;
     height: calc(100% - 60px);
     width: 80%;
     max-width: 1600px;
