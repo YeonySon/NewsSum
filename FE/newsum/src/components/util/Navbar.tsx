@@ -1,23 +1,23 @@
-import React from "react";
-import { useEffect, useState } from "react";
+import React from 'react';
+import { useEffect, useState } from 'react';
 
-import styled from "styled-components";
-import { NavLink } from "react-router-dom";
+import styled from 'styled-components';
+import { NavLink } from 'react-router-dom';
 
 //icon import
-import { FaPlayCircle, FaRegPlayCircle } from "react-icons/fa";
-import { RiFilePaperFill, RiFilePaperLine } from "react-icons/ri";
-import { FaRegUserCircle, FaUserCircle } from "react-icons/fa";
+import { FaPlayCircle, FaRegPlayCircle } from 'react-icons/fa';
+import { RiFilePaperFill, RiFilePaperLine } from 'react-icons/ri';
+import { FaRegUserCircle, FaUserCircle } from 'react-icons/fa';
 
 // loginModal component import
-import LoginModal from "../../page/login/loginModal";
+import LoginModal from '../../page/login/loginModal';
 
 // recoil
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
-import MyInfo from "../../page/mypage/MyInfo";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
-import { SearchAtom } from "../../recoil/atoms/SearchAtom";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+import MyInfo from '../../page/mypage/MyInfo';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { SearchAtom } from '../../recoil/atoms/SearchAtom';
 
 export const NavBar = styled.div`
   padding: 0;
@@ -37,7 +37,7 @@ export const NavBar = styled.div`
   border-right: 1px solid gray;
 
   .active a {
-    color: #0583f2;
+    color: #3cb4fc;
   }
 
   .deactive a {
@@ -57,7 +57,7 @@ export const NavBar = styled.div`
 
     list-style-type: none;
 
-    font-size: 2rem;
+    font-size: 1.7rem;
   }
 
   .nav li {
@@ -70,7 +70,7 @@ export const NavBar = styled.div`
   .nav strong {
     display: inline-block;
     padding: 0px 0px 0px 20px;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     transform: translate(0%, -22%);
   }
 
@@ -152,8 +152,10 @@ const Footer = styled.div`
   margin: 5px;
 
   width: 225px;
-  height: 250px;
+  height: 200px;
   border-radius: 5px;
+
+  font-size: 13px;
 
   /* 위치 */
   position: absolute;
@@ -163,20 +165,20 @@ const Footer = styled.div`
   @media (max-width: 1200px) {
     display: none;
   }
-  @media (max-height: 730px) {
+  @media (max-height: 650px) {
     display: none;
   }
 `;
 
 const Button = styled.div`
-  line-height: 45px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
+  line-height: 40px; /* 텍스트의 높이를 컨테이너의 높이와 동일하게 설정 */
   display: inline-block; /* 인라인 블록 요소로 설정하여 수평 정렬 */
 
-  width: 185px;
-  height: 50px;
+  width: 200px;
+  height: 25px;
   border-radius: 12px;
 
-  background-color: #0583f2;
+  background-color: #3cb4fc;
   color: white;
   font-size: 24px;
   font-weight: bold;
@@ -186,14 +188,19 @@ const Button = styled.div`
   text-align: center;
 
   position: absolute;
-  top: 300px;
+  top: 200px;
   left: 100%;
-  transform: translate(-115%, 0%);
+  transform: translate(-110%, 0%);
   padding: 10px;
   margin: 5px;
 
   &:hover {
     cursor: pointer;
+  }
+
+  span {
+    position: absolute;
+    transform: translate(-47%, -20%);
   }
   @media (max-width: 1200px) {
     display: none;
@@ -201,11 +208,10 @@ const Button = styled.div`
 `;
 
 function Navbar({ nav }) {
-  const [userId, setUserId] = useState("");
+  const [userId, setUserId] = useState('');
 
   // login
-  const [loginModalOpen, setLoginModalOpen] =
-    useRecoilState(LoginModalIsOpenAtom);
+  const [loginModalOpen, setLoginModalOpen] = useRecoilState(LoginModalIsOpenAtom);
   const [isAnimating, setIsAnimating] = useState(false);
 
   const MyInfo = useRecoilValue(MyInfoAtom);
@@ -231,26 +237,32 @@ function Navbar({ nav }) {
     <div>
       <NavBar>
         <ul className="nav">
-          <li className={nav == "short" ? "active" : "deactive"}>
+          <li className={nav == 'short' ? 'active' : 'deactive'}>
             <NavLink to="/short">
-              {nav == "short" ? <FaPlayCircle /> : <FaRegPlayCircle />}
+              {nav == 'short' ? <FaPlayCircle /> : <FaRegPlayCircle />}
               <strong>short</strong>
             </NavLink>
           </li>
-          <li className={nav == "news" ? "active" : "deactive"}>
+          <li className={nav == 'news' ? 'active' : 'deactive'}>
             <NavLink to="/news">
-              {nav == "news" ? <RiFilePaperFill /> : <RiFilePaperLine />}
+              {nav == 'news' ? <RiFilePaperFill /> : <RiFilePaperLine />}
               <strong>news</strong>
             </NavLink>
           </li>
-          <li className={nav == "mypage" ? "active" : "deactive"}>
-            <NavLink to="/mypage">
-              {nav == "mypage" ? <FaUserCircle /> : <FaRegUserCircle />}
-              <strong>my page</strong>
-            </NavLink>
-          </li>
+          {MyInfo != 0 && (
+            <li className={nav == 'mypage' ? 'active' : 'deactive'}>
+              <NavLink to="/mypage">
+                {nav == 'mypage' ? <FaUserCircle /> : <FaRegUserCircle />}
+                <strong>my page</strong>
+              </NavLink>
+            </li>
+          )}
         </ul>
-        {MyInfo == 0 && <Button onClick={login}>Log In</Button>}
+        {MyInfo == 0 && (
+          <Button onClick={login}>
+            <span>Log In</span>
+          </Button>
+        )}
 
         <Footer>
           <div>

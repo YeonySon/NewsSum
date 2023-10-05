@@ -13,18 +13,18 @@ const TabBar = styled.div`
 
 export const Active = styled.div`
   color: #ffffff;
-  background-color: #0583f2;
+  background-color: #3cb4fc;
   border: 1px solid #9aa3aa;
   border-radius: 8px;
 
   font-family: 'Roboto', 'Arial', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   line-height: 2rem;
-  font-weight: 400;
+  font-weight: 500;
 
   text-align: center;
   //font-size: 23px;
-  height: 32px;
+  height: 30px;
   min-width: 12px;
   display: inline-block;
   padding: 0 12px;
@@ -39,13 +39,13 @@ export const ActiveDark = styled.div`
   border-radius: 8px;
 
   font-family: 'Roboto', 'Arial', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   line-height: 2rem;
-  font-weight: 400;
+  font-weight: 500;
 
   text-align: center;
   //font-size: 23px;
-  height: 32px;
+  height: 30px;
   min-width: 12px;
   display: inline-block;
   padding: 0 12px;
@@ -60,13 +60,13 @@ export const Deactive = styled.div`
   border-radius: 8px;
 
   font-family: 'Roboto', 'Arial', sans-serif;
-  font-size: 1.1rem;
+  font-size: 0.9rem;
   line-height: 2rem;
-  font-weight: 400;
+  font-weight: 500;
 
   text-align: center;
   //font-size: 23px;
-  height: 32px;
+  height: 30px;
   min-width: 12px;
   display: inline-block;
   padding: 0 12px;

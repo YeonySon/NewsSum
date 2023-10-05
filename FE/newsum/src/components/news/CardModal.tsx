@@ -117,7 +117,7 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
     await BaseInstance.get(`/api/${url}/${newsInfo.id}/${MyInfo}`, { headers })
       .then((response) => {
@@ -137,7 +137,7 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
     const token = cookie.load('accessToken');
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
 
     await BaseInstance.delete(`/api/${url}/${newsInfo.id}/${MyInfo}`, {

@@ -35,9 +35,9 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    margin: 30px auto 100px auto;
+    margin: 20px auto 100px auto;
 
-    width: 400px;
+    width: 417px;
 
     /* width: 300; */
   }
@@ -46,13 +46,14 @@ export const Content = styled.div`
   @media (min-width: 700px) {
     position: absolute;
     left: 17%;
-
+    top : 61px
     height: calc(100% - 60px);
     width: 80%;
     max-width: 1600px;
 
     /* border-left: 1px solid gray; */
     .main {
+      /* margin: 60px auto 100px auto; */
     }
   }
 `;
@@ -101,7 +102,7 @@ function News() {
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
     console.log('myinfo : ');
     console.log(MyInfo);
@@ -150,7 +151,7 @@ function News() {
 
     const headers = {
       'Content-Type': 'application/json',
-      Authorization: 'Beare ' + token,
+      Authorization: 'Bearer ' + token,
     };
     await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {

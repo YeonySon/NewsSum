@@ -12,7 +12,7 @@ function  WordCloud({ data, isActive }) {
         <ReactWordcloud
           words={data.keywordlist.map((li) => ({
             text: li.name,
-            value: li.frequency,
+            value: li.cnt,
           }))}
         />
       </WordCloudBox>

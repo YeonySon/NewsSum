@@ -5,7 +5,6 @@ import { NavLink } from "react-router-dom";
 import Header from "../../components/util/Header";
 import Navbar from "../../components/util/Navbar";
 import Tabbar, { Active, Deactive } from "../../components/util/Tabbar";
-import cookie from "react-cookies";
 import { useState } from "react";
 
 import MyInfoComponent from "../../components/mypage/MyInfoComponent";

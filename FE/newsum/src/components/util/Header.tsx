@@ -35,7 +35,7 @@ export const HeaderStyle = styled.div`
 
   /* 로고 */
   .header-logo {
-    width: 250px;
+    width: 180px;
     /* height: 60px; */
     /* padding-left: 60px; */
   }
@@ -80,10 +80,12 @@ export const HeaderStyle = styled.div`
     justify-content: space-between;
   }
   .header-profile .profile {
-    height: 45px;
-    width: 45px;
+    height: 35px;
+    width: 35px;
 
     margin: 0 10px;
+
+    cursor: pointer;
   }
 
   .search {
@@ -97,7 +99,7 @@ export const HeaderStyle = styled.div`
   //700px 보다 클 때
   @media (min-width: 700px) {
     .header-logo {
-      width: 200px;
+      width: 180px;
 
       padding-left: 30px;
     }
@@ -142,6 +144,7 @@ export const HeaderStyle = styled.div`
 export const SearchInput = styled.div`
   width: 100%;
   position: relative;
+
   .header-input {
     width: 80%;
     height: 35px;
@@ -182,6 +185,7 @@ export const SearchInput = styled.div`
 
   //700px 보다 클 때
   @media (min-width: 700px) {
+    margin-right: 80px;
   }
 `;
 
@@ -280,13 +284,6 @@ function Header() {
             </SearchInput>
           ) : null}
         </div>
-
-        {/* 로그인 버튼 */}
-        {MyInfo == 0 && (
-          <div className="header-login-button" onClick={login}>
-            로그인
-          </div>
-        )}
         {/* 프로필 버튼 */}
         <div className="header-profile">
           {!searchClicked && (
