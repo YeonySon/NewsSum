@@ -35,7 +35,7 @@ public class NewsController {
     // 분야별 조회
     @GetMapping("/{userId}/{categoryId}")
     public ResponseEntity selectByCategory(@PathVariable Integer userId, @PathVariable Integer categoryId,
-                                           @RequestParam(defaultValue = "0") Integer page) {
+                                           @RequestParam Integer page) {
 
         Pageable pageable = PageRequest.of(page, 30);
 
@@ -52,7 +52,7 @@ public class NewsController {
     public ResponseEntity selectCategoryByOption(@PathVariable Integer userId,
                                                  @RequestParam(name = "category") Integer categoryId,
                                                  @RequestParam(name = "option") Integer optionId,
-                                                 @RequestParam(defaultValue = "0") Integer page) {
+                                                 @RequestParam Integer page) {
 
         Pageable pageable = PageRequest.of(page, 30);
 
@@ -76,7 +76,7 @@ public class NewsController {
     // 뉴스 검색하기
     @GetMapping("/{userId}/search")
     public ResponseEntity searchNews(@PathVariable Integer userId, @RequestParam String keyword,
-                                     @RequestParam(defaultValue = "0") Integer page) {
+                                     @RequestParam Integer page) {
 
         Pageable pageable = PageRequest.of(page, 30);
 
