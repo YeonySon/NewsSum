@@ -36,7 +36,7 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
     Page<News> selectByCategory(@Param("categoryId") Integer categoryId, Pageable pageable);
 
     // 뉴스 전체 조회 최신순으로
-    @Query("select n from News n order by n.postedDate desc")
+    @Query("select n from News n where n.image != null order by n.postedDate desc")
     Page<News> selectAllByRecent(Pageable pageable);
 
     // 뉴스 전체 인기도순으로 조회
@@ -46,7 +46,7 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
     // 분야별 인기도순으로 가져오기
     @Query("select n from News n " +
             "where n.cgId.categoryId =:categoryId " +
-            "and n.image !=null " +
+            "and n.image != null " +
             "order by (n.viewCnt + n.totalLike + n.totalScrap) desc, n.postedDate desc")
     Page<News> selectPopularByCategory(@Param("categoryId") Integer categoryId, Pageable pageable);
 
