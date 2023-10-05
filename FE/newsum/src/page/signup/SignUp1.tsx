@@ -251,6 +251,7 @@ function SignUp1() {
         <NavButtonBox>
           <NavButton $isActive={page === 1} />
           <NavButton $isActive={page === 2} />
+          <NavButton $isActive={page === 22} />
           <NavButton $isActive={page === 3} />
         </NavButtonBox>
 

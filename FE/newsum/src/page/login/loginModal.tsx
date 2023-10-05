@@ -80,7 +80,7 @@ function LoginModal() {
             expires,
           });
           // 로그인에 성공한 경우, 모달창 닫기
-          alert("로그인 성공");
+          // alert("로그인 성공");
           closeLoginModal();
         } else if (response.data.statusCode === 400) {
           if (response.data.message === "does not exist email") {
@@ -130,14 +130,24 @@ function LoginModal() {
     navigate("/signup/1");
   };
 
+  // EnterButton
+  const handleEnterPress = (e) => {
+    if (e.key === 'Enter') {
+      finalCheck();
+    }
+  }
+
   return (
     <ModalWindow $isActive={loginModalOpen} onClick={closeLoginModal}>
       <ModalContainer onClick={(e) => e.stopPropagation()}>
         <WordTag>로그인</WordTag>
         <BoxColContainer>
           <InputTag
-            onBlur={(e) => setEmail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            // onBlur={(e) => setEmail(e.target.value)}
             placeholder="이메일"
+            onKeyPress={handleEnterPress}
           ></InputTag>
           <WarningMessageTag $isNotActive={emailIsValid}>
             이메일을 다시 확인해 주세요.
@@ -147,8 +157,11 @@ function LoginModal() {
         <BoxColContainer>
           <InputTag
             type="password"
-            onBlur={(e) => setPassword(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            // onBlur={(e) => setPassword(e.target.value)}
             placeholder="비밀번호"
+            onKeyPress={handleEnterPress}
           ></InputTag>
           <WarningMessageTag $isNotActive={passwordIsValid}>
             비밀번호를 다시 확인해 주세요.

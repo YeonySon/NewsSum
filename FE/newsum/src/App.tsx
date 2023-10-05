@@ -6,6 +6,7 @@ import './App.css';
 // 회원가입
 import SignUp1 from './page/signup/SignUp1';
 import SignUp2 from './page/signup/SignUp2';
+import SignUp22 from './page/signup/SignUp22';
 import SignUp3 from './page/signup/SignUp3';
 
 // 로그인 모달창 테스트
@@ -32,6 +33,7 @@ function App() {
           <Route path="/short" element={<Short />} />
           <Route path="/signup/1" element={<SignUp1 />} />
           <Route path="/signup/2" element={<SignUp2 />} />
+          <Route path="/signup/22" element={<SignUp22 />} />
           <Route path="/signup/3" element={<SignUp3 />} />
           <Route path="/logintest" element={<LoginTest />} />
 
