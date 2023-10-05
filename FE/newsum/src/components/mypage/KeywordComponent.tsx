@@ -114,8 +114,11 @@ function KeywordComponent({ pageType }) {
 
   useEffect(() => {
     // 로그인 여부 확인
-    if (pageType === 1) {
-      CheckCookie();
+    CheckCookie();
+
+    // 쿠키 불러오기
+    const headers = {
+      'Authorization': `Bearer ${cookie.load('accessToken')}`
     }
 
     // 서버에 데이터 요청
@@ -126,6 +129,23 @@ function KeywordComponent({ pageType }) {
         })
         .catch((error) => [] as string[])
     }
+
+    // 서버에 내 정보조회 요청
+    // const responseMyInfoData = async () => {
+    //   await BaseInstance.get(`/api/mypage/${userId}`, { headers : headers })
+    //     .then((response) => {
+    //       const data = {
+    //         tech: response.data.data.tech,
+    //       }
+    //       console.log(response)
+    //       setFormData((prev) => ({...prev, ...data}))
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //     })
+    // }
+    // responseMyInfoData();
+
     responseData()
   }, [])
 
