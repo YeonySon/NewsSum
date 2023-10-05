@@ -161,12 +161,18 @@ function News() {
 
   // 뉴스 가져오기
   const getNews = async (url) => {
-    const token = cookie.load('accessToken');
+    let headers;
+    if (MyInfo !== 0) {
+      const token = cookie.load('accessToken');
+      headers = {
+        Authorization: 'Bearer ' + token
+      } 
+    } else {
+      headers = {
+        'Content-Type': 'application/json'
+      } 
+    }   
 
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    };
     await BaseInstance.get(url, { headers })
       .then((response) => {
         console.log(response.data);
