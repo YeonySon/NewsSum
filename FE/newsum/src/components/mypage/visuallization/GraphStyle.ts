@@ -94,7 +94,7 @@ export const TableBox = styled.div`
   }
 
   table {
-    width: 100px;
+    width: 120px;
     border-spacing: 0;
     border-collapse: collapse;
     border-top: 2px solid #444444;
@@ -109,6 +109,15 @@ export const TableBox = styled.div`
     padding: 5px;
     border-top: 1px solid #444444;
     border-bottom: 1px solid #444444;
+    font-size: 12px;
+  }
+  @media (max-width: 700px) {
+    table {
+      width: 280px;
+    }
+    td {
+      text-align: center;
+    }
   }
 `
 
