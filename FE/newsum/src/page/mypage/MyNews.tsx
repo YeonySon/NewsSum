@@ -14,7 +14,7 @@ import { BaseInstance } from '../../hook/AxiosInstance';
 //Util component import
 import Header from '../../components/util/Header';
 import Navbar from '../../components/util/Navbar';
-import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
+import Tabbar, { Active, ActiveDark, ActiveLightDark, Deactive } from '../../components/util/Tabbar';
 import Dropdown from '../../components/mypage/Dropdown';
 import CardSlot from '../../components/news/CardSlot';
 
@@ -178,6 +178,7 @@ function MyNews() {
   const [navlist, setNavlist] = useState(nav[1][0]);
   const [sort, setSort] = useState(tab[0][1]);
   const [sortAli, setSortAli] = useState(ali[0][1]);
+  const [page, setPage] = useState(0);
 
   function clickedSort(info) {
     setSort(info);
@@ -192,9 +193,9 @@ function MyNews() {
 
     // 서버에 데이터 요청
     if (sort == -1) {
-      getNews(`/api/mypage/mynews/${MyInfo}`);
+      getNews(`/api/mypage/mynews/${MyInfo}?page=${page}`);
     } else if (sort != -1) {
-      getNews(`/api/mypage/myscrap/${MyInfo}/sort?categoryId=${sort}&optionId=${sortAli}`);
+      getNews(`/api/mypage/myscrap/${MyInfo}/sort?categoryId=${sort}&optionId=${sortAli}&page=${page}`);
     }
   }, [sort, sortAli]);
 
@@ -215,14 +216,26 @@ function MyNews() {
           )}
         </div>
         <div className="wrap-vertical">
-          {tab.map((manu) =>
-            manu[1] == sort ? (
-              <ActiveDark>{manu[0]}</ActiveDark>
-            ) : (
-              <Deactive onClick={() => clickedSort(manu[1])}>{manu[0]}</Deactive>
-            )
+          {tab[0][1] == sort ? (
+            <ActiveDark>{tab[0][0]}</ActiveDark>
+          ) : (
+            <Deactive onClick={() => clickedSort(tab[0][1])}>{tab[0][0]}</Deactive>
           )}
+          {tab[1][1] <= sort ? (
+            <ActiveDark>{tab[1][0]}</ActiveDark>
+          ) : (
+            <Deactive onClick={() => clickedSort(tab[1][1])}>{tab[1][0]}</Deactive>
+          )}
+          {tab[1][1] <= sort &&
+            scrap.map((manu) =>
+              manu[1] == sort ? (
+                <ActiveLightDark>{manu[0]}</ActiveLightDark>
+              ) : (
+                <Deactive onClick={() => clickedSort(manu[1])}>{manu[0]}</Deactive>
+              )
+            )}
         </div>
+
         <div className="wrap-vertical">
           <div className="ali">{sort != -1 && <Dropdown sortAli={sortAli} setSortAli={setSortAli} ali={ali} />}</div>
         </div>
