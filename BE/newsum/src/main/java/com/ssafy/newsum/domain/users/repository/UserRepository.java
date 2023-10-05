@@ -38,8 +38,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
 	//password 수정
 	@Modifying(clearAutomatically = true)
-	@Query("update User u set u.password = :password where u.email = :userEmail")
-	void updatePassword(@Param("userEmail") String userEmail, @Param("password") String newPassword);
+	@Query("update User u set u.password = :password where u.userId = :userId")
+	void updatePassword(@Param("userId") Integer userId, @Param("password") String newPassword);
 
 	// newsId에 해당하는 유저 조회
 	@Query("select u from User u, ReadNews rn where rn.contentId=:newsId "

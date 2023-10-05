@@ -163,11 +163,13 @@ public class UserService {
 	public User updatePassword(Integer id, UserRequestDto userRequestDto) {
 		userRequestDto.setId(id);
 		User user = userRequestDto.toEntity(userRequestDto);
+		log.info("userId : {}", id);
+		log.info("userpassword : {}", userRequestDto.getPassword());
 		//1. 비밀번호 암호화
 		user.passwordEncode(passwordEncoder);
 
 		//2. 저장
-		userRepository.updatePassword(user.getEmail(), user.getPassword());
+		userRepository.updatePassword(id, user.getPassword());
 		return user;
 	}
 
