@@ -1,14 +1,19 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 //redux
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 
 function Pagination({ total, limit, page, setPage }) {
   useEffect(() => {
     console.log(page);
+    console.log(pageCt);
   }, [page]);
 
-  const numPages = Math.ceil(total / limit);
+  const pageCt = Math.floor(page / limit);
+  const pageNo = page % limit;
+
+  // const numPagesMin;
+  // const numPagesMax;
 
   return (
     <>
@@ -21,25 +26,28 @@ function Pagination({ total, limit, page, setPage }) {
         >
           &lt;
         </Button>
-        {numPages > 0 &&
-          Array(numPages)
+        {total > 0 &&
+          Array(limit)
             .fill()
-            .map((_, i) => (
-              <Button
-                key={i + 1}
-                onClick={() => {
-                  setPage(i);
-                }}
-                aria-current={page === i ? 'page' : null}
-              >
-                {i + 1}
-              </Button>
-            ))}
+            .map(
+              (_, i) =>
+                total >= i + 1 + limit * pageCt && (
+                  <Button
+                    key={i + 1 + limit * pageCt}
+                    onClick={() => {
+                      setPage(i + limit * pageCt);
+                    }}
+                    aria-current={pageNo === i ? "page" : null}
+                  >
+                    {i + 1 + limit * pageCt}
+                  </Button>
+                )
+            )}
         <Button
           onClick={() => {
             setPage(page + 1);
           }}
-          disabled={page === numPages - 1}
+          disabled={page >= total - 1}
         >
           &gt;
         </Button>
