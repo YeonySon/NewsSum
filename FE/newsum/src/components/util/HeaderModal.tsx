@@ -3,6 +3,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
+import cookie from "react-cookies";
 
 export const Item = styled.div`
   color: #353845;
@@ -59,8 +60,12 @@ function HeaderModal({ setProfileModal }) {
 
   function logout() {
     // alert("로그아웃");
+    if (cookie.load('accessToken')) {
+      cookie.remove('accessToken', {path : '/'})
+    }
     setProfileModal(false);
     setMyinfo(0);
+    window.location.href = '/news'
   }
 
   function login() {
