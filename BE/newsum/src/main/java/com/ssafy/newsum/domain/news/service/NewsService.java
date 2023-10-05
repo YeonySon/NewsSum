@@ -18,6 +18,8 @@ import com.ssafy.newsum.domain.scrap.repository.ScrapRepository;
 import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +33,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class NewsService {
 
     private final NewsRepository newsRepository;
@@ -315,10 +318,11 @@ public class NewsService {
 
             Boolean isLiked = false;
             Boolean isScrap = false;
+            log.info("userId1 : {}", userId);
 
             // 회원일 때만
             if (userId != 0) {
-
+                log.info("userId2 : {}", userId);
                 // 해당기사 해당 유저가 좋아요 유무
                 isLiked = dibsRepository.isLiked(userId, ns.getNewsId());
 
