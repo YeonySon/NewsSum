@@ -1,32 +1,21 @@
-import { useState } from "react";
-import styled from "styled-components";
+import { useState } from 'react';
+import styled from 'styled-components';
 //아이콘 가져오기
-import { CiMenuKebab } from "react-icons/ci";
-import {
-  FaBookmark,
-  FaRegBookmark,
-  FaEye,
-  FaHeart,
-  FaRegHeart,
-} from "react-icons/fa6";
+import { CiMenuKebab } from 'react-icons/ci';
+import { FaBookmark, FaRegBookmark, FaEye, FaHeart, FaRegHeart } from 'react-icons/fa6';
 
 //modal import
-import CardModal from "./CardModal";
+import CardModal from './CardModal';
 
 // cookies
-import cookie from "react-cookies";
+import cookie from 'react-cookies';
 
 // //axios
-import { BaseInstance } from "../../hook/AxiosInstance";
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 // recoil
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 const Card = styled.div`
   /* background-color: gray; */
@@ -94,6 +83,10 @@ const Card = styled.div`
     text-align: right;
     margin: 0 0 0 0;
   }
+
+  hr {
+    margin-top: 10px;
+  }
 `;
 
 const Deactive = styled.div``;
@@ -101,7 +94,7 @@ const Deactive = styled.div``;
 function CardSlot({ newsInfo, isRecom }) {
   //무슨 페이지인지 확인
   const [type, setType] = useState(0);
-  const [title, setTitle] = useState("추천");
+  const [title, setTitle] = useState('추천');
 
   const [scrap, setScrap] = useState(false);
   const [like, setLike] = useState(false);
@@ -111,7 +104,7 @@ function CardSlot({ newsInfo, isRecom }) {
 
   function openNews() {
     details();
-    window.open(newsInfo.url, "_blank", "noopener, noreferrer");
+    window.open(newsInfo.url, '_blank', 'noopener, noreferrer');
   }
 
   // 원문보기
@@ -122,19 +115,19 @@ function CardSlot({ newsInfo, isRecom }) {
       isRecom: isRecom,
     });
 
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
 
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Beare ' + token,
     };
     await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log("200");
+          console.log('200');
         } else if (response.data.statusCode === 400) {
-          console.log("400");
+          console.log('400');
         }
         return response.data;
       })
@@ -166,9 +159,9 @@ function CardSlot({ newsInfo, isRecom }) {
           <div>
             {/* 조회수 등 */}
             <div className="info">
-              {newsInfo.isLike == "t" ? <FaHeart /> : <FaRegHeart />}
+              {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
               <span className="num">{newsInfo.likeCnt}</span>
-              {newsInfo.isScrap == "t" ? <FaBookmark /> : <FaRegBookmark />}
+              {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
               <span className="num">{newsInfo.scrapCnt}</span>
               <FaEye />
               <span className="num">{newsInfo.viewCnt}</span>
@@ -179,12 +172,7 @@ function CardSlot({ newsInfo, isRecom }) {
         </div>
 
         {cardModal && (
-          <CardModal
-            newsInfo={newsInfo}
-            setLike={setLike}
-            setScrap={setScrap}
-            setCardModal={setCardModal}
-          />
+          <CardModal newsInfo={newsInfo} setLike={setLike} setScrap={setScrap} setCardModal={setCardModal} />
         )}
         <hr />
       </Card>
