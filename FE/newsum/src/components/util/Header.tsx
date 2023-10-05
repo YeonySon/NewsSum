@@ -38,6 +38,7 @@ export const HeaderStyle = styled.div`
     width: 180px;
     /* height: 60px; */
     /* padding-left: 60px; */
+    cursor: pointer;
   }
 
   //검색창
@@ -183,6 +184,10 @@ export const SearchInput = styled.div`
     margin: 0 15px;
   }
 
+  input::placeholder {
+    font-size: 0.9rem;
+  }
+
   //700px 보다 클 때
   @media (min-width: 700px) {
     margin-right: 80px;
@@ -255,7 +260,7 @@ function Header() {
     <div>
       <HeaderStyle>
         {/* 로고 */}
-        {!searchClicked && <img className="header-logo" src={`${process.env.PUBLIC_URL}/newsum.png`} alt="logo" />}
+        {!searchClicked && <img className="header-logo" onClick={(e)=>(window.location.href='/news')} src={`${process.env.PUBLIC_URL}/newsum.png`} alt="logo" />}
         {/* 큰 화면일 때 검색창 */}
         <div className="header-search-big">
           <SearchInput>

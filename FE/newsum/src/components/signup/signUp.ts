@@ -215,7 +215,7 @@ export const SelectContainer = styled.div`
 `
 
 export const SelectBox = styled.div`
-  width: 150px;
+  width: 160px;
   height: 200px;
   padding: 5px;
   background-color: #F7F7F7;
@@ -377,9 +377,9 @@ export const MyInfoButton = styled(NextButton)<PositionProps>`
   width: 50px;
   bottom: 40%;
   cursor: pointer;
-  ${({ $isLeft }) => ($isLeft ? `right: 70px;` : 
+  ${({ $isLeft }) => ($isLeft ? `right: 75px;` : 
     css`
-      right: 10px;
+      right: 20px;
       background-color: #F2053E;
     `)}
 `
