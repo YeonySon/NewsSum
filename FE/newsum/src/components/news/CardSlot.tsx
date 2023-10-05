@@ -100,6 +100,8 @@ function CardSlot({ newsInfo, isRecom }) {
   const [like, setLike] = useState(false);
   const [cardModal, setCardModal] = useState(false);
 
+  const [refesh, setRefesh] = useState(false);
+
   const MyInfo = useRecoilValue(MyInfoAtom);
 
   function openNews() {
@@ -116,15 +118,23 @@ function CardSlot({ newsInfo, isRecom }) {
     });
 
     const token = cookie.load('accessToken');
-
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    };
+    let headers;
+    if (MyInfo !== 0) {
+      const token = cookie.load('accessToken');
+      headers = {
+        Authorization: 'Bearer ' + token,
+      };
+    } else {
+      headers = {
+        'Content-Type': 'application/json',
+      };
+    }
     await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
+          newsInfo.viewCnt = newsInfo.viewCnt + 1;
+          setRefesh(!refesh);
           console.log('200');
         } else if (response.data.statusCode === 400) {
           console.log('400');
