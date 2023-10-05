@@ -22,7 +22,7 @@ export const Short = styled.div`
 
   align-items: center;
   width: 400px;
-  height: 500px;
+  height: 600px;
 
   border-radius: 10px;
   margin: 0 0 10px 0;
@@ -59,55 +59,64 @@ export const Short = styled.div`
   .short-threeLine {
     text-overflow: ellipsis;
     overflow: hidden;
-    font-size: 15px;
+    font-size: 18px;
 
     position: absolute;
-    top: 280px;
+    top: 300px;
 
-    max-height: 200px;
+    max-height: 300px;
     margin: 0 30px 50px 30px;
     border-radius: 10px;
   }
-
+  //700보다 작을 때
   @media (max-width: 700px) {
     /* background-color: black; */
     height: calc(100vh - 220px);
     /* min-height: 520px; */
     margin: 0 0 0 0;
+
+    height: 520px;
+    .short-threeLine {
+      font-size: 13px;
+    }
   }
 `;
 
 export const ShortMenu = styled.div`
   position: absolute;
+  position: relative;
   display: flex;
 
   color: #394867;
 
   height: 300px;
 
+  left: 108%;
   top: 50%;
-  left: 105%;
   flex-direction: column;
   justify-content: space-between;
 
   font-size: 2.2rem;
+
+  transform: translate(0%, -100%);
   .text {
-    font-size: 1.1rem;
+    color: gray;
+    font-size: 0.8rem;
     position: absolute;
     white-space: nowrap;
 
     overflow: visible;
-    transform: translate(-70%, 170%);
+    transform: translate(-85%, 230%);
 
     font-weight: bold;
 
     /* left: -0%; */
   }
   @media (max-width: 700px) {
-    top: 100%;
-    left: 10%;
+    top: 50%;
+    left: 9%;
 
-    transform: translate(0, -80px);
+    transform: translate(0, -75%);
 
     width: 330px;
     height: 100px;
@@ -219,19 +228,19 @@ function ShortComponent({ shortInfo }) {
       <ShortMenu>
         <div onClick={like}>
           {shortInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
-          <span className="text">좋아요</span>
+          <span className="text"> 좋 아 요 </span>
         </div>
         <div onClick={scrap}>
           {shortInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
-          <span className="text">스크랩</span>
+          <span className="text"> 스 크 랩 </span>
         </div>
         <div onClick={openNews}>
           <IoDocumentTextOutline className="close" />
-          <span className="text">원문 보기</span>
+          <span className="text">원문보기</span>
         </div>
         <div onClick={copyURL}>
           <FaShare className="share" />
-          <span className="text">URL 복사</span>
+          <span className="text">URL복사</span>
         </div>
       </ShortMenu>
     </Short>

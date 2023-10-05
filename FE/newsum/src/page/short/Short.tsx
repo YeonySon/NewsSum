@@ -35,7 +35,7 @@ export const Content = styled.div`
     display: flex;
     flex-direction: column;
     position: relative;
-    margin: 20px auto 100px auto;
+    margin: 20px auto 0px auto;
 
     width: 417px;
 
