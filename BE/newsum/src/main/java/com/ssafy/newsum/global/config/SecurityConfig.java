@@ -63,10 +63,10 @@ public class SecurityConfig {
 			//요청에 대한 권한 설정
 			.authorizeRequests()
 			//모든 권한 허용
-			// .antMatchers("/mypage/**").hasRole("UA01")
-			// .antMatchers(HttpMethod.PATCH).hasRole("UA01")
-			// .antMatchers(HttpMethod.DELETE).hasRole("UA01")
-			// .antMatchers("/news/recommend/**", "/news/scrap/**", "/news/dibs/**").hasRole("UA01")
+			.antMatchers("/mypage/**").hasRole("UA01")
+			.antMatchers(HttpMethod.PATCH).hasRole("UA01")
+			.antMatchers(HttpMethod.DELETE).hasRole("UA01")
+			.antMatchers("/news/recommend/**", "/news/scrap/**", "/news/dibs/**").hasRole("UA01")
 			.antMatchers("/**").permitAll()
 
 		// .antMatchers("/**").permitAll()
