@@ -27,17 +27,17 @@ import {
   NextButton,
 } from '../../components/signup/signUp';
 
-function SignUp2() {
-  const page = 2
+function SignUp22() {
+  const page = 22
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom);
 
   useEffect(() => {
     // 서버에 데이터 요청
     const responseData = async () => {
-      await BaseInstance.get('/api/user/techstack')
+      await BaseInstance.get('/api/user/jobs')
         .then((response) => {
-          setItems(response.data.data.map((item: {tsName: string}) => item.tsName))
+          setItems(response.data.data.map((item: {name: string}) => item.name))
         })
         .catch((error) => [] as string[])
     }
@@ -48,40 +48,35 @@ function SignUp2() {
   const [checkedList, setCheckedList] = useState<number[]>([]);
   const [itemStates, setItemStates] = useState<boolean[]>(new Array(items.length).fill(false))
 
-  const handleCheckedList = (index: number, isChecked: boolean) => {
-    if (isChecked) {
-      setCheckedList((prev) => [...prev, index])
-      return;
-    }
-    if (!isChecked && checkedList.includes(index)) {
-      setCheckedList(checkedList.filter((item) => item !== index));
-      return;
-    }
-    return;
-  };
-
   const handleItemClick = (index: number) => {
-    if (checkedList.length < 5 || checkedList.includes(index) ) {
       const newitemStates = [...itemStates]
       newitemStates[index] = !newitemStates[index]
+      if (!!checkedList) {              // 체크리스트가 존재하는 경우
+        if (checkedList[0] === index) { // 체크리스트의 인덱스와 동일한 경우
+          setCheckedList([])
+        } else {                        // 체크리스트와 인덱스가 다른경우
+          newitemStates[checkedList[0]] = false
+          setCheckedList([index])
+        }
+      } else {                          // 체크리스트가 존재하지 않으면
+        setCheckedList([index])
+      }
       setItemStates(newitemStates)
-      handleCheckedList(index, newitemStates[index])
-    } 
   }
 
   const finalCheck = () => {
     if (checkedList.length === 0) {
-      alert('하나 이상의 기술스택을 선택해주세요')
+      alert('하나의 직무를 선택해주세요')
       return;
     }
 
     // 관심기술 recoil에 저장
-    const newData = checkedList.map(item => item + 1)
-    const data = {tech: newData}
+    const newData = checkedList[0] + 1
+    const data = {job: newData}
     setFormData((prev) => ({...prev, ...data}))
     
     // page 이동
-    navigate('/signup/22')
+    navigate('/signup/3')
   }
 
   return (
@@ -98,9 +93,8 @@ function SignUp2() {
         
         <SelectContainer>
           <ContentWordTag>
-            <p>관심이 있는</p>
-            <p>기술스택을 골라주세요.</p>
-            <p>(최대 5개 선택 가능)</p>
+            <p>관심이 있는 직무를</p>
+            <p>한 개 골라주세요.</p>
           </ContentWordTag>
 
           <SelectBox>
@@ -135,4 +129,4 @@ function SignUp2() {
   );
 };
 
-export default SignUp2;
+export default SignUp22;

@@ -1,31 +1,26 @@
-import { useEffect, useState } from "react";
-import styled from "styled-components";
+import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 // cookies
-import cookie from "react-cookies";
+import cookie from 'react-cookies';
 
 // recoil
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 // //axios
-import { BaseInstance } from "../../hook/AxiosInstance";
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 //nav
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
 
 //Util component import
-import Header from "../../components/util/Header";
-import Navbar from "../../components/util/Navbar";
-import Tabbar from "../../components/util/Tabbar";
+import Header from '../../components/util/Header';
+import Navbar from '../../components/util/Navbar';
+import Tabbar from '../../components/util/Tabbar';
 
 //Short compoent import
-import ShortComponent from "../../components/short/ShortComponent";
+import ShortComponent from '../../components/short/ShortComponent';
 
 export const Content = styled.div`
   border-left: 0;
@@ -86,7 +81,7 @@ function News() {
     }
   }
 
-  window.addEventListener("wheel", (event) => {
+  window.addEventListener('wheel', (event) => {
     if (event.deltaY > 0) {
       scrollToNextPage();
     } else {
@@ -98,32 +93,40 @@ function News() {
   async function getShortList() {
     // const requestBodyJSON = JSON.stringify(requestBody);
 
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
     // if (token == undefined) {
     //   setMyinfo(0);
     //   return;
     // }
 
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Beare ' + token,
     };
-    console.log("myinfo : ");
+    console.log('myinfo : ');
     console.log(MyInfo);
 
-    await BaseInstance.get(`/api/news/recommend/${MyInfo}`, { headers })
+    let url;
+
+    if (MyInfo == 0) {
+      url = `/api/news/0/0`;
+    } else {
+      url = `/api/news/recommend/${MyInfo}`;
+    }
+
+    await BaseInstance.get(url, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log("200");
+          console.log('200');
           console.log(response.data);
-          // newsInfo = response.data.data;
-          // newsInfo = dummy;
-
           setNewsInfo(response.data.data);
-          // setNewsInfo(dummy);
+
+          if (response.data.data.length != 0) {
+            details(response.data.data[0].id);
+          }
         } else if (response.data.statusCode === 400) {
-          console.log("400");
+          console.log('400');
           console.log(response.data);
         }
         return response.data;
@@ -134,39 +137,61 @@ function News() {
       });
   }
 
+  // 로그인 버튼 클릭
+  const details = async (id) => {
+    const type = MyInfo == 0 ? 'f' : 't';
+    const requestBodyJSON = JSON.stringify({
+      userId: MyInfo,
+      newsId: id,
+      isRecom: type,
+    });
+
+    const token = cookie.load('accessToken');
+
+    const headers = {
+      'Content-Type': 'application/json',
+      Authorization: 'Beare ' + token,
+    };
+    await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.statusCode === 200) {
+          console.log('200');
+        } else if (response.data.statusCode === 400) {
+          console.log('400');
+        }
+        return response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+        return error;
+      });
+  };
   //page 갱신
   useEffect(() => {
-    console.log("pages");
-    console.log(pages);
+    if (newsInfo.length != 0) {
+      details(newsInfo[pages].id);
+    }
   }, [pages]);
 
   const navigate = useNavigate();
 
   //page 갱신
   useEffect(() => {
-    console.log("MyInfo");
+    console.log('MyInfo');
     console.log(MyInfo);
-    if (MyInfo == 0) {
-      // alert("로그인 후 사용가능한 기능입니다.");
-      navigate("/news");
-    } else {
-      getShortList();
-    }
+    getShortList();
   }, [MyInfo]);
   return (
     <div>
       <Header />
-      <Navbar nav={"short"} />
+      <Navbar nav={'short'} />
       <Content>
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {/* {MyInfo} */}
-          {newsInfo.length != 0 ? (
-            <ShortComponent shortInfo={newsInfo[pages]} />
-          ) : (
-            <div>비었습니다</div>
-          )}
+          {newsInfo.length != 0 ? <ShortComponent shortInfo={newsInfo[pages]} /> : <div>비었습니다</div>}
         </div>
       </Content>
     </div>

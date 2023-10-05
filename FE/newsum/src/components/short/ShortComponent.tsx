@@ -1,31 +1,21 @@
-import React, { useState, useEffect, useRef } from "react";
-import styled from "styled-components";
+import React, { useState, useEffect, useRef } from 'react';
+import styled from 'styled-components';
 
 //아이콘 가져오기
-import { IoDocumentTextOutline } from "react-icons/io5";
-import { AiOutlineClose } from "react-icons/ai";
-import {
-  FaBookmark,
-  FaRegBookmark,
-  FaHeart,
-  FaRegHeart,
-} from "react-icons/fa6";
-import { FaShare } from "react-icons/fa6";
+import { IoDocumentTextOutline } from 'react-icons/io5';
+import { AiOutlineClose } from 'react-icons/ai';
+import { FaBookmark, FaRegBookmark, FaHeart, FaRegHeart } from 'react-icons/fa6';
+import { FaShare } from 'react-icons/fa6';
 
 // cookies
-import cookie from "react-cookies";
+import cookie from 'react-cookies';
 
 // //axios
-import { BaseInstance } from "../../hook/AxiosInstance";
+import { BaseInstance } from '../../hook/AxiosInstance';
 
 // recoil
-import {
-  useRecoilState,
-  useRecoilValue,
-  useResetRecoilState,
-  useSetRecoilState,
-} from "recoil";
-import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
+import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
 export const Short = styled.div`
   background-color: #ebf3f8;
@@ -74,6 +64,9 @@ export const Short = styled.div`
   @media (max-width: 700px) {
     min-height: 520px;
     margin: 0 0 0 0;
+    .short-img {
+      display: none;
+    }
   }
 `;
 
@@ -124,30 +117,30 @@ function ShortComponent({ shortInfo }) {
 
   function scrap() {
     if (MyInfo == 0) {
-      alert("로그인 후 사용가능한 기능입니다.");
+      alert('로그인 후 사용가능한 기능입니다.');
       return;
     }
-    if (shortInfo.isScrap == "t") {
-      shortInfo.isScrap = "f";
-      deleteAxios("/news/scrap");
+    if (shortInfo.isScrap == 't') {
+      shortInfo.isScrap = 'f';
+      deleteAxios('/news/scrap');
     } else {
-      shortInfo.isScrap = "t";
-      getAxios("/news/scrap");
+      shortInfo.isScrap = 't';
+      getAxios('/news/scrap');
     }
     setRander(!rander);
   }
 
   function like() {
     if (MyInfo == 0) {
-      alert("로그인 후 사용가능한 기능입니다.");
+      alert('로그인 후 사용가능한 기능입니다.');
       return;
     }
-    if (shortInfo.isLike == "t") {
-      shortInfo.isLike = "f";
-      deleteAxios("/news/dibs");
+    if (shortInfo.isLike == 't') {
+      shortInfo.isLike = 'f';
+      deleteAxios('/news/dibs');
     } else {
-      shortInfo.isLike = "t";
-      getAxios("/news/dibs");
+      shortInfo.isLike = 't';
+      getAxios('/news/dibs');
     }
     setRander(!rander);
   }
@@ -155,26 +148,25 @@ function ShortComponent({ shortInfo }) {
   async function copyURL() {
     try {
       await navigator.clipboard.writeText(shortInfo.url);
-      alert("복사되었습니다.");
+      alert('복사되었습니다.');
     } catch (err) {
       console.log(err);
     }
   }
 
   function openNews() {
-    details();
-    window.open(shortInfo.url, "_blank", "noopener, noreferrer");
+    window.open(shortInfo.url, '_blank', 'noopener, noreferrer');
   }
 
   // 좋아요 / 스크랩
   async function getAxios(url) {
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
 
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Beare ' + token,
     };
-    await BaseInstance.get(`${url}/${shortInfo.id}/${MyInfo}`, { headers })
+    await BaseInstance.get(`/api/${url}/${shortInfo.id}/${MyInfo}`, { headers })
       .then((response) => {
         if (response.data.statusCode === 200) {
         } else if (response.data.statusCode === 400) {
@@ -189,13 +181,13 @@ function ShortComponent({ shortInfo }) {
 
   // delete
   async function deleteAxios(url) {
-    const token = cookie.load("accessToken");
+    const token = cookie.load('accessToken');
     const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
+      'Content-Type': 'application/json',
+      Authorization: 'Beare ' + token,
     };
 
-    await BaseInstance.delete(`${url}/${shortInfo.id}/${MyInfo}`, {
+    await BaseInstance.delete(`/api/${url}/${shortInfo.id}/${MyInfo}`, {
       headers,
     })
       .then((response) => {
@@ -210,35 +202,6 @@ function ShortComponent({ shortInfo }) {
       });
   }
 
-  // 원문보기
-  const details = async () => {
-    const requestBodyJSON = JSON.stringify({
-      userId: MyInfo,
-      newsId: shortInfo.id,
-    });
-
-    const token = cookie.load("accessToken");
-
-    const headers = {
-      "Content-Type": "application/json",
-      Authorization: "Beare " + token,
-    };
-    await BaseInstance.post(`/news/detail`, requestBodyJSON, { headers })
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.statusCode === 200) {
-          console.log("200");
-        } else if (response.data.statusCode === 400) {
-          console.log("400");
-        }
-        return response.data;
-      })
-      .catch((error) => {
-        console.log(error);
-        return error;
-      });
-  };
-
   return (
     <Short>
       <img className="short-img" src={shortInfo.image} alt={shortInfo.head} />
@@ -247,11 +210,11 @@ function ShortComponent({ shortInfo }) {
       <div className="short-threeLine">{shortInfo.threeLine}</div>
       <ShortMenu>
         <div onClick={like}>
-          {shortInfo.isLike == "t" ? <FaHeart /> : <FaRegHeart />}
+          {shortInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
           <span className="text">좋아요</span>
         </div>
         <div onClick={scrap}>
-          {shortInfo.isScrap == "t" ? <FaBookmark /> : <FaRegBookmark />}
+          {shortInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
           <span className="text">스크랩</span>
         </div>
         <div onClick={openNews}>
