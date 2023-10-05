@@ -19,6 +19,11 @@ import com.ssafy.newsum.domain.news.service.NewsService;
 import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.service.UserService;
 import com.ssafy.newsum.global.common.CommonResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -48,112 +53,119 @@ public class NewsController {
 		return ResponseEntity.ok(CommonResponseDto.success(200, "recommendList success", resultList));
 	}
 
-	// 분야별 조회
-	@GetMapping("/{userId}/{categoryId}")
-	public ResponseEntity selectByCategory(@PathVariable Integer userId, @PathVariable Integer categoryId) {
+	  // 분야별 조회
+    @GetMapping("/{userId}/{categoryId}")
+    public ResponseEntity selectByCategory(@PathVariable Integer userId, @PathVariable Integer categoryId,
+                                           @RequestParam Integer page) {
 
-		List<NewsResponseDto> resultList = newsService.selectByCategory(userId, categoryId);
+        Pageable pageable = PageRequest.of(page, 30);
 
-		if (resultList == null)
-			return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "categoryList error"));
+        List<NewsResponseDto> resultList = newsService.selectByCategory(userId, categoryId, pageable);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "categoryList success", resultList));
-	}
+        if (resultList == null)
+            return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "categoryList error"));
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "categoryList success", resultList));
+    }
 
 	// 인기도순 최신순으로 분야별 조회
-	@GetMapping("/{userId}/sort")
-	public ResponseEntity selectCategoryByOption(@PathVariable Integer userId,
-		@RequestParam(name = "category") Integer categoryId,
-		@RequestParam(name = "option") Integer optionId) {
+    @GetMapping("/{userId}/sort")
+    public ResponseEntity selectCategoryByOption(@PathVariable Integer userId,
+                                                 @RequestParam(name = "category") Integer categoryId,
+                                                 @RequestParam(name = "option") Integer optionId,
+                                                 @RequestParam Integer page) {
 
-		List<NewsResponseDto> resultList = newsService.selectCategoryByOption(userId, categoryId, optionId);
+        Pageable pageable = PageRequest.of(page, 30);
 
-		if (resultList == null)
-			return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "sortList error"));
+        List<NewsResponseDto> resultList = newsService.selectCategoryByOption(userId, categoryId, optionId, pageable);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "sortList success", resultList));
-	}
+        if (resultList == null)
+           return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "sortList error"));
+
+        return ResponseEntity.ok(CommonResponseDto.success(200, "sortList success", resultList));
+    }
 
 	// 뉴스 상세보기
-	@PostMapping("/detail")
-	public ResponseEntity selectNewsDetail(@RequestBody NewsRequestDto newsRequestDto) {
+    @PostMapping("/detail")
+    public ResponseEntity selectNewsDetail(@RequestBody NewsRequestDto newsRequestDto) {
 
-		newsService.selectNewsDetail(newsRequestDto);
+        newsService.selectNewsDetail(newsRequestDto);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "detail success", null));
-	}
-
+        return ResponseEntity.ok(CommonResponseDto.success(200, "detail success", null));
+    }
+	
 	// 뉴스 검색하기
-	@GetMapping("/{userId}/search")
-	public ResponseEntity searchNews(@PathVariable Integer userId, @RequestParam String keyword) {
+    @GetMapping("/{userId}/search")
+    public ResponseEntity searchNews(@PathVariable Integer userId, @RequestParam String keyword,
+                                     @RequestParam Integer page) {
 
-		List<NewsResponseDto> resultList = newsService.searchNews(keyword, userId);
+        Pageable pageable = PageRequest.of(page, 30);
 
-		if (resultList == null)
-			return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "search error"));
+        List<NewsResponseDto> resultList = newsService.searchNews(keyword, userId, pageable);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "search success", resultList));
+        if (resultList == null)
+            return ResponseEntity.badRequest().body(CommonResponseDto.error(500, "search error"));
 
-	}
+        return ResponseEntity.ok(CommonResponseDto.success(200, "search success", resultList));
+
+    }
 
 	// 뉴스 좋아요
-	@GetMapping("/dibs/{newsId}/{userId}")
-	public ResponseEntity likeNews(Authentication authentication, @PathVariable Integer newsId,
-		@PathVariable Integer userId) {
+    @GetMapping("/dibs/{newsId}/{userId}")
+    public ResponseEntity likeNews(Authentication authentication, @PathVariable Integer newsId, @PathVariable Integer userId) {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
 			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "like error"));
 		}
 
-		newsService.likeNews(newsId, userId);
+        newsService.likeNews(newsId, userId);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "like success", null));
+        return ResponseEntity.ok(CommonResponseDto.success(200, "like success", null));
 
-	}
+    }
 
 	// 뉴스 좋아요 취소
-	@DeleteMapping("/dibs/{newsId}/{userId}")
-	public ResponseEntity likeNewsCancel(Authentication authentication, @PathVariable Integer newsId,
-		@PathVariable Integer userId) {
+    @DeleteMapping("/dibs/{newsId}/{userId}")
+    public ResponseEntity likeNewsCancel((Authentication authentication, @PathVariable Integer newsId, @PathVariable Integer userId) {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
 			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "like cancel error"));
 		}
 
-		newsService.likeNewsCancel(newsId, userId);
+        newsService.likeNewsCancel(newsId, userId);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "like cancel success", null));
-	}
+        return ResponseEntity.ok(CommonResponseDto.success(200, "like cancel success", null));
+    }
 
 	// 뉴스 스크랩
-	@GetMapping("/scrap/{newsId}/{userId}")
-	public ResponseEntity scrapNews(Authentication authentication, @PathVariable Integer newsId,
-		@PathVariable Integer userId) {
+    @GetMapping("/scrap/{newsId}/{userId}")
+    public ResponseEntity scrapNews(Authentication authentication, @PathVariable Integer newsId, @PathVariable Integer userId) {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
 			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "scrap success"));
 		}
 
-		newsService.scrapNews(newsId, userId);
+        newsService.scrapNews(newsId, userId);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "scrap success", null));
-	}
+        return ResponseEntity.ok(CommonResponseDto.success(200, "scrap success", null));
+    }
 
 	// 뉴스 스크랩 취소
-	@DeleteMapping("/scrap/{newsId}/{userId}")
-	public ResponseEntity scrapNewsCancel(Authentication authentication, @PathVariable Integer newsId,
-		@PathVariable Integer userId) {
+    @DeleteMapping("/scrap/{newsId}/{userId}")
+    public ResponseEntity scrapNewsCancel(Authentication authentication, @PathVariable Integer newsId, @PathVariable Integer userId) {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
 			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "crap cancel error"));
 		}
 
-		newsService.scrapNewsCancel(newsId, userId);
+        newsService.scrapNewsCancel(newsId, userId);
 
-		return ResponseEntity.ok(CommonResponseDto.success(200, "scrap cancel success", null));
-	}
+        return ResponseEntity.ok(CommonResponseDto.success(200, "scrap cancel success", null));
+    }
+
+
 }

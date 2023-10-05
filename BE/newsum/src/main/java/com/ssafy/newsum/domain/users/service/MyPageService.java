@@ -28,6 +28,14 @@ import com.ssafy.newsum.domain.users.dto.response.Keywords;
 import com.ssafy.newsum.domain.users.dto.response.TechResponseDto;
 import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +45,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class MyPageService {
 
-	private final UserRepository userRepository;
+
+    private final UserRepository userRepository;
 	private final PreferredTechStackRepository preferredTechStackRepository;
 	private final TechStackRepository techStackRepository;
 	private final NewsRepository newsRepository;
@@ -46,7 +55,8 @@ public class MyPageService {
 	private final CategoryRepository categoryRepository;
 	private final JobRepository jobRepository;
 
-	// 기술스택 수정
+
+   // 기술스택 수정
 	@Transactional
 	public List<TechResponseDto> updateTech(Integer userId, List<Integer> techList) {
 
@@ -91,76 +101,136 @@ public class MyPageService {
 	}
 
 	// 최근 본 뉴스 가져오기
-	@Transactional
-	public List<NewsResponseDto> selectByMyNews(Integer userId) {
+    @Transactional
+    public List<NewsResponseDto> selectByMyNews(Integer userId, Pageable pageable) {
 
-		// 해당 user가 읽은목록에서 뉴스id 값 가져와서 뉴스 테이블에서 조회해서 가져옴
-		List<News> newsList = newsRepository.selectAllMyReadNews(userId);
-		List<NewsResponseDto> resultList = new ArrayList<>();
+        // 해당 user가 읽은목록에서 뉴스id 값 가져와서 뉴스 테이블에서 조회해서 가져옴
+        Page<News> newsList = newsRepository.selectAllMyReadNews(userId, pageable);
 
-		// newsresponsedto 만드는 메소드 재활용
-		List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList, resultList, userId);
+        int currentPage = newsList.getNumber();
+        int totalPages = newsList.getTotalPages();
 
-		return result;
-	}
+        if (totalPages >= currentPage) {
+            Page<News> lastPage = newsRepository.selectAllMyReadNews(userId, PageRequest.of(totalPages - 1, pageable.getPageSize()));
+            newsList = lastPage;
+        }
+
+        List<NewsResponseDto> resultList = new ArrayList<>();
+
+        // newsresponsedto 만드는 메소드 재활용
+        List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList.getContent(), resultList, userId, totalPages);
+
+        return result;
+    }
 
 	// 스크랩 뉴스 카테고리별 조회
-	@Transactional
-	public List<NewsResponseDto> selectMyScrapByCategoryId(Integer userId, Integer categoryId) {
+    @Transactional
+    public List<NewsResponseDto> selectMyScrapByCategoryId(Integer userId, Integer categoryId, Pageable pageable) {
 
-		List<News> newsList = new ArrayList<>();
+        Page<News> newsList;
 
-		// 전체 뉴스기사
-		if (categoryId == 0) {
-			newsList = newsRepository.selectAllMyScrapNews(userId);
-		} else {
-			// 카테고리별 뉴스기사
-			newsList = newsRepository.selectMyScrapNewsByCategory(userId, categoryId);
-		}
+        // 전체 뉴스기사
+        if (categoryId == 0) {
+            newsList = newsRepository.selectAllMyScrapNews(userId, pageable);
+        } else {
+            // 카테고리별 뉴스기사
+            newsList = newsRepository.selectMyScrapNewsByCategory(userId, categoryId, pageable);
+        }
 
-		List<NewsResponseDto> resultList = new ArrayList<>();
+        int currentPage = newsList.getNumber();
+        int totalPages = newsList.getTotalPages();
 
-		List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList, resultList, userId);
+        if (currentPage >= totalPages) {
+            Page<News> lastPage;
+            // 전체 뉴스기사
+            if (categoryId == 0) {
+                lastPage = newsRepository.selectAllMyScrapNews(userId, pageable);
+            } else {
+                // 카테고리별 뉴스기사
+                lastPage = newsRepository.selectMyScrapNewsByCategory(userId, categoryId, pageable);
+            }
+            newsList = lastPage;
+        }
 
-		return result;
-	}
+        List<NewsResponseDto> resultList = new ArrayList<>();
+
+        List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList.getContent(), resultList, userId, totalPages);
+
+        return result;
+    }
 
 	// 스크랩 뉴스 인기도순 최신순 정렬
-	@Transactional
-	public List<NewsResponseDto> selectScrapNewsSortByOption(Integer userId, Integer categoryId, Integer optionId) {
+    @Transactional
+    public List<NewsResponseDto> selectScrapNewsSortByOption(Integer userId, Integer categoryId, Integer optionId, Pageable pageable) {
 
-		List<NewsResponseDto> resultList = new ArrayList<>();
-		List<News> newsList = new ArrayList<>();
+        List<NewsResponseDto> resultList = new ArrayList<>();
+        Page<News> newsList;
 
-		// 전체분야
-		if (categoryId == 0) {
+        // 전체분야
+        if (categoryId == 0) {
 
-			// 인기도 순
-			if (optionId == 1) {
-				newsList = newsRepository.selectAllScrapPopular(userId);
-			}
-			// 최신 순
-			else {
-				newsList = newsRepository.selectAllMyScrapNews(userId);
-			}
-		}
-		// 해당 분야별
-		else {
+            // 인기도 순
+            if (optionId == 1) {
+                newsList = newsRepository.selectAllScrapPopular(userId, pageable);
+            }
+            // 최신 순
+            else {
+                newsList = newsRepository.selectAllMyScrapNews(userId, pageable);
+            }
+        }
+        // 해당 분야별
+        else {
 
-			// 인기도순
-			if (optionId == 1) {
-				newsList = newsRepository.selectScrapCategoryByOption(userId, categoryId);
-			}
-			// 최신순
-			else {
-				newsList = newsRepository.selectMyScrapNewsByCategory(userId, categoryId);
-			}
-		}
+            // 인기도순
+            if (optionId == 1) {
+                newsList = newsRepository.selectScrapCategoryByOption(userId, categoryId, pageable);
+            }
+            // 최신순
+            else {
+                newsList = newsRepository.selectMyScrapNewsByCategory(userId, categoryId, pageable);
+            }
+        }
 
-		List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList, resultList, userId);
+        int currentPage = newsList.getNumber();
+        int totalPages = newsList.getTotalPages();
 
-		return result;
-	}
+        if (currentPage >= totalPages) {
+
+            Page<News> lastPage;
+
+            // 전체분야
+            if (categoryId == 0) {
+
+                // 인기도 순
+                if (optionId == 1) {
+                    lastPage = newsRepository.selectAllScrapPopular(userId, pageable);
+                }
+                // 최신 순
+                else {
+                    lastPage = newsRepository.selectAllMyScrapNews(userId, pageable);
+                }
+            }
+            // 해당 분야별
+            else {
+
+                // 인기도순
+                if (optionId == 1) {
+                    lastPage = newsRepository.selectScrapCategoryByOption(userId, categoryId, pageable);
+                }
+                // 최신순
+                else {
+                    lastPage = newsRepository.selectMyScrapNewsByCategory(userId, categoryId, pageable);
+                }
+            }
+
+            newsList = lastPage;
+        }
+
+
+        List<NewsResponseDto> result = newsService.makeNewsResponseDto(newsList.getContent(), resultList, userId, totalPages);
+
+        return result;
+    }
 
 	// 키워드 분석 결과 조회
 	public List<Keywords> getKeywords(Integer userId) {
@@ -304,4 +374,7 @@ public class MyPageService {
 
 		return jobCntDtos;
 	}
+
+
+	
 }

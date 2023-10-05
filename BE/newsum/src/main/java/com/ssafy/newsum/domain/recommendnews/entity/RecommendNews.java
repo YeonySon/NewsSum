@@ -30,5 +30,8 @@ public class RecommendNews {
     @Column(name = "is_read")
     private Integer isRead;
 
+    @Column(name = "created_at", insertable = false)
+    private String createdTime;
+
 
 }

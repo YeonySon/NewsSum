@@ -26,6 +26,7 @@ public class NewsResponseDto {
     private Integer scrapCnt;
     private String isScrap;
     private String isLike;
+    private Integer totalPages;
 
 
 }
