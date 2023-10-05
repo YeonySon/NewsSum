@@ -25,20 +25,22 @@ ChartJS.register(
   Legend
 );
 
-function RadarChart({isActive}) {
-  const dummyData = [
-    {"cgName": "보안", "cnt": 10},
-    {"cgName": "모바일", "cnt": 5},
-    {"cgName": "게임", "cnt": 2},
-    {"cgName": "컴퓨터", "cnt": 4},
-    {"cgName": "AI", "cnt": 7}
-  ]
+interface RadarChartProps {
+  responseData: never[];
+  isActive: boolean;
+}
 
-  const keysList = dummyData.map(item => item.cgName);
-  const valuesList = dummyData.map(item => item.cnt); 
-  
-  const sortedData = dummyData.slice().sort((a, b) => b.cnt - a.cnt);
-  const sortedKeysList = sortedData.map(item => item.cgName).slice(0, 3);
+function RadarChart({ responseData, isActive }: RadarChartProps) {
+
+  const sortedData = responseData.slice().sort((a, b) => b.cnt - a.cnt);
+
+  const tableList = sortedData.map((item: {name: string}) => item.name).slice(0, 3);
+  const idList = sortedData.map((item: {id: number}) => item.id).slice(0, 5)
+
+  const newData = responseData.filter((item: {id: number}) => idList.includes(item.id))
+  const keysList = newData.map((item: {name: string}) => item.name);
+  const valuesList = newData.map((item: {cnt: number}) => item.cnt); 
+
 
   const GraphData = {
     labels: keysList,
@@ -63,7 +65,7 @@ function RadarChart({isActive}) {
       </GraphBox>
 
       <TableBox>
-        <Table title='Top 3'  data={ sortedKeysList } />
+        <Table title='Top 3'  data={ tableList } />
       </TableBox>
     </GraphPage>
   )

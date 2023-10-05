@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+// 라이브러리
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BaseInstance } from '../../hook/AxiosInstance';
+import cookie from 'react-cookies';
 
+// recoil import
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { SignUpAtom } from '../../recoil/atoms/SignUpAtom';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
 
+// axios instance
+import { BaseInstance } from '../../hook/AxiosInstance';
+
+// 페이지 입장 권한 확인
 import { CheckCookie } from '../../hook/token';
 
 import { 
@@ -37,23 +42,6 @@ function KeywordComponent({ pageType }) {
   const [formData, setFormData] = useRecoilState(SignUpAtom);
   const userId = useRecoilValue(MyInfoAtom);
   const buttonName = ['다음', '저장'];
-  
-  useEffect(() => {
-    // 로그인 여부 확인
-    if (pageType === 1) {
-      CheckCookie();
-    }
-
-    // 서버에 데이터 요청
-    const responseData = async () => {
-      await BaseInstance.get('/api/user/techstack')
-        .then((response) => {
-          setItems(response.data.data.map((item: {tsName: string}) => item.tsName))
-        })
-        .catch((error) => [] as string[])
-    }
-    responseData()
-  }, [])
 
   const [items, setItems] = useState<string[]>([])
   const [checkedList, setCheckedList] = useState<number[]>(() => {
@@ -94,7 +82,7 @@ function KeywordComponent({ pageType }) {
 
   const finalCheck = async () => {
     if (checkedList.length === 0) {
-      alert('하나 이상의 직무를 선택해주세요')
+      alert('하나 이상의 기술스택을 선택해주세요')
       return;
     }
 
@@ -109,16 +97,37 @@ function KeywordComponent({ pageType }) {
     
     if (pageType === 1) {
       const requestBodyJSON = JSON.stringify(newData);
-      await BaseInstance.patch(`/api/mypage/tech/${userId}`, requestBodyJSON)
+      // 쿠키 불러오기
+      const headers = {
+        'Authorization': `Bearer ${cookie.load('accessToken')}`
+      }
+      await BaseInstance.patch(`/api/mypage/tech/${userId}`, requestBodyJSON, { headers: headers })
       .then((resposne) => {
-        console.log('이거나오나요')
         console.log(resposne)
+        alert('변경사항이 저장되었습니다.')
       })
       .catch((error) => {
         console.log(error)
       })
     }
   }
+
+  useEffect(() => {
+    // 로그인 여부 확인
+    if (pageType === 1) {
+      CheckCookie();
+    }
+
+    // 서버에 데이터 요청
+    const responseData = async () => {
+      await BaseInstance.get('/api/user/techstack')
+        .then((response) => {
+          setItems(response.data.data.map((item: {tsName: string}) => item.tsName))
+        })
+        .catch((error) => [] as string[])
+    }
+    responseData()
+  }, [])
 
 
   return (

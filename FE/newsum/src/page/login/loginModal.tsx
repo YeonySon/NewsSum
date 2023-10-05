@@ -1,13 +1,14 @@
+// 라이브러리
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-
-// cookies
 import cookie from "react-cookies";
 
-// recoil
-import { useRecoilValue, useSetRecoilState } from "recoil";
+// recoil import
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
+import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
 
+// axios instance
 import { BaseInstance } from "../../hook/AxiosInstance";
 
 import {
@@ -23,25 +24,23 @@ import {
   WordTag3,
 } from "../../components/login/login";
 
-import { useRecoilState } from "recoil";
-import { LoginModalIsOpenAtom } from "../../recoil/atoms/LoginModalAtom";
 
 function LoginModal() {
   const navigate = useNavigate();
-  const [loginModalOpen, setLoginModalOpen] =
-    useRecoilState(LoginModalIsOpenAtom);
+  const [loginModalOpen, setLoginModalOpen] = useRecoilState(LoginModalIsOpenAtom);
   const setMyinfo = useSetRecoilState(MyInfoAtom);
   const MyInfo = useRecoilValue(MyInfoAtom);
 
+  const [email, setEmail] = useState("");
+  const [emailIsValid, setEmailIsValid] = useState(true);
+  
+  const [password, setPassword] = useState("");
+  const [passwordIsValid, setPasswordIsValid] = useState(true);
+
+  // 로그인 모달 닫기  
   const closeLoginModal = () => {
     setLoginModalOpen(false);
   };
-
-  const [email, setEmail] = useState("");
-  const [emailIsValid, setEmailIsValid] = useState(true);
-
-  const [password, setPassword] = useState("");
-  const [passwordIsValid, setPasswordIsValid] = useState(true);
 
   // 로그인 버튼 클릭
   const finalCheck = async () => {
@@ -62,13 +61,9 @@ function LoginModal() {
     };
 
     const requestBodyJSON = JSON.stringify(requestBody);
-    const headers = {
-      "Content-Type": "application/json",
-    };
 
-    await BaseInstance.post("/api/user/login", requestBodyJSON, { headers })
+    await BaseInstance.post("/api/user/login", requestBodyJSON)
       .then((response) => {
-        console.log(response.data);
         if (response.data.statusCode === 200) {
           // userId recoil에 저장
           setMyinfo(response.data.data.usrId);
@@ -79,8 +74,8 @@ function LoginModal() {
             path: "/",
             expires,
           });
+
           // 로그인에 성공한 경우, 모달창 닫기
-          // alert("로그인 성공");
           closeLoginModal();
         } else if (response.data.statusCode === 400) {
           if (response.data.message === "does not exist email") {
@@ -93,10 +88,6 @@ function LoginModal() {
       .catch((error) => {
         console.log(error);
       });
-
-    // setTimeout(function(){
-    //   alert(cookie.load('accessToken'))
-    // },1000);
   };
 
   // 이메일 유효성 검사
