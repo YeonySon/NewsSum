@@ -1,26 +1,31 @@
-import { useEffect, useState } from 'react';
-import styled from 'styled-components';
+import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 // cookies
-import cookie from 'react-cookies';
+import cookie from "react-cookies";
 
 // recoil
-import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
-import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import {
+  useRecoilState,
+  useRecoilValue,
+  useResetRecoilState,
+  useSetRecoilState,
+} from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
 
 // //axios
-import { BaseInstance } from '../../hook/AxiosInstance';
+import { BaseInstance } from "../../hook/AxiosInstance";
 
 //nav
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import Tabbar from '../../components/util/Tabbar';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import Tabbar from "../../components/util/Tabbar";
 
 //Short compoent import
-import ShortComponent from '../../components/short/ShortComponent';
+import ShortComponent from "../../components/short/ShortComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -82,7 +87,7 @@ function News() {
     }
   }
 
-  window.addEventListener('wheel', (event) => {
+  window.addEventListener("wheel", (event) => {
     if (event.deltaY > 0) {
       scrollToNextPage();
     } else {
@@ -94,17 +99,24 @@ function News() {
   async function getShortList() {
     // const requestBodyJSON = JSON.stringify(requestBody);
 
-    const token = cookie.load('accessToken');
+    const token = cookie.load("accessToken");
     // if (token == undefined) {
     //   setMyinfo(0);
     //   return;
     // }
 
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    };
-    console.log('myinfo : ');
+    let headers;
+    if (MyInfo !== 0) {
+      const token = cookie.load("accessToken");
+      headers = {
+        Authorization: "Bearer " + token,
+      };
+    } else {
+      headers = {
+        "Content-Type": "application/json",
+      };
+    }
+    console.log("myinfo : ");
     console.log(MyInfo);
 
     let url;
@@ -119,7 +131,7 @@ function News() {
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log('200');
+          console.log("200");
           console.log(response.data);
           setNewsInfo(response.data.data);
 
@@ -127,7 +139,7 @@ function News() {
             details(response.data.data[0].id);
           }
         } else if (response.data.statusCode === 400) {
-          console.log('400');
+          console.log("400");
           console.log(response.data);
         }
         return response.data;
@@ -140,26 +152,26 @@ function News() {
 
   // 로그인 버튼 클릭
   const details = async (id) => {
-    const type = MyInfo == 0 ? 'f' : 't';
+    const type = MyInfo == 0 ? "f" : "t";
     const requestBodyJSON = JSON.stringify({
       userId: MyInfo,
       newsId: id,
       isRecom: type,
     });
 
-    const token = cookie.load('accessToken');
+    const token = cookie.load("accessToken");
 
     const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
     };
     await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
-          console.log('200');
+          console.log("200");
         } else if (response.data.statusCode === 400) {
-          console.log('400');
+          console.log("400");
         }
         return response.data;
       })
@@ -170,7 +182,7 @@ function News() {
   };
   //page 갱신
   useEffect(() => {
-    if (newsInfo.length != 0) {
+    if (newsInfo.length != 0 && MyInfo != 0) {
       details(newsInfo[pages].id);
     }
   }, [pages]);
@@ -179,20 +191,24 @@ function News() {
 
   //page 갱신
   useEffect(() => {
-    console.log('MyInfo');
+    console.log("MyInfo");
     console.log(MyInfo);
     getShortList();
   }, [MyInfo]);
   return (
     <div>
       <Header />
-      <Navbar nav={'short'} />
+      <Navbar nav={"short"} />
       <Content>
         {/* <hr /> */}
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {/* {MyInfo} */}
-          {newsInfo.length != 0 ? <ShortComponent shortInfo={newsInfo[pages]} /> : <div>비었습니다</div>}
+          {newsInfo.length != 0 ? (
+            <ShortComponent shortInfo={newsInfo[pages]} />
+          ) : (
+            <div>비었습니다</div>
+          )}
         </div>
       </Content>
     </div>
