@@ -17,6 +17,7 @@ import Navbar from '../../components/util/Navbar';
 import Tabbar, { Active, ActiveDark, ActiveLightDark, Deactive } from '../../components/util/Tabbar';
 import Dropdown from '../../components/mypage/Dropdown';
 import CardSlot from '../../components/news/CardSlot';
+import EmptyComponent from '../../components/mypage/EmptyComponent';
 
 export const Content = styled.div`
   border-left: 0;
@@ -245,6 +246,7 @@ function MyNews() {
             <CardSlot newsInfo={news} isRecom={'f'} />
           ))}
         </div>
+        {newsInfo.length === 0 && <EmptyComponent type={2}/>}
       </Content>
     </div>
   );

@@ -101,6 +101,7 @@ export const LoginButton = styled.button`
   text-decoration: none;
   font-size: 14px;
   color: #fff;
+  cursor: pointer;
   transition: all 0.3s;
   &:hover {
     transform: scale(1.02);

@@ -58,6 +58,7 @@ export const LogoTag = styled.div`
   width: 350px;
   margin: 50px 0px 0px;
   text-align: center;
+  cursor: pointer;
 
   p {
     margin: 0;
