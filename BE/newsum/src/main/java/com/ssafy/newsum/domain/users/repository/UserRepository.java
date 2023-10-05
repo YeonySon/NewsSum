@@ -1,5 +1,6 @@
 package com.ssafy.newsum.domain.users.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -39,4 +40,10 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 	@Modifying(clearAutomatically = true)
 	@Query("update User u set u.password = :password where u.email = :userEmail")
 	void updatePassword(@Param("userEmail") String userEmail, @Param("password") String newPassword);
+
+	// newsId에 해당하는 유저 조회
+	@Query("select u from User u, ReadNews rn where rn.contentId=:newsId "
+		+ "and rn.user.userId=u.userId "
+		+ "and u.userId not in :userId")
+	List<User> selectUserByNews(@Param("newsId") Integer newsId, @Param("userId") Integer userId);
 }

@@ -237,6 +237,7 @@ public class UserController {
 
 		User user = userOp.get();
 
+		//회원 탈퇴한 유저의 경우 로그인 불가
 		if (user.getState().equals("정지")) {
 			return ResponseEntity.ok(CommonResponseDto.error(400, "withdrawl user"));
 		}

@@ -270,8 +270,8 @@ public class MyPageService {
 		Map<Integer, Integer> userMap = new HashMap<>();
 
 		for (News news : readNews) {
-			//유저조회 -> map
-			List<User> userList = jobRepository.selectUserByNews(news.getNewsId(), userId);
+			//유저조회
+			List<User> userList = userRepository.selectUserByNews(news.getNewsId(), userId);
 			int ulSize = userList.size();
 
 			//리스트에 유저 값 저장
@@ -280,15 +280,6 @@ public class MyPageService {
 				if (userMap.get(user.getUserId()) == null)
 					userMap.put(user.getUserId(), user.getJob().getJobId());
 			}
-
-			// List<Job> userJobs = jobRepository.selectUserJobByNews(news.getNewsId(), userId);
-			// int ujSize = userJobs.size();
-			// log.info("userSize : {}", ujSize);
-			//
-			// //3. 직업군 count
-			// for (int i = 0; i < ujSize; i++) {
-			// 	jobCntArray[(userJobs.get(i).getJobId()) - 1] += 1;
-			// }
 		}
 
 		int mapSize = userMap.size();
@@ -298,7 +289,7 @@ public class MyPageService {
 			jobCntArray[userMap.get(usId) - 1] += 1;
 		}
 
-		//4. count한 리스트 출력
+		//4. count한 리스트 dto로 출력
 		List<JobCntDto> jobCntDtos = new ArrayList<>();
 		for (int i = 0; i < jobSize; i++) {
 			Job job = jobList.get(i);
