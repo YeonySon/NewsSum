@@ -6,6 +6,7 @@ import cookie from 'react-cookies';
 // recoil
 import { useRecoilState, useRecoilValue, useResetRecoilState, useSetRecoilState } from 'recoil';
 import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { LoginModalIsOpenAtom } from '../../recoil/atoms/LoginModalAtom';
 
 //axios
 import { BaseInstance } from '../../hook/AxiosInstance';
@@ -123,6 +124,8 @@ export const Content = styled.div`
 `;
 
 function News() {
+  const setLoginModalOpen = useSetRecoilState(LoginModalIsOpenAtom)
+
   const [newsInfo, setNewsInfo] = useState([]);
 
   const MyInfo = useRecoilValue(MyInfoAtom);
@@ -143,7 +146,7 @@ function News() {
     ['최신', 2],
     ['인기', 1],
   ];
-  const [sort, setSort] = useState(tab[0][1]);
+  const [sort, setSort] = useState(tab[1][1]);
   const [sortAli, setSortAli] = useState(ali[0][1]);
 
   function clickedTab(info) {
@@ -202,6 +205,8 @@ function News() {
     if (sort == -1 && Search == '') {
       if (MyInfo == 0) {
         setSort(0);
+        alert('로그인이 필요한 서비스입니다.')
+        setLoginModalOpen(true);
       } else {
         getNews(`/api/news/recommend/${MyInfo}`);
       }
