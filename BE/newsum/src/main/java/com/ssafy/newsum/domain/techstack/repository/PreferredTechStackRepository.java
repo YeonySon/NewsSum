@@ -13,6 +13,6 @@ public interface PreferredTechStackRepository extends JpaRepository<PreferredTec
 	@Query("select p from PreferredTechStack p where p.user.userId =:userId")
 	List<PreferredTechStack> findByUserId(@Param("userId") Integer userId);
 
-	@Query("select ts from TechStack ts, PreferredTechStack p where p.user.userId =:userId")
+	@Query("select ts from TechStack ts, PreferredTechStack p where p.user.userId =:userId and ts.tsId=p.techStack.tsId")
 	List<TechStack> findTechStackByUser(@Param("userId") Integer userId);
 }
