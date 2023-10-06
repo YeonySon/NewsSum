@@ -356,13 +356,20 @@ public class NewsService {
 
         User user = userRepository.findUserByUserId(userId);
 
-        Dibs dibs = Dibs.builder()
-                .type('n')
-                .contentId(newsId)
-                .user(user)
-                .build();
+        Optional<News> news = newsRepository.findById(newsId);
 
-        dibsRepository.save(dibs);
+        if (news.isPresent()) {
+            news.get().updateLikeCnt();
+            Dibs dibs = Dibs.builder()
+                    .type('n')
+                    .contentId(newsId)
+                    .user(user)
+                    .build();
+
+            dibsRepository.save(dibs);
+        }
+        newsRepository.save(news.get());
+
     }
 
     // 뉴스기사 좋아요 취소
@@ -370,6 +377,16 @@ public class NewsService {
     public void likeNewsCancel(Integer newsId, Integer userId) {
 
         Optional<Dibs> dibs = dibsRepository.selectDibs(newsId, userId);
+
+        Optional<News> news = newsRepository.findById(newsId);
+        if (news.isPresent()) {
+
+            news.get().minusLike();
+
+            newsRepository.save(news.get());
+
+        }
+
 
         dibsRepository.delete(dibs.get());
 
@@ -381,13 +398,21 @@ public class NewsService {
 
         User user = userRepository.findUserByUserId(userId);
 
-        Scrap scrap = Scrap.builder()
-                .type('n')
-                .contentId(newsId)
-                .user(user)
-                .build();
+        Optional<News> news = newsRepository.findById(newsId);
+        if (news.isPresent()) {
 
-        scrapRepository.save(scrap);
+            news.get().updateScrapCnt();
+
+            Scrap scrap = Scrap.builder()
+                    .type('n')
+                    .contentId(newsId)
+                    .user(user)
+                    .build();
+
+            scrapRepository.save(scrap);
+        }
+        newsRepository.save(news.get());
+
     }
 
     // 뉴스 스크랩 취소
@@ -395,6 +420,15 @@ public class NewsService {
     public void scrapNewsCancel(Integer newsId, Integer userId) {
 
         Optional<Scrap> scrap = scrapRepository.selectScrap(newsId, userId);
+
+        Optional<News> news = newsRepository.findById(newsId);
+        if (news.isPresent()) {
+
+            news.get().minusScrap();
+
+            newsRepository.save(news.get());
+
+        }
 
         scrapRepository.delete(scrap.get());
     }
