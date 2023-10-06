@@ -360,20 +360,19 @@ public class NewsService {
         User user = userRepository.findUserByUserId(userId);
 
         Optional<News> news = newsRepository.findById(newsId);
+
         if (news.isPresent()) {
             news.get().updateLikeCnt();
+            Dibs dibs = Dibs.builder()
+                    .type('n')
+                    .contentId(newsId)
+                    .user(user)
+                    .build();
 
-            newsRepository.save(news.get());
-
+            dibsRepository.save(dibs);
         }
+        newsRepository.save(news.get());
 
-        Dibs dibs = Dibs.builder()
-                .type('n')
-                .contentId(newsId)
-                .user(user)
-                .build();
-
-        dibsRepository.save(dibs);
     }
 
     // 뉴스기사 좋아요 취소
@@ -407,17 +406,16 @@ public class NewsService {
 
             news.get().updateScrapCnt();
 
-            newsRepository.save(news.get());
+            Scrap scrap = Scrap.builder()
+                    .type('n')
+                    .contentId(newsId)
+                    .user(user)
+                    .build();
 
+            scrapRepository.save(scrap);
         }
+        newsRepository.save(news.get());
 
-        Scrap scrap = Scrap.builder()
-                .type('n')
-                .contentId(newsId)
-                .user(user)
-                .build();
-
-        scrapRepository.save(scrap);
     }
 
     // 뉴스 스크랩 취소
