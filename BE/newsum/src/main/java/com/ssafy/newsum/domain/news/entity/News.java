@@ -55,12 +55,20 @@ public class News {
     @Column(name = "nouns")
     private String nouns;
 
-    public void updateLikeCnt(Integer likeCount) {
-        this.totalLike = likeCount;
+    public void updateLikeCnt() {
+        this.totalLike += 1;
     }
 
-    public void updateScrapCnt(Integer scrapCount) {
-        this.totalScrap = scrapCount;
+    public void minusLike() {
+        this.totalLike -= 1;
+    }
+
+    public void updateScrapCnt() {
+        this.totalScrap += 1;
+    }
+
+    public void minusScrap() {
+        this.totalScrap -= 1;
     }
 
 }

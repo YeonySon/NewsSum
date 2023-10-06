@@ -19,7 +19,6 @@ import com.ssafy.newsum.domain.users.entity.User;
 import com.ssafy.newsum.domain.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -362,10 +361,7 @@ public class NewsService {
 
         Optional<News> news = newsRepository.findById(newsId);
         if (news.isPresent()) {
-            Integer totalLike = news.get().getTotalLike();
-            totalLike += 1;
-
-            news.get().updateLikeCnt(totalLike);
+            news.get().updateLikeCnt();
 
             newsRepository.save(news.get());
 
@@ -388,10 +384,8 @@ public class NewsService {
 
         Optional<News> news = newsRepository.findById(newsId);
         if (news.isPresent()) {
-            Integer totalLike = news.get().getTotalLike();
-            totalLike -= 1;
 
-            news.get().updateLikeCnt(totalLike);
+            news.get().minusLike();
 
             newsRepository.save(news.get());
 
@@ -410,10 +404,8 @@ public class NewsService {
 
         Optional<News> news = newsRepository.findById(newsId);
         if (news.isPresent()) {
-            Integer totalScrap = news.get().getTotalScrap();
-            totalScrap += 1;
 
-            news.get().updateScrapCnt(totalScrap);
+            news.get().updateScrapCnt();
 
             newsRepository.save(news.get());
 
@@ -436,10 +428,8 @@ public class NewsService {
 
         Optional<News> news = newsRepository.findById(newsId);
         if (news.isPresent()) {
-            Integer totalScrap = news.get().getTotalScrap();
-            totalScrap -= 1;
 
-            news.get().updateScrapCnt(totalScrap);
+            news.get().minusScrap();
 
             newsRepository.save(news.get());
 
