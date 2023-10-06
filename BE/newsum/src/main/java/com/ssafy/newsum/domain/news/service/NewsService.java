@@ -356,6 +356,17 @@ public class NewsService {
 
         User user = userRepository.findUserByUserId(userId);
 
+        Optional<News> news = newsRepository.findById(newsId);
+        if (news.isPresent()) {
+            Integer totalLike = news.get().getTotalLike();
+            totalLike += 1;
+
+            news.get().updateLikeCnt(totalLike);
+
+            newsRepository.save(news.get());
+
+        }
+
         Dibs dibs = Dibs.builder()
                 .type('n')
                 .contentId(newsId)
@@ -371,6 +382,18 @@ public class NewsService {
 
         Optional<Dibs> dibs = dibsRepository.selectDibs(newsId, userId);
 
+        Optional<News> news = newsRepository.findById(newsId);
+        if (news.isPresent()) {
+            Integer totalLike = news.get().getTotalLike();
+            totalLike -= 1;
+
+            news.get().updateLikeCnt(totalLike);
+
+            newsRepository.save(news.get());
+
+        }
+
+
         dibsRepository.delete(dibs.get());
 
     }
@@ -380,6 +403,17 @@ public class NewsService {
     public void scrapNews(Integer newsId, Integer userId) {
 
         User user = userRepository.findUserByUserId(userId);
+
+        Optional<News> news = newsRepository.findById(newsId);
+        if (news.isPresent()) {
+            Integer totalScrap = news.get().getTotalScrap();
+            totalScrap += 1;
+
+            news.get().updateScrapCnt(totalScrap);
+
+            newsRepository.save(news.get());
+
+        }
 
         Scrap scrap = Scrap.builder()
                 .type('n')
@@ -395,6 +429,17 @@ public class NewsService {
     public void scrapNewsCancel(Integer newsId, Integer userId) {
 
         Optional<Scrap> scrap = scrapRepository.selectScrap(newsId, userId);
+
+        Optional<News> news = newsRepository.findById(newsId);
+        if (news.isPresent()) {
+            Integer totalScrap = news.get().getTotalScrap();
+            totalScrap -= 1;
+
+            news.get().updateScrapCnt(totalScrap);
+
+            newsRepository.save(news.get());
+
+        }
 
         scrapRepository.delete(scrap.get());
     }

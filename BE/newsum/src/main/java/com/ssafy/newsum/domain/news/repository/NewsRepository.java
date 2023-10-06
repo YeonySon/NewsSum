@@ -105,4 +105,5 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
             + "order by c.categoryId")
     List<String[]> selectCategoryByScrap(@Param("userId") Integer userId);
 
+
 }
