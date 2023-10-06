@@ -18,6 +18,10 @@ public interface NewsRepository extends JpaRepository<News, Integer> {
     @Query("update News n set n.viewCnt=n.viewCnt+1 where n.newsId =:newsId")
     void updateViewCnt(@Param("newsId") Integer newsId);
 
+    @Modifying(clearAutomatically = true) // 쿼리 실행 이후 영속성 컨텍스트를 초기화시켜준다.
+    @Query("update News n set n.totalScrap=n.totalScrap+1 where n.newsId =:newsId")
+    void updateScrapCnt(@Param("newsId") Integer newsId);
+
     // 뉴스 추천 리스트 조회
     @Query("select b, m, c from RecommendNews a, News b, Media m, Category c where " +
             "a.newsId = b.newsId " +

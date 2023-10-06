@@ -145,7 +145,7 @@ public class NewsController {
 		User authUser = userService.getUserByEmail(authentication.getName()).get();
 
 		if (authUser.getUserId() != userId) {
-			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "scrap success"));
+			return ResponseEntity.badRequest().body(CommonResponseDto.error(400, "scrap fail"));
 		}
 
 		newsService.scrapNews(newsId, userId);
