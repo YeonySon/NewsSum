@@ -287,6 +287,9 @@ public class MyPageService {
         List<Category> categoryList = categoryRepository.findAll();
 
         // 1. 목록에 없는 카테고리 조회(앞)
+        if(categoryInfoList.size()==0){
+            return null;
+        }
         int start = Integer.parseInt(categoryInfoList.get(0)[0]);
         int finish = Integer.parseInt(categoryInfoList.get(categoryInfoList.size() - 1)[0]) + 1;
         int categoryLen = categoryList.size();
