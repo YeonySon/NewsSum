@@ -10,6 +10,8 @@ import com.ssafy.newsum.domain.users.service.MyPageService;
 import com.ssafy.newsum.domain.users.service.UserService;
 import com.ssafy.newsum.global.common.CommonResponseDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
+@Slf4j
 public class MyPageController {
 
     private final MyPageService myPageService;
@@ -38,11 +41,13 @@ public class MyPageController {
         }
 
         User user = userService.getUserById(userId);
+        log.info("userId : {}", userId);
         List<TechStack> techStackList = userService.getTechStackByUser(userId);
         List<Headline> headlineList = userService.getHeadlineByUser(user);
         List<TechResponseDto> techStackResponseDtoList = new ArrayList<>();
         List<HeadlineResponseDto> headlineResponseDtoList = new ArrayList<>();
 
+        log.info("techStackList : {}", techStackList);
         for (TechStack techStack : techStackList) {
             TechResponseDto techStackResponseDto = TechResponseDto.builder()
                     .id(techStack.getTsId())

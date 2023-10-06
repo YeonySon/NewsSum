@@ -41,7 +41,7 @@ interface ResponseDataType {
 function VerticalChart({ responseData, isActive }: VerticalChartProps) {
   const readData: ResponseDataType[] = responseData.read;
   const scrapData: ResponseDataType[] = responseData.scrap;
-
+  console.log(responseData)
 
   // 서버에서 응답받은 데이터를 사용하여 label 리스트 생성
   const labels = readData.map((item: {name: string}) => item.name);
@@ -53,9 +53,6 @@ function VerticalChart({ responseData, isActive }: VerticalChartProps) {
   const sortedData = newData.slice().sort((a, b) => b.cnt - a.cnt);
   const tableData = sortedData.map((item: {name: string}) => item.name).slice(0, 3)
 
-
-  console.log(newData)
-  console.log(sortedData)
   // 서버에서 응답받은 데이터를 사용하여 리스트 생성 (리스트의 인덱스는 각 분야에 해당, 요소는 갯수)
   const data = {
     labels,

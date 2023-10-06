@@ -61,7 +61,7 @@ const Items = styled.div`
   z-index: 10;
 `;
 
-function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
+function CardModal({ newsInfo, ScrapUpDown, LikeUpDown, setCardModal }) {
   //카드 뉴스 정보 확인
   //갱신용
   const [rander, setRander] = useState(true);
@@ -76,9 +76,11 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
     if (newsInfo.isScrap == 't') {
       newsInfo.isScrap = 'f';
       deleteAxios('/news/scrap');
+      ScrapUpDown(-1);
     } else {
       newsInfo.isScrap = 't';
       getAxios('/news/scrap');
+      ScrapUpDown(1);
     }
     setRander(!rander);
   }
@@ -91,9 +93,11 @@ function CardModal({ newsInfo, setScrap, setLike, setCardModal }) {
     if (newsInfo.isLike == 't') {
       newsInfo.isLike = 'f';
       deleteAxios('/news/dibs');
+      LikeUpDown(-1);
     } else {
       newsInfo.isLike = 't';
       getAxios('/news/dibs');
+      LikeUpDown(1);
     }
     setRander(!rander);
   }

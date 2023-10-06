@@ -53,6 +53,27 @@ export const ActiveDark = styled.div`
   cursor: pointer;
 `;
 
+export const ActiveLightDark = styled.div`
+  color: #ffffff;
+  background-color: #7487ae;
+  border: 1px solid #9aa3aa;
+  border-radius: 8px;
+
+  font-family: 'Roboto', 'Arial', sans-serif;
+  font-size: 0.9rem;
+  line-height: 2rem;
+  font-weight: 500;
+
+  text-align: center;
+  //font-size: 23px;
+  height: 30px;
+  min-width: 12px;
+  display: inline-block;
+  padding: 0 12px;
+  margin: 3px 6px;
+  cursor: pointer;
+`;
+
 export const Deactive = styled.div`
   color: #353845;
   background-color: #ffffff;

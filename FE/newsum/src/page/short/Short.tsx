@@ -21,6 +21,7 @@ import Tabbar from '../../components/util/Tabbar';
 
 //Short compoent import
 import ShortComponent from '../../components/short/ShortComponent';
+import EmptyComponent from '../../components/mypage/EmptyComponent';
 
 export const Content = styled.div`
   border-left: 0;
@@ -41,12 +42,17 @@ export const Content = styled.div`
 
     /* width: 300; */
   }
-
+  .empty {
+    position: absolute;
+    top: 180px;
+    left: 50%;
+    transform: translate(-50%, 0);
+  }
   //700px 보다 클 때
   @media (min-width: 700px) {
     position: absolute;
     left: 17%;
-    top : 61px
+    top: 10px;
     height: calc(100% - 60px);
     width: 80%;
     max-width: 1600px;
@@ -100,17 +106,24 @@ function News() {
     //   return;
     // }
 
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    };
+    let headers;
+    if (MyInfo !== 0) {
+      const token = cookie.load('accessToken');
+      headers = {
+        Authorization: 'Bearer ' + token,
+      };
+    } else {
+      headers = {
+        'Content-Type': 'application/json',
+      };
+    }
     console.log('myinfo : ');
     console.log(MyInfo);
 
     let url;
 
     if (MyInfo == 0) {
-      url = `/api/news/0/0`;
+      url = `/api/news/0/sort?category=0&option=0&page=0`;
     } else {
       url = `/api/news/recommend/${MyInfo}`;
     }
@@ -149,10 +162,17 @@ function News() {
 
     const token = cookie.load('accessToken');
 
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    };
+    let headers;
+    if (MyInfo !== 0) {
+      const token = cookie.load('accessToken');
+      headers = {
+        Authorization: 'Bearer ' + token,
+      };
+    } else {
+      headers = {
+        'Content-Type': 'application/json',
+      };
+    }
     await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {
         console.log(response.data);
@@ -192,8 +212,14 @@ function News() {
         {/* 여기 안에 페이지 제작 */}
         <div className="main">
           {/* {MyInfo} */}
-          {newsInfo.length != 0 ? <ShortComponent shortInfo={newsInfo[pages]} /> : <div>비었습니다</div>}
+          {newsInfo.length != 0 && <ShortComponent shortInfo={newsInfo[pages]} />}
+          {/* {newsInfo.length != 0 ? (
+            <ShortComponent shortInfo={newsInfo[pages]} />
+          ) : (
+            <div>비었습니다</div>
+          )} */}
         </div>
+        <div className="empty">{newsInfo.length === 0 && <EmptyComponent type={2} />}</div>
       </Content>
     </div>
   );

@@ -96,11 +96,20 @@ function CardSlot({ newsInfo, isRecom }) {
   const [type, setType] = useState(0);
   const [title, setTitle] = useState('추천');
 
-  const [scrap, setScrap] = useState(false);
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(newsInfo.likeCnt);
+  const [scrap, setScrap] = useState(newsInfo.scrapCnt);
   const [cardModal, setCardModal] = useState(false);
 
+  const [refesh, setRefesh] = useState(false);
+
   const MyInfo = useRecoilValue(MyInfoAtom);
+
+  function ScrapUpDown(d) {
+    setScrap(scrap + d);
+  }
+  function LikeUpDown(d) {
+    setLike(like + d);
+  }
 
   function openNews() {
     details();
@@ -116,15 +125,23 @@ function CardSlot({ newsInfo, isRecom }) {
     });
 
     const token = cookie.load('accessToken');
-
-    const headers = {
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    };
+    let headers;
+    if (MyInfo !== 0) {
+      const token = cookie.load('accessToken');
+      headers = {
+        Authorization: 'Bearer ' + token,
+      };
+    } else {
+      headers = {
+        'Content-Type': 'application/json',
+      };
+    }
     await BaseInstance.post(`/api/news/detail`, requestBodyJSON, { headers })
       .then((response) => {
         console.log(response.data);
         if (response.data.statusCode === 200) {
+          newsInfo.viewCnt = newsInfo.viewCnt + 1;
+          setRefesh(!refesh);
           console.log('200');
         } else if (response.data.statusCode === 400) {
           console.log('400');
@@ -160,9 +177,9 @@ function CardSlot({ newsInfo, isRecom }) {
             {/* 조회수 등 */}
             <div className="info">
               {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
-              <span className="num">{newsInfo.likeCnt}</span>
+              <span className="num">{like}</span>
               {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
-              <span className="num">{newsInfo.scrapCnt}</span>
+              <span className="num">{scrap}</span>
               <FaEye />
               <span className="num">{newsInfo.viewCnt}</span>
             </div>
@@ -172,7 +189,12 @@ function CardSlot({ newsInfo, isRecom }) {
         </div>
 
         {cardModal && (
-          <CardModal newsInfo={newsInfo} setLike={setLike} setScrap={setScrap} setCardModal={setCardModal} />
+          <CardModal
+            newsInfo={newsInfo}
+            LikeUpDown={LikeUpDown}
+            ScrapUpDown={ScrapUpDown}
+            setCardModal={setCardModal}
+          />
         )}
         <hr />
       </Card>

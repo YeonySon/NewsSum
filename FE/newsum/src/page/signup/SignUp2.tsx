@@ -89,7 +89,7 @@ function SignUp2() {
 
   return (
     <SignUpPage>
-      <LogoTag><p>NewSum</p></LogoTag>
+      <LogoTag onClick={() => (window.location.href = '/news')}><p>NewSum</p></LogoTag>
       <Container>
 
         <NavButtonBox>

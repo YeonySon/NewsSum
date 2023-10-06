@@ -1,29 +1,34 @@
 // 라이브러리
-import { useState, useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import cookie from 'react-cookies';
-import styled from 'styled-components';
+import { useState, useEffect } from "react";
+import { NavLink } from "react-router-dom";
+import cookie from "react-cookies";
+import styled from "styled-components";
 
 // recoil import
-import { useRecoilValue } from 'recoil';
-import { MyInfoAtom } from '../../recoil/atoms/MyInfoAtom';
+import { useRecoilState, useRecoilValue } from "recoil";
+import { MyInfoAtom } from "../../recoil/atoms/MyInfoAtom";
 
 // axios instance
-import { BaseInstance } from '../../hook/AxiosInstance';
+import { BaseInstance } from "../../hook/AxiosInstance";
 
 // 페이지 입장 권한 확인
-import { CheckCookie } from '../../hook/token';
+import { CheckCookie } from "../../hook/token";
 
 //Util component import
-import Header from '../../components/util/Header';
-import Navbar from '../../components/util/Navbar';
-import Tabbar, { Active, ActiveDark, Deactive } from '../../components/util/Tabbar';
+import Header from "../../components/util/Header";
+import Navbar from "../../components/util/Navbar";
+import Tabbar, {
+  Active,
+  ActiveDark,
+  Deactive,
+} from "../../components/util/Tabbar";
 
 //MyPage component import
-import WordCloud from '../../components/mypage/visuallization/WordCloud';
-import VerticalChart from '../../components/mypage/visuallization/VerticalChart';
-import RadarChart from '../../components/mypage/visuallization/RadarChart';
-import { DivColLine } from '../../components/mypage/visuallization/GraphStyle';
+import WordCloud from "../../components/mypage/visuallization/WordCloud";
+import VerticalChart from "../../components/mypage/visuallization/VerticalChart";
+import RadarChart from "../../components/mypage/visuallization/RadarChart";
+import { DivColLine } from "../../components/mypage/visuallization/GraphStyle";
+import EmptyComponent from "../../components/mypage/EmptyComponent";
 
 export const Content = styled.div`
   border-left: 0;
@@ -156,40 +161,57 @@ export const DivRowLine = styled.div`
 
 function Visualization() {
   const tab = [
-    ['분석', 'visualization'],
-    ['뉴스', 'mynews'],
-    ['키워드', 'keyword'],
-    ['내정보', 'myinfo'],
+    ["분석", "visualization"],
+    ["뉴스", "mynews"],
+    ["키워드", "keyword"],
+    ["내정보", "myinfo"],
   ];
   const [sort, setSort] = useState(tab[0][0]);
 
-  const types = ['뉴스 키워드 분석', '읽은 뉴스 통계', '스트랩 뉴스 통계'];
+  const types = ["뉴스 키워드 분석", "읽은 뉴스 통계", "스트랩 뉴스 통계"];
   const [type, setType] = useState(types[0]);
 
-  const userId = useRecoilValue(MyInfoAtom);
+  const [userId, setMyInfo] = useRecoilState(MyInfoAtom);
   const [data, setData] = useState<never[] | undefined>(undefined);
 
-  useEffect(() => {
-    // 로그인 여부 확인
-    CheckCookie();
+  // 뉴스 가져오기
+  const getAnalyze = async () => {
+    const token = cookie.load("accessToken");
 
-    // 쿠키 불러오기
     const headers = {
-      Authorization: `Bearer ${cookie.load('accessToken')}`,
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + token,
     };
-    BaseInstance.get(`/api/mypage/analyze/${userId}`, { headers: headers })
+    await BaseInstance.get(`/api/mypage/analyze/${userId}`, { headers })
       .then((response) => {
-        setData(response.data.data);
+        console.log(response.data);
+        if (response.data.statusCode === 200) {
+          console.log("200");
+          console.log(response.data);
+          setData(response.data.data);
+          // setNewsInfo(dummy);
+        } else if (response.data.statusCode === 400) {
+          console.log("400");
+          console.log(response.data);
+        }
+        return response.data;
       })
       .catch((error) => {
         console.log(error);
+        return error;
       });
+  };
+
+  useEffect(() => {
+    // 로그인 여부 확인
+    CheckCookie(setMyInfo);
+    getAnalyze();
   }, []);
 
   return (
     <div>
       <Header />
-      <Navbar nav={'mypage'} />
+      <Navbar nav={"mypage"} />
       <Content>
         <div className="wrap-vertical">
           {tab.map((manu) =>
@@ -204,29 +226,31 @@ function Visualization() {
         </div>
         <div className="visual-type">
           {types.map((t) =>
-            t == type ? <ActiveDark>{t}</ActiveDark> : <Deactive onClick={() => setType(t)}>{t}</Deactive>
+            t == type ? (
+              <ActiveDark>{t}</ActiveDark>
+            ) : (
+              <Deactive onClick={() => setType(t)}>{t}</Deactive>
+            )
           )}
         </div>
-        {data !== undefined ? (
+        {data !== undefined && (
           <>
             <WordCloud data={data} isActive={type == types[0]} />
             <DivRowLine />
             <GraphContainer>
-              <VerticalChart responseData={data.readList} isActive={type == types[1]} />
+              <VerticalChart
+                responseData={data.readList}
+                isActive={type == types[1]}
+              />
               <DivColLine />
-              <RadarChart responseData={data.jobList} isActive={type == types[2]} />
+              <RadarChart
+                responseData={data.jobList}
+                isActive={type == types[2]}
+              />
             </GraphContainer>
           </>
-        ) : (
-          <>
-            <img
-              style={{ width: '30%', height: 'auto' }}
-              src={`${process.env.PUBLIC_URL}/img/page/noData.jpg`}
-              alt="logo"
-            />
-            <p>수집된 정보가 부족하여 데이터를 분석할 수 없습니다.</p>
-          </>
         )}
+        {data === undefined && <EmptyComponent type={1} />}
       </Content>
     </div>
   );
