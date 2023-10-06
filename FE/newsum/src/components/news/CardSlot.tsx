@@ -96,13 +96,20 @@ function CardSlot({ newsInfo, isRecom }) {
   const [type, setType] = useState(0);
   const [title, setTitle] = useState('추천');
 
-  const [scrap, setScrap] = useState(false);
-  const [like, setLike] = useState(false);
+  const [like, setLike] = useState(newsInfo.likeCnt);
+  const [scrap, setScrap] = useState(newsInfo.scrapCnt);
   const [cardModal, setCardModal] = useState(false);
 
   const [refesh, setRefesh] = useState(false);
 
   const MyInfo = useRecoilValue(MyInfoAtom);
+
+  function ScrapUpDown(d) {
+    setScrap(scrap + d);
+  }
+  function LikeUpDown(d) {
+    setLike(like + d);
+  }
 
   function openNews() {
     details();
@@ -170,9 +177,9 @@ function CardSlot({ newsInfo, isRecom }) {
             {/* 조회수 등 */}
             <div className="info">
               {newsInfo.isLike == 't' ? <FaHeart /> : <FaRegHeart />}
-              <span className="num">{newsInfo.likeCnt}</span>
+              <span className="num">{like}</span>
               {newsInfo.isScrap == 't' ? <FaBookmark /> : <FaRegBookmark />}
-              <span className="num">{newsInfo.scrapCnt}</span>
+              <span className="num">{scrap}</span>
               <FaEye />
               <span className="num">{newsInfo.viewCnt}</span>
             </div>
@@ -182,7 +189,12 @@ function CardSlot({ newsInfo, isRecom }) {
         </div>
 
         {cardModal && (
-          <CardModal newsInfo={newsInfo} setLike={setLike} setScrap={setScrap} setCardModal={setCardModal} />
+          <CardModal
+            newsInfo={newsInfo}
+            LikeUpDown={LikeUpDown}
+            ScrapUpDown={ScrapUpDown}
+            setCardModal={setCardModal}
+          />
         )}
         <hr />
       </Card>
