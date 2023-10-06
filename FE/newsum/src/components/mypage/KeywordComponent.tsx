@@ -39,23 +39,28 @@ function KeywordComponent({ pageType }) {
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom);
   const [userId, setMyInfo] = useRecoilState(MyInfoAtom);
-
+  
   const buttonName = ["다음", "저장"];
 
   const [items, setItems] = useState<string[]>([]);
-  const [checkedList, setCheckedList] = useState<number[]>(() => {
-    if (!!formData.tech) {
-      return formData.tech.map((item) => item - 1);
-    }
-    return [];
-  });
+  const [checkedList, setCheckedList] = useState<number[]>([]);
   const [itemStates, setItemStates] = useState<boolean[]>(() => {
     const initialStates = new Array(items.length).fill(false);
-    if (!!formData.tech) {
-      formData.tech.forEach((idx) => (initialStates[idx - 1] = true));
-    }
     return initialStates;
   });
+  // const [checkedList, setCheckedList] = useState<number[]>(() => {
+  //   if (!!formData.tech) {
+  //     return formData.tech.map((item) => item - 1);
+  //   }
+  //   return [];
+  // });
+  // const [itemStates, setItemStates] = useState<boolean[]>(() => {
+  //   let initialStates = new Array(items.length).fill(false);
+  //   if (!!formData.tech) {
+  //     formData.tech.forEach((idx) => (initialStates[idx - 1] = true));
+  //   }
+  //   return initialStates;
+  // });
 
   const handleCheckedList = (index: number, isChecked: boolean) => {
     if (isChecked) {
@@ -133,22 +138,30 @@ function KeywordComponent({ pageType }) {
     };
 
     // 서버에 내 정보조회 요청
-    // const responseMyInfoData = async () => {
-    //   await BaseInstance.get(`/api/mypage/${userId}`, { headers : headers })
-    //     .then((response) => {
-    //       const data = {
-    //         tech: response.data.data.tech,
-    //       }
-    //       console.log(response)
-    //       setFormData((prev) => ({...prev, ...data}))
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //     })
-    // }
-    // responseMyInfoData();
+    const responseMyInfoData = async () => {
+      await BaseInstance.get(`/api/mypage/${userId}`, { headers : headers })
+        .then((response) => {
+          const responseData = response.data.data.tech.map((item: {id: number}) => item.id)
+          const data = {
+            tech: responseData,
+          }
+          setFormData((prev) => ({...prev, ...data}))
 
+          const initialStates = new Array(19).fill(false);
+          responseData.forEach((idx) => (initialStates[idx - 1] = true));
+          setItemStates(initialStates)
+          
+          const initialCheckedList = responseData.map((item) => item - 1)
+          setCheckedList(initialCheckedList)
+
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    }
     responseData();
+    responseMyInfoData();
+
   }, []);
 
   return (

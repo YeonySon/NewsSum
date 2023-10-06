@@ -27,6 +27,7 @@ function SignUp3() {
   const page = 3
   const navigate = useNavigate();
   const [formData, setFormData] = useRecoilState(SignUpAtom);
+  console.log(formData)
 
   useEffect(() => {
     // 서버에 데이터 요청
@@ -92,14 +93,17 @@ function SignUp3() {
       .then((resposne) => {
         console.log(resposne)
         alert('회원가입을 완료하였습니다')
+        window.location.href = '/news'
+
       })
       .catch((error) => {
         console.log(error)
+        alert('회원가입에 실패하였습니다.')
       })
 
     // formData 초기화
     // 페이지 이동
-    window.location.href = '/news'
+    // window.location.href = '/news'
   }
 
   // formData 체크 시, 필요한 값이 없다면 해당 페이지로 보냄
