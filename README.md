@@ -2,8 +2,7 @@
 
 ---
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/d413b1d2-6eac-4a68-b116-b3bf75f72622/Untitled.png)
-
+![Untitled](/uploads/c4547a2bd4c3317538a34416d976eee1/Untitled.png)
 ## 🔖 프로젝트 개요
 
 
