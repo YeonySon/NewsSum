@@ -1,12 +1,8 @@
 ## 🆕 프로젝트 이름 : NewSum
 
----
-
 ![Untitled](/uploads/c4547a2bd4c3317538a34416d976eee1/Untitled.png)
 ## 🔖 프로젝트 개요
 
-
----
 
 **NewSum**은 뉴스 추천 웹 애플리케이션입니다. 
 
@@ -18,8 +14,6 @@
 
 ## 🧑‍🤝‍🧑 팀원 소개
 
----
-
 | Name | Role | Detail |
 | --- | --- | --- |
 | 손승연 | 팀장 & Backend | API 개발 + 추천 알고리즘 |
@@ -29,8 +23,6 @@
 | 손정민 | Frontend |  |
 
 ## 기술 스택
-
----
 
 | TECH | STACK |
 | --- | --- |
@@ -153,8 +145,6 @@
 
 ## 주요 기능
 
----
-
 ### 1. 뉴스 3줄 요약
 
 - KPF-BERTSum
@@ -209,25 +199,17 @@
 
 ## ✍️ 아키텍처
 
----
-
 ![newsumStack.drawio.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/cea9d606-624d-44ea-bfe2-2abb174dca3f/newsumStack.drawio.png)
 
 ## 💾 ERD
-
----
 
 ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/05a5db0b-f9b2-4d36-a056-8dad16dc6279/Untitled.png)
 
 ## 와이어 프레임
 
----
-
 ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/64101bc3-15a1-440c-87b2-15ffcd11a402/Untitled.png)
 
 ## 빌드 환경
-
----
 
 | FrontEnd | BackEnd | Recommand System | Database | Infra |
 | --- | --- | --- | --- | --- |
@@ -238,7 +220,5 @@
 |  | JWT |  |  | Docker-Compose |
 
 ## 포팅 메뉴얼
-
----
 
 https://www.notion.so/6d1788d22daa4690baa8452f2d41d977
