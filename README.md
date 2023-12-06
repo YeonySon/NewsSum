@@ -1,6 +1,6 @@
 ## 🆕 프로젝트 이름 : NewSum
 
-![Untitled](/uploads/c4547a2bd4c3317538a34416d976eee1/Untitled.png)
+![image](https://github.com/YeonySon/NewsSum/assets/116241870/a690d111-2908-420e-b67e-506b7e030ce2)
 ## 🔖 프로젝트 개요
 
 
@@ -151,11 +151,11 @@
 - 한국언론진흥재단에서 구축한뉴스기사 요약에 특화된 모델
     - 웹
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/83231077-f943-48c4-94c0-5d6f58450ab7/Untitled.png)
+    ![image](https://github.com/YeonySon/NewsSum/assets/116241870/480427d1-a211-47cc-aa6b-1396ffafacdd)
     
     - 모바일
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/bd015463-3867-416d-b623-3555db5e1218/Untitled.png)
+    ![image](https://github.com/YeonySon/NewsSum/assets/116241870/2df96046-7472-4f2b-a148-87c75cef8432)
     
 
 ### 2. 분야별 뉴스 리스트
@@ -163,31 +163,31 @@
 - IT 뉴스 분야별로 분류하여 원하는 카테고리를 기준으로 개인 맞춤형 추천 기사를 볼 수 있다.
     - 웹
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/32b6cd77-c23b-4a6d-825b-61b3d6cfb9a6/Untitled.png)
+    ![image](https://github.com/YeonySon/NewsSum/assets/116241870/ecdfa3fa-0951-4ff0-9e26-781781472387)
     
     - 모바일
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/9085b23d-8135-4d35-85d0-9293ead8e14a/Untitled.png)
+    ![image](https://github.com/YeonySon/NewsSum/assets/116241870/c43f1d6a-bd55-43b5-ae07-c09f6366495e)
     
 
 ### 3. 뉴스 키워드 분석 및 통계
 
 - doc2vec , bm-25 방식의 추천 알고리즘 사용
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/cc5f6a13-0f9e-4d66-8e57-d10a27aae590/Untitled.png)
+![image](https://github.com/YeonySon/NewsSum/assets/116241870/4b95b511-d805-4452-a5e6-e8a1398e5d83)
 
 - 기사 추천을 위해 konlpy의 okt 형태소 분석기를 이용한 명사 추출
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/54530f3b-3b84-408c-ae6b-be77b1ee5658/Untitled.png)
+![image](https://github.com/YeonySon/NewsSum/assets/116241870/22d969e2-4b8e-49bc-aac7-c29b4994fadf)
 
 - 개인 읽은 뉴스를 기준으로 워드 클라우드 및 각종 통계를 그래프로 표현
     - 웹
     
-    ![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/d192ffb6-6e27-482d-a3f7-e015ecf4e006/Untitled.png)
+   ![image](https://github.com/YeonySon/NewsSum/assets/116241870/a299552d-ee4f-41ee-906f-51aa4cfec700)
     
     - 모바일
         
-        ![test11-removebg-preview (5).png](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/7ad44c85-cd03-48fd-ab79-ce21c243e26e/test11-removebg-preview_(5).png)
+        ![image](https://github.com/YeonySon/NewsSum/assets/116241870/c1513d66-e89a-439a-a37b-63e9a0f28dd6)
         
     
 
@@ -195,15 +195,15 @@
 
 - 개인이 원하는 기사는 스크랩 기능을 통해 따로 모아 필요 시 다시 확인 가능
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/d5935bdc-a4e8-4ed9-b668-9fec97ac25ef/Untitled.png)
+![image](https://github.com/YeonySon/NewsSum/assets/116241870/f84358cc-ec57-4fb0-aca1-ff65fae7eeee)
 
 ## ✍️ 아키텍처
 
-![newsumStack.drawio.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/cea9d606-624d-44ea-bfe2-2abb174dca3f/newsumStack.drawio.png)
+![image](https://github.com/YeonySon/NewsSum/assets/116241870/2be8f170-aae0-4431-856a-50e36d0507d3)
 
 ## 💾 ERD
 
-![Untitled](https://prod-files-secure.s3.us-west-2.amazonaws.com/23625b80-0ade-47d5-b4f5-10172b4c8904/05a5db0b-f9b2-4d36-a056-8dad16dc6279/Untitled.png)
+![image](https://github.com/YeonySon/NewsSum/assets/116241870/0556613e-43bd-4795-bba0-e35988ab8ae8)
 
 ## 와이어 프레임
 
