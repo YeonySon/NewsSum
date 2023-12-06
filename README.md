@@ -1,5 +1,5 @@
-# ![newsum](https://github.com/newsum-team/newsum/assets/84459785/6bf4d959-fdd7-43c7-81c8-4c946bbaca69) (SSAFY 빅데이터 추천 프로젝트)
-![newsum2](https://github.com/newsum-team/newsum/assets/84459785/485922ab-8414-45e7-8011-cc0c0ad0e7e1)
+# ![newsum](https://github.com/YeonySon/NewsSum/assets/116241870/0f886b6b-7e10-4575-b0d0-03e621515a4c) (SSAFY 빅데이터 추천 프로젝트)
+![newsum2](https://github.com/YeonySon/NewsSum/assets/116241870/c5787c48-5608-4642-93c6-88c6257be3d7)
 <br>
 
 ## ✅ 프로젝트 진행 기간
@@ -75,7 +75,7 @@ ss3&logoColor=white"/>
 1-2. 드래그를 통해 다음 뉴스 shorts를 볼 수 있음
 |웹|모바일|
 |:------:|:------:|
-| ![뉴스숏츠](https://github.com/newsum-team/newsum/assets/84459785/76c8ad06-8466-46ea-bfa4-a3ca5b69f872)|![뉴스숏츠2](https://github.com/newsum-team/newsum/assets/84459785/d94f4a70-23fc-49ed-b12f-409d641e3b3b) |
+| ![뉴스숏츠](https://github.com/YeonySon/NewsSum/assets/116241870/2a4ed70a-8fc9-45b5-a17b-f1a40b836776)|![뉴스숏츠2](https://github.com/YeonySon/NewsSum/assets/116241870/d486f885-7ea8-4900-acdb-c51f055e0424) |
 
 **⭐참고**
 - KPF-BERTSum
@@ -85,13 +85,13 @@ ss3&logoColor=white"/>
 2-1. IT 뉴스 분야별로 분류하여 원하는 카테고리를 기준으로 개인 맞춤형 추천 기사를 볼 수 있다.
 |웹 | 모바일 |
 |:------:|:------:|
-|![뉴스보기](https://github.com/newsum-team/newsum/assets/84459785/0e2861f9-8ae3-4048-ad56-cff1c1a109e8)|![뉴스보기2](https://github.com/newsum-team/newsum/assets/84459785/0e7a73f9-28ee-4de7-ab61-a89ea17f22e7) |
+|![뉴스보기](https://github.com/YeonySon/NewsSum/assets/116241870/fee3a431-faaa-4f6e-9279-e417090f6c3c)|![뉴스보기2](https://github.com/YeonySon/NewsSum/assets/116241870/aecfce2c-3d72-4097-8e48-41966caa78f0) |
     
 ### 3. 뉴스 키워드 분석 및 통계
 3-1. 개인 읽은 뉴스를 기준으로 워드 클라우드 및 각종 통계를 그래프로 표현
 |웹|모바일|
 |:------:|:------:|
-|![분석](https://github.com/newsum-team/newsum/assets/84459785/8f9982bc-a752-4479-bd0d-7f233eee1ab1)|![분석2](https://github.com/newsum-team/newsum/assets/84459785/731263cd-8c3b-40c2-910c-21fe09c35b65)|
+|![분석](https://github.com/YeonySon/NewsSum/assets/116241870/28975170-a012-47a9-b265-c76eb0ba61db)|![분석2](https://github.com/YeonySon/NewsSum/assets/116241870/bc698113-1866-42c0-9bb7-d581330e93e5)|
 
 **⭐참고**
 - doc2vec , bm-25 방식의 추천 알고리즘 사용
@@ -99,18 +99,18 @@ ss3&logoColor=white"/>
 
 |추천 알고리즘|명사 추출|
 |:------:|:------:|
-|![알고리즘](https://github.com/newsum-team/newsum/assets/84459785/f3cbb62d-e7f6-4744-9495-7d4dd8bcc4ae)|![명사추출](https://github.com/newsum-team/newsum/assets/84459785/55935300-dff8-4a69-89db-2f702f850bdf)|
+|![알고리즘](https://github.com/YeonySon/NewsSum/assets/116241870/9fd09945-ffe4-4aac-8809-c4851d656c7b)|![명사추출](https://github.com/YeonySon/NewsSum/assets/116241870/873be9f1-10e7-48b1-bbdb-4cca8782cfb9)|
     
 
 ### 4. 스크랩
 **4-1. 개인이 원하는 기사는 스크랩 기능을 통해 따로 모아 필요 시 다시 확인 가능**
-![스크랩](https://github.com/newsum-team/newsum/assets/84459785/c3a4e897-a72e-4d9a-beb7-bde84515e7c2)
+![스크랩](https://github.com/YeonySon/NewsSum/assets/116241870/07d7f195-d310-4bc1-ae69-1fe4d6d27400)
 
 ## 💫 아키텍처
-![newsum_아키텍처](https://github.com/newsum-team/newsum/assets/84459785/01f11e60-a992-4c4c-973c-b29e34d43b38)
+![newsum_아키텍처](https://github.com/YeonySon/NewsSum/assets/116241870/5b11c608-0d05-41a8-a630-44883998f16b)
 
 ## 🎨 ERD
-![newsumErd](https://github.com/newsum-team/newsum/assets/84459785/bb90c7fb-616d-4968-9e76-fbdf6d9172b8)
+![newsumErd](https://github.com/YeonySon/NewsSum/assets/116241870/5c91123a-212c-4792-a367-3e11c743ec97)
 
 ## 📂 API 문서
 [Notion API 문서](https://stirring-ceiling-175.notion.site/API-729be70b17344ce48a3d26dd56bbab5f?pvs=4)
@@ -221,7 +221,7 @@ ss3&logoColor=white"/>
 
 
 ## **😃 팀원 소개**
-|![손승연](https://github.com/newsum-team/newsum/assets/84459785/53a3d84c-5cf1-4422-a5d2-74b7655c0cf8)|![김승용](https://github.com/newsum-team/newsum/assets/84459785/6e19c44b-0b48-414f-a12f-c8c58b9b0334)|![김지희](https://github.com/newsum-team/newsum/assets/84459785/42adf97d-fe6d-4eb6-a255-6907ff67b44c)|![김준석](https://github.com/newsum-team/newsum/assets/84459785/6402e470-016d-436c-a5a6-6630f45fa960)|![손정민](https://github.com/newsum-team/newsum/assets/84459785/0e5b31bc-989a-4537-a5f2-52aa5a60767a)|
+|![손승연](https://github.com/YeonySon/NewsSum/assets/116241870/c422a221-8825-4765-b8d8-57231ee7bbb2)|![김승용](https://github.com/YeonySon/NewsSum/assets/116241870/a105e578-8c36-4105-b7f2-2bfe92f6b869)|![김지희](https://github.com/YeonySon/NewsSum/assets/116241870/f0e1c434-eb9c-431e-827c-65eb867e1b8a)|![김준석](https://github.com/YeonySon/NewsSum/assets/116241870/9d86dcf1-645a-43be-ac95-e8e28d04f355)|![손정민](https://github.com/YeonySon/NewsSum/assets/116241870/0039a005-0d82-4674-9d91-2e4056226a31)|
 |:------:|:------:|:------:|:------:|:------:|
 | **손승연** | **김승용** | **김지희** | **김준석** | **손정민** |
 | Back-End | AWS & Back-End & Recommend | Back-End | Front-End | Front-End |
